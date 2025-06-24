@@ -7,7 +7,6 @@ import DreamGuidesSection from './components/sections/DreamGuidesSection';
 import PlatformsSection from './components/sections/PlatformsSection';
 import WaitlistSection from './components/sections/WaitlistSection';
 import Footer from './components/Footer';
-import ThreeBackground from './components/background/ThreeBackground';
 
 const AppContainer = styled.div`
   min-height: 100vh;
@@ -23,7 +22,6 @@ const MainContent = styled.main`
 function App() {
   return (
     <AppContainer>
-      <ThreeBackground />
       <Header />
       <MainContent>
         <HeroSection />
