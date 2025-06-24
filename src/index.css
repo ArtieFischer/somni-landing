@@ -5,34 +5,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* CSS Custom Properties for Glass Effect */
-:root {
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.2);
-  --glass-blur: blur(10px);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  
-  --primary-gradient: linear-gradient(135deg, rgba(139, 92, 246, 0.8), rgba(167, 139, 250, 0.8));
-  --secondary-gradient: linear-gradient(135deg, rgba(16, 185, 129, 0.8), rgba(5, 150, 105, 0.8));
-  
-  --text-primary: #F8FAFC;
-  --text-secondary: rgba(248, 250, 252, 0.7);
-  --text-muted: rgba(248, 250, 252, 0.5);
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html {
-  /* Smooth scrolling behavior */
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px;
-}
-
-body {
+html, body {
   height: 100%;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -42,81 +21,45 @@ body {
   background: #0B1426;
   color: #F8FAFC;
   overflow-x: hidden;
-  
-  /* Fluid typography */
-  font-size: clamp(14px, 2vw, 16px);
-  line-height: 1.6;
 }
 
 #root {
   height: 100%;
 }
 
-/* Enhanced scrollbar styling */
+/* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 12px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(26, 35, 50, 0.5);
-  border-radius: 6px;
+  background: #1A2332;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, rgba(139, 92, 246, 0.8), rgba(167, 139, 250, 0.8));
-  border-radius: 6px;
-  border: 2px solid rgba(26, 35, 50, 0.5);
+  background: #8B5CF6;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, rgba(139, 92, 246, 1), rgba(167, 139, 250, 1));
+  background: #A78BFA;
 }
 
 /* Focus styles for accessibility */
 *:focus-visible {
-  outline: 2px solid rgba(139, 92, 246, 0.6);
+  outline: 2px solid #8B5CF6;
   outline-offset: 2px;
-  border-radius: 4px;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 /* Selection styling */
 ::selection {
   background: rgba(139, 92, 246, 0.3);
   color: #F8FAFC;
-}
-
-/* Utility classes for animations */
-.parallax-element {
-  will-change: transform;
-}
-
-.glass-effect {
-  background: var(--glass-bg);
-  backdrop-filter: var(--glass-blur) saturate(180%);
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--glass-shadow);
-}
-
-/* Smooth transitions for all interactive elements */
-button, a, input, [role="button"] {
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* Improved focus management */
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 6px;
-  background: var(--primary-gradient);
-  color: var(--text-primary);
-  padding: 8px;
-  text-decoration: none;
-  border-radius: 4px;
-  z-index: 1000;
-}
-
-.skip-link:focus {
-  top: 6px;
 }
 
 /* Reduce motion for users who prefer it */
@@ -127,68 +70,5 @@ button, a, input, [role="button"] {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-  
-  html {
-    scroll-behavior: auto;
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :root {
-    --glass-bg: rgba(255, 255, 255, 0.2);
-    --glass-border: rgba(255, 255, 255, 0.4);
-    --text-primary: #FFFFFF;
-    --text-secondary: rgba(255, 255, 255, 0.9);
-  }
-}
-
-/* Dark mode preference (already dark, but ensuring consistency) */
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #0B1426;
-    color: #F8FAFC;
-  }
-}
-
-/* Responsive breakpoints */
-@media (max-width: 1200px) {
-  html {
-    font-size: clamp(13px, 2vw, 15px);
-  }
-}
-
-@media (max-width: 768px) {
-  html {
-    font-size: clamp(12px, 2.5vw, 14px);
-    scroll-padding-top: 60px;
-  }
-}
-
-@media (max-width: 480px) {
-  html {
-    font-size: clamp(11px, 3vw, 13px);
-    scroll-padding-top: 50px;
-  }
-}
-
-/* Print styles */
-@media print {
-  * {
-    background: transparent !important;
-    color: black !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-  
-  body {
-    font-size: 12pt;
-    line-height: 1.5;
-  }
-  
-  h1, h2, h3 {
-    page-break-after: avoid;
   }
 }
