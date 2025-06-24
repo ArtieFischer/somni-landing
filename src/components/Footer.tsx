@@ -10,13 +10,15 @@ const FooterContainer = styled.footer`
   z-index: 100;
   padding: ${darkTheme.spacing.md}px ${darkTheme.spacing.xl}px;
   
-  /* Apple liquid glass effect */
-  background: rgba(255, 255, 255, 0.02);
+  /* Enhanced Apple liquid glass effect - 25% more opacity */
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(60px) saturate(180%);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   
-  /* Subtle shadow */
-  box-shadow: 0 -1px 20px rgba(0, 0, 0, 0.1);
+  /* Enhanced shadow for better depth */
+  box-shadow: 
+    0 -1px 20px rgba(0, 0, 0, 0.15),
+    0 1px 0 rgba(255, 255, 255, 0.08) inset;
 
   @media (max-width: 768px) {
     padding: ${darkTheme.spacing.sm}px ${darkTheme.spacing.lg}px;
@@ -38,7 +40,7 @@ const FooterContent = styled.div`
 `;
 
 const Copyright = styled.p`
-  color: rgba(248, 250, 252, 0.5);
+  color: rgba(248, 250, 252, 0.65);
   font-size: 12px;
   font-weight: 300;
   margin: 0;
@@ -56,7 +58,7 @@ const Links = styled.div`
 `;
 
 const Link = styled.a`
-  color: rgba(248, 250, 252, 0.6);
+  color: rgba(248, 250, 252, 0.75);
   text-decoration: none;
   font-size: 12px;
   font-weight: 300;
@@ -65,13 +67,13 @@ const Link = styled.a`
   padding: 6px 12px;
   border-radius: 10px;
   
-  /* Subtle liquid background on hover */
+  /* Enhanced liquid background on hover */
   background: transparent;
   backdrop-filter: blur(0px);
 
   &:hover {
-    color: rgba(139, 92, 246, 0.8);
-    background: rgba(255, 255, 255, 0.03);
+    color: rgba(16, 185, 129, 0.9);
+    background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);
     transform: translateY(-1px);
   }
