@@ -153,11 +153,11 @@ const ThreeBackground: React.FC = () => {
         uniforms: {
           uTime: { value: 0 },
           uIntensity: { value: 4.0 }, // More dramatic
-          uColor1: { value: new THREE.Color('#7E6BE1') }, // pastelowy, lecz ciemny violet
-  uColor2: { value: new THREE.Color('#5C4DB1') }, // stonowany fiolet
-  uColor3: { value: new THREE.Color('#0B5943') }, // głęboki teal
-  uColor4: { value: new THREE.Color('#125A4A') }, // ciemniejszy, matowy zielony
-  uColor5: { value: new THREE.Color('#8F5C79') }, // przygaszona róża
+          uColor1: { value: new THREE.Color('#8B5CF6') }, // Aurora Purple – pierwszy plan
+          uColor2: { value: new THREE.Color('#6F5BDC') }, // ciemniejszy fiolet
+          uColor3: { value: new THREE.Color('#10B981') }, // Ethereal Teal – mocny akcent
+          uColor4: { value: new THREE.Color('#1A2332') }, // ciemny slate
+          uColor5: { value: new THREE.Color('#0A0D13') }, // niemal czerń
           uOpacity: { value: 0.7 }
         },
         transparent: true,
