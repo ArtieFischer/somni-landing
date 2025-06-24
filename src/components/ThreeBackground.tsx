@@ -1,264 +1,421 @@
-import React, { useRef, useEffect } from 'react'
-import * as THREE from 'three'
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
-import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js'
-import { clothVertexShader, clothFragmentShader } from '../shaders/clothShader'
-import FloatingTextMeshes from './FloatingTextMeshes'
+import React, { useRef, useEffect } from 'react';
+import * as THREE from 'three';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
+import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
+import { clothVertexShader, clothFragmentShader } from '../shaders/clothShader';
+import FloatingTextMeshes from './FloatingTextMeshes';
 
 const ThreeBackground: React.FC = () => {
-  const mountRef = useRef<HTMLDivElement>(null)
-  const sceneRef = useRef<THREE.Scene>()
-  const rendererRef = useRef<THREE.WebGLRenderer>()
-  const composerRef = useRef<EffectComposer>()
-  const animationIdRef = useRef<number>()
-  const clockRef = useRef(new THREE.Clock())
+  const mountRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<THREE.Scene>();
+  const rendererRef = useRef<THREE.WebGLRenderer>();
+  const composerRef = useRef<EffectComposer>();
+  const animationIdRef = useRef<number>();
+  const clockRef = useRef<THREE.Clock>(new THREE.Clock());
 
   useEffect(() => {
-    if (!mountRef.current) return
+    console.log('🚀 ThreeBackground useEffect starting...');
+    
+    if (!mountRef.current) {
+      console.log('❌ mountRef.current is null');
+      return;
+    }
 
-    // --- Scene & Renderer ---
-    const scene = new THREE.Scene()
-    sceneRef.current = scene
+    console.log('✅ mountRef.current exists, initializing Three.js...');
 
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    )
-    camera.position.z = 15
+    try {
+      // Scene setup
+      const scene = new THREE.Scene();
+      sceneRef.current = scene;
+      console.log('✅ Scene created');
 
-    const renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-      powerPreference: 'high-performance'
-    })
-    rendererRef.current = renderer
-    renderer.setSize(window.innerWidth, window.innerHeight)
-    renderer.setClearColor(0x000000, 0)
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    renderer.domElement.style.position = 'fixed'
-    renderer.domElement.style.top = '0'
-    renderer.domElement.style.left = '0'
-    renderer.domElement.style.width = '100%'
-    renderer.domElement.style.height = '100%'
-    renderer.domElement.style.zIndex = '1'
-    renderer.domElement.style.pointerEvents = 'none'
-    mountRef.current.appendChild(renderer.domElement)
+      // Camera setup
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      camera.position.z = 15;
+      console.log('✅ Camera created');
 
-    // --- Post-processing ---
-    const composer = new EffectComposer(renderer)
-    composerRef.current = composer
-    composer.addPass(new RenderPass(scene, camera))
-    composer.addPass(
-      new UnrealBloomPass(
+      // Renderer setup
+      const renderer = new THREE.WebGLRenderer({ 
+        alpha: true, 
+        antialias: true,
+        powerPreference: "high-performance"
+      });
+      rendererRef.current = renderer;
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 0);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      
+      // Canvas styling
+      renderer.domElement.style.position = 'fixed';
+      renderer.domElement.style.top = '0';
+      renderer.domElement.style.left = '0';
+      renderer.domElement.style.width = '100%';
+      renderer.domElement.style.height = '100%';
+      renderer.domElement.style.zIndex = '1';
+      renderer.domElement.style.pointerEvents = 'none';
+      
+      console.log('✅ Renderer created, appending to DOM...');
+      mountRef.current.appendChild(renderer.domElement);
+      console.log('✅ Renderer appended to DOM');
+
+      // Post-processing setup - enhanced for beautiful glow
+      console.log('🎨 Setting up post-processing...');
+      const composer = new EffectComposer(renderer);
+      composerRef.current = composer;
+
+      // Render pass
+      const renderPass = new RenderPass(scene, camera);
+      composer.addPass(renderPass);
+
+      // Enhanced bloom for beautiful glow
+      const bloomPass = new UnrealBloomPass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        0.8,
-        0.6,
-        0.4
-      )
-    )
-    const fxaa = new ShaderPass(FXAAShader)
-    fxaa.material.uniforms['resolution'].value.x = 1 / window.innerWidth
-    fxaa.material.uniforms['resolution'].value.y = 1 / window.innerHeight
-    composer.addPass(fxaa)
+        0.8,   // strength - increased for glow
+        0.6,   // radius - larger for softer glow
+        0.4    // threshold - lower for more bloom
+      );
+      composer.addPass(bloomPass);
 
-    // --- Main cloth plane ---
-    const clothGeometry = new THREE.PlaneGeometry(40, 40, 256, 256)
-    const clothMaterial = new THREE.ShaderMaterial({
-      vertexShader: clothVertexShader,
-      fragmentShader: clothFragmentShader,
-      uniforms: {
-        uTime: { value: 0 },
-        uIntensity: { value: 3.5 },
-        uColor1: { value: new THREE.Color(0x8B5CF6) }, // purple nebula
-        uColor2: { value: new THREE.Color(0x151B2E) }, // deep blue-gray center
-        uColor3: { value: new THREE.Color(0x10B981) }, // bright green aurora
-        uColor4: { value: new THREE.Color(0x8B5CF6) }, // purple nebula
-        uColor5: { value: new THREE.Color(0x151B2E) }, // deep blue-gray
-        uOpacity: { value: 0.85 }
-      },
-      transparent: true,
-      side: THREE.DoubleSide
-    })
-    const clothMesh = new THREE.Mesh(clothGeometry, clothMaterial)
-    clothMesh.position.z = -5
-    scene.add(clothMesh)
+      // FXAA for anti-aliasing
+      const fxaaPass = new ShaderPass(FXAAShader);
+      fxaaPass.material.uniforms['resolution'].value.x = 1 / window.innerWidth;
+      fxaaPass.material.uniforms['resolution'].value.y = 1 / window.innerHeight;
+      composer.addPass(fxaaPass);
 
-    // --- Distant cloth layer ---
-    const distantGeometry = new THREE.PlaneGeometry(60, 60, 128, 128)
-    const distantMaterial = new THREE.ShaderMaterial({
-      vertexShader: clothVertexShader,
-      fragmentShader: clothFragmentShader,
-      uniforms: {
-        uTime: { value: 0 },
-        uIntensity: { value: 2.0 },
-        uColor1: { value: new THREE.Color(0x8B5CF6) },
-        uColor2: { value: new THREE.Color(0x0B1426) },
-        uColor3: { value: new THREE.Color(0x10B981) },
-        uColor4: { value: new THREE.Color(0x8B5CF6) },
-        uColor5: { value: new THREE.Color(0x0B1426) },
-        uOpacity: { value: 0.6 }
-      },
-      transparent: true,
-      side: THREE.DoubleSide
-    })
-    const distantMesh = new THREE.Mesh(distantGeometry, distantMaterial)
-    distantMesh.position.z = -15
-    distantMesh.rotation.z = Math.PI * 0.1
-    scene.add(distantMesh)
+      console.log('✅ Post-processing setup complete');
 
-    // --- Foreground cloth layer ---
-    const fgGeometry = new THREE.PlaneGeometry(30, 30, 192, 192)
-    const fgMaterial = new THREE.ShaderMaterial({
-      vertexShader: clothVertexShader,
-      fragmentShader: clothFragmentShader,
-      uniforms: {
-        uTime: { value: 0 },
-        uIntensity: { value: 4.0 },
-        uColor1: { value: new THREE.Color(0x10B981) },
-        uColor2: { value: new THREE.Color(0x8B5CF6) },
-        uColor3: { value: new THREE.Color(0x151B2E) },
-        uColor4: { value: new THREE.Color(0x10B981) },
-        uColor5: { value: new THREE.Color(0x8B5CF6) },
-        uOpacity: { value: 0.7 }
-      },
-      transparent: true,
-      side: THREE.DoubleSide
-    })
-    const fgMesh = new THREE.Mesh(fgGeometry, fgMaterial)
-    fgMesh.position.z = 2
-    fgMesh.rotation.z = -Math.PI * 0.05
-    scene.add(fgMesh)
+      // Create the main cloth/sky plane - using theme colors
+      console.log('🌊 Creating cloth shader plane...');
+      const clothGeometry = new THREE.PlaneGeometry(40, 40, 256, 256);
+      
+      const clothMaterial = new THREE.ShaderMaterial({
+        vertexShader: clothVertexShader,
+        fragmentShader: clothFragmentShader,
+        uniforms: {
+          uTime: { value: 0 },
+          uIntensity: { value: 3.5 }, // Increased for more movement
+          uColor1: { value: new THREE.Color(0x0B1426) }, // Deep midnight (theme)
+          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
+          uColor3: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
+          uColor4: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
+          uColor5: { value: new THREE.Color(0x3b3ef6) }, // Dream blue (complementary)
+          uOpacity: { value: 0.85 } // More visible
+        },
+        transparent: true,
+        side: THREE.DoubleSide,
+      });
 
-    // --- Particles ---
-    const count = 800
-    const geom = new THREE.BufferGeometry()
-    const pos = new Float32Array(count * 3)
-    const col = new Float32Array(count * 3)
-    const sz = new Float32Array(count)
-    for (let i = 0; i < count * 3; i += 3) {
-      pos[i] = (Math.random() - 0.5) * 100
-      pos[i+1] = (Math.random() - 0.5) * 100
-      pos[i+2] = (Math.random() - 0.5) * 50
-      const r = Math.random()
-      if (r < 0.4) {
-        col[i] = 0.54 + Math.random()*0.2
-        col[i+1] = 0.36 + Math.random()*0.2
-        col[i+2] = 0.96 + Math.random()*0.04
-      } else if (r < 0.7) {
-        col[i] = 0.06 + Math.random()*0.1
-        col[i+1] = 0.72 + Math.random()*0.2
-        col[i+2] = 0.50 + Math.random()*0.3
-      } else {
-        col[i] = 0.23 + Math.random()*0.2
-        col[i+1] = 0.51 + Math.random()*0.2
-        col[i+2] = 0.98 + Math.random()*0.02
+      const clothMesh = new THREE.Mesh(clothGeometry, clothMaterial);
+      clothMesh.position.z = -5;
+      scene.add(clothMesh);
+      console.log('✅ Cloth shader plane created');
+
+      // Create additional background layers for depth - with theme colors
+      console.log('🌌 Creating background layers...');
+      
+      // Layer 1: Distant cloth - deep purple/teal
+      const distantClothGeometry = new THREE.PlaneGeometry(60, 60, 128, 128);
+      const distantClothMaterial = new THREE.ShaderMaterial({
+        vertexShader: clothVertexShader,
+        fragmentShader: clothFragmentShader,
+        uniforms: {
+          uTime: { value: 0 },
+          uIntensity: { value: 2.0 },
+          uColor1: { value: new THREE.Color(0x1A2332) }, // Darker slate (theme)
+          uColor2: { value: new THREE.Color(0x4C1D95) }, // Deep purple (complementary)
+          uColor3: { value: new THREE.Color(0x065F46) }, // Deep teal (complementary)
+          uColor4: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
+          uColor5: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
+          uOpacity: { value: 0.6 }
+        },
+        transparent: true,
+        side: THREE.DoubleSide,
+      });
+      
+      const distantClothMesh = new THREE.Mesh(distantClothGeometry, distantClothMaterial);
+      distantClothMesh.position.z = -15;
+      distantClothMesh.rotation.z = Math.PI * 0.1;
+      scene.add(distantClothMesh);
+
+      // Layer 2: Foreground cloth - bright theme colors
+      const foregroundClothGeometry = new THREE.PlaneGeometry(30, 30, 192, 192);
+      const foregroundClothMaterial = new THREE.ShaderMaterial({
+        vertexShader: clothVertexShader,
+        fragmentShader: clothFragmentShader,
+        uniforms: {
+          uTime: { value: 0 },
+          uIntensity: { value: 4.0 }, // More dramatic
+          uColor1: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
+          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
+          uColor3: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
+          uColor4: { value: new THREE.Color(0x06B6D4) }, // Cyan (complementary)
+          uColor5: { value: new THREE.Color(0xEC4899) }, // Pink (complementary)
+          uOpacity: { value: 0.7 }
+        },
+        transparent: true,
+        side: THREE.DoubleSide,
+      });
+      
+      const foregroundClothMesh = new THREE.Mesh(foregroundClothGeometry, foregroundClothMaterial);
+      foregroundClothMesh.position.z = 2;
+      foregroundClothMesh.rotation.z = -Math.PI * 0.05;
+      scene.add(foregroundClothMesh);
+
+      console.log('✅ Background layers created');
+
+      // Add enhanced atmospheric particles with theme colors
+      console.log('✨ Creating atmospheric particles...');
+      const particleCount = 800; // Increased count
+      const particles = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+      const sizes = new Float32Array(particleCount);
+
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 100;
+        positions[i + 1] = (Math.random() - 0.5) * 100;
+        positions[i + 2] = (Math.random() - 0.5) * 50;
+
+        // Theme-based colors with more variety
+        const colorChoice = Math.random();
+        if (colorChoice < 0.3) {
+          // Aurora purple variants
+          colors[i] = 0.54 + Math.random() * 0.2;     // R
+          colors[i + 1] = 0.36 + Math.random() * 0.2; // G  
+          colors[i + 2] = 0.96 + Math.random() * 0.04; // B
+        } else if (colorChoice < 0.6) {
+          // Ethereal teal variants
+          colors[i] = 0.06 + Math.random() * 0.1;     // R
+          colors[i + 1] = 0.72 + Math.random() * 0.2; // G
+          colors[i + 2] = 0.50 + Math.random() * 0.3; // B
+        } else if (colorChoice < 0.8) {
+          // Mystic lavender variants
+          colors[i] = 0.65 + Math.random() * 0.2;     // R
+          colors[i + 1] = 0.54 + Math.random() * 0.2; // G
+          colors[i + 2] = 0.98 + Math.random() * 0.02; // B
+        } else {
+          // Complementary colors (cyan, pink, blue)
+          const subChoice = Math.random();
+          if (subChoice < 0.33) {
+            // Cyan
+            colors[i] = 0.02 + Math.random() * 0.1;     // R
+            colors[i + 1] = 0.71 + Math.random() * 0.2; // G
+            colors[i + 2] = 0.83 + Math.random() * 0.1; // B
+          } else if (subChoice < 0.66) {
+            // Pink
+            colors[i] = 0.92 + Math.random() * 0.08;    // R
+            colors[i + 1] = 0.28 + Math.random() * 0.2; // G
+            colors[i + 2] = 0.60 + Math.random() * 0.2; // B
+          } else {
+            // Dream blue
+            colors[i] = 0.23 + Math.random() * 0.2;     // R
+            colors[i + 1] = 0.51 + Math.random() * 0.2; // G
+            colors[i + 2] = 0.98 + Math.random() * 0.02; // B
+          }
+        }
+
+        sizes[i / 3] = Math.random() * 0.5 + 0.1; // Larger particles
       }
-      sz[i/3] = Math.random()*0.5 + 0.1
-    }
-    geom.setAttribute('position', new THREE.BufferAttribute(pos, 3))
-    geom.setAttribute('color', new THREE.BufferAttribute(col, 3))
-    geom.setAttribute('size', new THREE.BufferAttribute(sz, 1))
-    const mat = new THREE.PointsMaterial({
-      size: 0.4,
-      vertexColors: true,
-      transparent: true,
-      opacity: 0.7,
-      blending: THREE.AdditiveBlending,
-      sizeAttenuation: true
-    })
-    const pts = new THREE.Points(geom, mat)
-    scene.add(pts)
 
-    // --- Shapes ---
-    const geoms = [
-      new THREE.TetrahedronGeometry(0.8),
-      new THREE.OctahedronGeometry(0.7),
-      new THREE.IcosahedronGeometry(0.6),
-      new THREE.TorusGeometry(0.6,0.2,8,16),
-      new THREE.RingGeometry(0.4,0.8,8)
-    ]
-    const mats = [
-      new THREE.MeshBasicMaterial({color:0x8B5CF6,transparent:true,opacity:0.6,wireframe:true}),
-      new THREE.MeshBasicMaterial({color:0x10B981,transparent:true,opacity:0.5,wireframe:true}),
-      new THREE.MeshBasicMaterial({color:0xA78BFA,transparent:true,opacity:0.55,wireframe:true}),
-      new THREE.MeshBasicMaterial({color:0x151B2E,transparent:true,opacity:0.45,wireframe:true}),
-      new THREE.MeshBasicMaterial({color:0x0B1426,transparent:true,opacity:0.5,wireframe:true})
-    ]
-    const shapes: THREE.Mesh[] = []
-    for (let i=0; i<25; i++) {
-      const g = geoms[Math.floor(Math.random()*geoms.length)]
-      const m = mats[Math.floor(Math.random()*mats.length)]
-      const s = new THREE.Mesh(g,m)
-      s.position.set((Math.random()-0.5)*60,(Math.random()-0.5)*60,(Math.random()-0.5)*40)
-      s.rotation.set(Math.random()*Math.PI*2,Math.random()*Math.PI*2,Math.random()*Math.PI*2)
-      shapes.push(s)
-      scene.add(s)
-    }
+      particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
-    // --- Animate ---
-    const animate = () => {
-      animationIdRef.current = requestAnimationFrame(animate)
-      const t = clockRef.current.getElapsedTime()
-      clothMaterial.uniforms.uTime.value = t*0.8
-      distantMaterial.uniforms.uTime.value = t*0.5
-      fgMaterial.uniforms.uTime.value = t*1.2
-      clothMesh.rotation.z = Math.sin(t*0.1)*0.02
-      distantMesh.rotation.z = Math.PI*0.1 + Math.sin(t*0.07)*0.015
-      fgMesh.rotation.z = -Math.PI*0.05 + Math.sin(t*0.13)*0.025
-      const arr = pts.geometry.attributes.position.array as Float32Array
-      for (let i=0; i<arr.length; i+=3) {
-        arr[i+1] += Math.sin(t*0.8 + i*0.01)*0.003
-        arr[i] += Math.cos(t*0.6 + i*0.008)*0.002
-        arr[i+2] += Math.sin(t*0.4 + i*0.012)*0.001
+      const particleMaterial = new THREE.PointsMaterial({
+        size: 0.4, // Larger
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.7, // More visible
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true,
+      });
+
+      const particleSystem = new THREE.Points(particles, particleMaterial);
+      scene.add(particleSystem);
+      console.log('✅ Atmospheric particles created');
+
+      // Add floating geometric shapes with theme colors
+      console.log('🔷 Creating floating geometric shapes...');
+      const geometries = [
+        new THREE.TetrahedronGeometry(0.8),
+        new THREE.OctahedronGeometry(0.7),
+        new THREE.IcosahedronGeometry(0.6),
+        new THREE.TorusGeometry(0.6, 0.2, 8, 16),
+        new THREE.RingGeometry(0.4, 0.8, 8),
+      ];
+
+      const shapeMaterials = [
+        new THREE.MeshBasicMaterial({
+          color: 0x8B5CF6, // Aurora purple
+          transparent: true,
+          opacity: 0.6,
+          wireframe: true,
+        }),
+        new THREE.MeshBasicMaterial({
+          color: 0x10B981, // Ethereal teal
+          transparent: true,
+          opacity: 0.5,
+          wireframe: true,
+        }),
+        new THREE.MeshBasicMaterial({
+          color: 0xA78BFA, // Mystic lavender
+          transparent: true,
+          opacity: 0.55,
+          wireframe: true,
+        }),
+        new THREE.MeshBasicMaterial({
+          color: 0x06B6D4, // Cyan
+          transparent: true,
+          opacity: 0.45,
+          wireframe: true,
+        }),
+        new THREE.MeshBasicMaterial({
+          color: 0xEC4899, // Pink
+          transparent: true,
+          opacity: 0.5,
+          wireframe: true,
+        }),
+      ];
+
+      const shapes: THREE.Mesh[] = [];
+      for (let i = 0; i < 25; i++) {
+        const geometry = geometries[Math.floor(Math.random() * geometries.length)];
+        const material = shapeMaterials[Math.floor(Math.random() * shapeMaterials.length)];
+        const shape = new THREE.Mesh(geometry, material);
+        
+        shape.position.set(
+          (Math.random() - 0.5) * 60,
+          (Math.random() - 0.5) * 60,
+          (Math.random() - 0.5) * 40
+        );
+        
+        shape.rotation.set(
+          Math.random() * Math.PI * 2,
+          Math.random() * Math.PI * 2,
+          Math.random() * Math.PI * 2
+        );
+        
+        shapes.push(shape);
+        scene.add(shape);
       }
-      pts.geometry.attributes.position.needsUpdate = true
-      pts.rotation.y = t*0.02
-      pts.rotation.x = Math.sin(t*0.05)*0.01
-      shapes.forEach((s, idx) => {
-        s.rotation.x += 0.01 + idx*0.0003
-        s.rotation.y += 0.015 + idx*0.0004
-        s.rotation.z += 0.008 + idx*0.0002
-        s.position.y += Math.sin(t*1.5 + idx)*0.008
-        s.position.x += Math.cos(t*1.2 + idx)*0.006
-        s.position.z += Math.sin(t*0.9 + idx)*0.004
-      })
-      composer.render()
-    }
-    animate()
 
-    // --- Resize ---
-    const onResize = () => {
-      camera.aspect = window.innerWidth / window.innerHeight
-      camera.updateProjectionMatrix()
-      renderer.setSize(window.innerWidth, window.innerHeight)
-      composer.setSize(window.innerWidth, window.innerHeight)
-      fxaa.material.uniforms['resolution'].value.x = 1 / window.innerWidth
-      fxaa.material.uniforms['resolution'].value.y = 1 / window.innerHeight
-    }
-    window.addEventListener('resize', onResize)
+      console.log('✅ Floating geometric shapes created');
 
-    return () => {
-      window.removeEventListener('resize', onResize)
-      if (animationIdRef.current) cancelAnimationFrame(animationIdRef.current)
-      mountRef.current?.removeChild(renderer.domElement)
-      clothMaterial.dispose()
-      clothGeometry.dispose()
-      distantMaterial.dispose()
-      distantGeometry.dispose()
-      fgMaterial.dispose()
-      fgGeometry.dispose()
-      mat.dispose()
-      geom.dispose()
-      shapes.forEach(s => { s.material.dispose(); s.geometry.dispose() })
-      renderer.dispose()
-      composer.dispose()
+      console.log(🎯 Total scene objects: ${scene.children.length});
+
+      // Animation loop - enhanced movement
+      let frameCount = 0;
+      const animate = () => {
+        animationIdRef.current = requestAnimationFrame(animate);
+        frameCount++;
+
+        const elapsedTime = clockRef.current.getElapsedTime();
+
+        // Update cloth shader uniforms - more dynamic
+        clothMaterial.uniforms.uTime.value = elapsedTime * 0.8;
+        distantClothMaterial.uniforms.uTime.value = elapsedTime * 0.5;
+        foregroundClothMaterial.uniforms.uTime.value = elapsedTime * 1.2;
+
+        // Enhanced rotation for the cloth layers
+        clothMesh.rotation.z = Math.sin(elapsedTime * 0.1) * 0.02;
+        distantClothMesh.rotation.z = Math.PI * 0.1 + Math.sin(elapsedTime * 0.07) * 0.015;
+        foregroundClothMesh.rotation.z = -Math.PI * 0.05 + Math.sin(elapsedTime * 0.13) * 0.025;
+
+        // Animate particles - more dynamic
+        const positions = particleSystem.geometry.attributes.position.array as Float32Array;
+        for (let i = 0; i < positions.length; i += 3) {
+          positions[i + 1] += Math.sin(elapsedTime * 0.8 + i * 0.01) * 0.003;
+          positions[i] += Math.cos(elapsedTime * 0.6 + i * 0.008) * 0.002;
+          positions[i + 2] += Math.sin(elapsedTime * 0.4 + i * 0.012) * 0.001;
+        }
+        particleSystem.geometry.attributes.position.needsUpdate = true;
+
+        // Rotate particle system
+        particleSystem.rotation.y = elapsedTime * 0.02;
+        particleSystem.rotation.x = Math.sin(elapsedTime * 0.05) * 0.01;
+
+        // Animate floating shapes
+        shapes.forEach((shape, index) => {
+          shape.rotation.x += 0.01 + index * 0.0003;
+          shape.rotation.y += 0.015 + index * 0.0004;
+          shape.rotation.z += 0.008 + index * 0.0002;
+          
+          shape.position.y += Math.sin(elapsedTime * 1.5 + index) * 0.008;
+          shape.position.x += Math.cos(elapsedTime * 1.2 + index) * 0.006;
+          shape.position.z += Math.sin(elapsedTime * 0.9 + index) * 0.004;
+        });
+
+        // Log every 120 frames
+        if (frameCount % 120 === 0) {
+          console.log(🎬 VIBRANT CLOTH ANIMATION! Frame: ${frameCount}, Time: ${elapsedTime.toFixed(2)});
+        }
+
+        // Render with post-processing
+        composer.render();
+      };
+
+      console.log('🎬 Starting vibrant cloth animation loop...');
+      animate();
+      console.log('✅ Vibrant cloth animation loop started successfully!');
+
+      // Handle resize
+      const handleResize = () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
+        
+        // Update FXAA resolution
+        fxaaPass.material.uniforms['resolution'].value.x = 1 / window.innerWidth;
+        fxaaPass.material.uniforms['resolution'].value.y = 1 / window.innerHeight;
+        
+        console.log('📱 Window resized, renderer and composer updated');
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        console.log('🧹 Cleaning up Three.js cloth background...');
+        window.removeEventListener('resize', handleResize);
+        if (animationIdRef.current) {
+          cancelAnimationFrame(animationIdRef.current);
+        }
+        if (mountRef.current && renderer.domElement) {
+          mountRef.current.removeChild(renderer.domElement);
+        }
+        
+        // Dispose of materials and geometries
+        clothMaterial.dispose();
+        clothGeometry.dispose();
+        distantClothMaterial.dispose();
+        distantClothGeometry.dispose();
+        foregroundClothMaterial.dispose();
+        foregroundClothGeometry.dispose();
+        particleMaterial.dispose();
+        particles.dispose();
+        
+        // Dispose shape materials and geometries
+        shapes.forEach(shape => {
+          shape.material.dispose();
+          shape.geometry.dispose();
+        });
+        
+        renderer.dispose();
+        composer.dispose();
+        console.log('✅ Cloth background cleanup completed');
+      };
+    } catch (error) {
+      console.error('❌ Error initializing Three.js cloth background:', error);
     }
-  }, [])
+  }, []);
 
   return (
     <>
@@ -271,12 +428,12 @@ const ThreeBackground: React.FC = () => {
           width: '100%',
           height: '100%',
           zIndex: 1,
-          background: 'radial-gradient(ellipse at center, #8B5CF6 0%, #151B2E 45%, #0B1426 100%)'
+          background: 'radial-gradient(ellipse at center, #0B1426 0%, #000000 100%)',
         }}
       />
       {sceneRef.current && <FloatingTextMeshes scene={sceneRef.current} />}
     </>
-  )
-}
+  );
+};
 
-export default ThreeBackground
+export default ThreeBackground;
