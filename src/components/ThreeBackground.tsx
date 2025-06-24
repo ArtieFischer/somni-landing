@@ -129,11 +129,11 @@ const ThreeBackground: React.FC = () => {
         uniforms: {
           uTime: { value: 0 },
           uIntensity: { value: 2.0 },
-          uColor1: { value: new THREE.Color('#141820') }, // prawie czarny granat
-  uColor2: { value: new THREE.Color('#4B3B90') }, // ciemny fiolet
-  uColor3: { value: new THREE.Color('#084D3A') }, // zgaszony teal
-  uColor4: { value: new THREE.Color('#7E6BE1') }, // stonowany lavender
-  uColor5: { value: new THREE.Color('#2E2254') }, // głęboki akcent purpury
+          uColor1: { value: new THREE.Color('#0F142A') }, // prawie czarny granat
+          uColor2: { value: new THREE.Color('#7366E1') }, // przytłumiony purple
+          uColor3: { value: new THREE.Color('#0F6F57') }, // stonowany teal
+          uColor4: { value: new THREE.Color('#8B5CF6') }, // Aurora Purple – akcent
+          uColor5: { value: new THREE.Color('#111623') }, // głęboki szary-granat
           uOpacity: { value: 0.6 }
         },
         transparent: true,
