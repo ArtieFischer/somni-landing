@@ -309,7 +309,7 @@ const ThreeBackground: React.FC = () => {
 
       console.log('✅ Floating geometric shapes created');
 
-      console.log(🎯 Total scene objects: ${scene.children.length});
+      console.log('🎯 Total scene objects: ', ${scene.children.length});
 
       // Animation loop - enhanced movement
       let frameCount = 0;
