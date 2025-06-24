@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ThreeBackground from './components/ThreeBackground';
 import Header from './components/Header';
+import HeroSection from './components/HeroSection';
 import WaitlistForm from './components/WaitlistForm';
 import Footer from './components/Footer';
 import FloatingFeatures from './components/FloatingFeatures';
@@ -15,19 +16,25 @@ const AppContainer = styled.div`
 
 const MainContent = styled.main`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: ${darkTheme.spacing.xl}px ${darkTheme.spacing.lg}px;
+  padding: 0 ${darkTheme.spacing.lg}px;
   position: relative;
   z-index: 10;
+  gap: ${darkTheme.spacing.xxl}px;
+
+  @media (max-width: 768px) {
+    gap: ${darkTheme.spacing.xl}px;
+  }
 `;
 
 const BlurOverlay = styled.div`
   position: fixed;
   inset: 0;
   backdrop-filter: blur(0.5px);
-  z-index: 2; /* Between Three.js and floating features */
+  z-index: 2;
   pointer-events: none;
 `;
 
@@ -39,6 +46,7 @@ function App() {
       <FloatingFeatures />
       <Header />
       <MainContent>
+        <HeroSection />
         <WaitlistForm />
       </MainContent>
       <Footer />
