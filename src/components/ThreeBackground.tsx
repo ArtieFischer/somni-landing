@@ -92,7 +92,7 @@ const ThreeBackground: React.FC = () => {
 
       console.log('✅ Post-processing setup complete');
 
-      // Create the main cloth/sky plane - enhanced with emerald green
+      // Create the main cloth/sky plane - purple dominant with emerald accents
       console.log('🌊 Creating cloth shader plane...');
       const clothGeometry = new THREE.PlaneGeometry(40, 40, 256, 256);
       
@@ -103,10 +103,10 @@ const ThreeBackground: React.FC = () => {
           uTime: { value: 0 },
           uIntensity: { value: 3.5 },
           uColor1: { value: new THREE.Color(0x0B1426) }, // Deep midnight (theme)
-          uColor2: { value: new THREE.Color(0x10B981) }, // Emerald green (primary)
-          uColor3: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
-          uColor4: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
-          uColor5: { value: new THREE.Color(0x059669) }, // Deeper emerald (complementary)
+          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (dominant)
+          uColor3: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
+          uColor4: { value: new THREE.Color(0x10B981) }, // Emerald green (accent)
+          uColor5: { value: new THREE.Color(0x4C1D95) }, // Deep purple (complementary)
           uOpacity: { value: 0.85 }
         },
         transparent: true,
@@ -118,10 +118,10 @@ const ThreeBackground: React.FC = () => {
       scene.add(clothMesh);
       console.log('✅ Cloth shader plane created');
 
-      // Create additional background layers for depth - with emerald integration
+      // Create additional background layers for depth - purple dominant
       console.log('🌌 Creating background layers...');
       
-      // Layer 1: Distant cloth - emerald and purple blend
+      // Layer 1: Distant cloth - purple dominant with emerald touches
       const distantClothGeometry = new THREE.PlaneGeometry(60, 60, 128, 128);
       const distantClothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
@@ -130,10 +130,10 @@ const ThreeBackground: React.FC = () => {
           uTime: { value: 0 },
           uIntensity: { value: 2.0 },
           uColor1: { value: new THREE.Color(0x1A2332) }, // Darker slate (theme)
-          uColor2: { value: new THREE.Color(0x065F46) }, // Deep emerald
-          uColor3: { value: new THREE.Color(0x10B981) }, // Emerald green (primary)
-          uColor4: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
-          uColor5: { value: new THREE.Color(0x4C1D95) }, // Deep purple (complementary)
+          uColor2: { value: new THREE.Color(0x4C1D95) }, // Deep purple (dominant)
+          uColor3: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
+          uColor4: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
+          uColor5: { value: new THREE.Color(0x10B981) }, // Emerald green (accent)
           uOpacity: { value: 0.6 }
         },
         transparent: true,
@@ -145,7 +145,7 @@ const ThreeBackground: React.FC = () => {
       distantClothMesh.rotation.z = Math.PI * 0.1;
       scene.add(distantClothMesh);
 
-      // Layer 2: Foreground cloth - bright emerald and purple mix
+      // Layer 2: Foreground cloth - bright purple mix with emerald accents
       const foregroundClothGeometry = new THREE.PlaneGeometry(30, 30, 192, 192);
       const foregroundClothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
@@ -153,11 +153,11 @@ const ThreeBackground: React.FC = () => {
         uniforms: {
           uTime: { value: 0 },
           uIntensity: { value: 4.0 },
-          uColor1: { value: new THREE.Color(0x10B981) }, // Emerald green (primary)
+          uColor1: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (dominant)
           uColor2: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
-          uColor3: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
-          uColor4: { value: new THREE.Color(0x34D399) }, // Light emerald
-          uColor5: { value: new THREE.Color(0x059669) }, // Deeper emerald
+          uColor3: { value: new THREE.Color(0x4C1D95) }, // Deep purple
+          uColor4: { value: new THREE.Color(0x10B981) }, // Emerald green (accent)
+          uColor5: { value: new THREE.Color(0x7C3AED) }, // Violet purple
           uOpacity: { value: 0.7 }
         },
         transparent: true,
@@ -171,7 +171,7 @@ const ThreeBackground: React.FC = () => {
 
       console.log('✅ Background layers created');
 
-      // Add enhanced atmospheric particles with emerald integration
+      // Add enhanced atmospheric particles - purple dominant with emerald accents
       console.log('✨ Creating atmospheric particles...');
       const particleCount = 800;
       const particles = new THREE.BufferGeometry();
@@ -184,28 +184,28 @@ const ThreeBackground: React.FC = () => {
         positions[i + 1] = (Math.random() - 0.5) * 100;
         positions[i + 2] = (Math.random() - 0.5) * 50;
 
-        // Enhanced color distribution with emerald green prominence
+        // Purple dominant color distribution with emerald accents
         const colorChoice = Math.random();
-        if (colorChoice < 0.4) {
-          // Emerald green variants (40% - increased from blue)
-          colors[i] = 0.06 + Math.random() * 0.1;     // R
-          colors[i + 1] = 0.72 + Math.random() * 0.2; // G
-          colors[i + 2] = 0.50 + Math.random() * 0.3; // B
-        } else if (colorChoice < 0.7) {
-          // Aurora purple variants (30%)
+        if (colorChoice < 0.45) {
+          // Aurora purple variants (45% - increased)
           colors[i] = 0.54 + Math.random() * 0.2;     // R
           colors[i + 1] = 0.36 + Math.random() * 0.2; // G  
           colors[i + 2] = 0.96 + Math.random() * 0.04; // B
-        } else if (colorChoice < 0.85) {
-          // Mystic lavender variants (15%)
+        } else if (colorChoice < 0.7) {
+          // Mystic lavender variants (25%)
           colors[i] = 0.65 + Math.random() * 0.2;     // R
           colors[i + 1] = 0.54 + Math.random() * 0.2; // G
           colors[i + 2] = 0.98 + Math.random() * 0.02; // B
+        } else if (colorChoice < 0.85) {
+          // Deep purple variants (15%)
+          colors[i] = 0.30 + Math.random() * 0.2;     // R
+          colors[i + 1] = 0.11 + Math.random() * 0.15; // G
+          colors[i + 2] = 0.58 + Math.random() * 0.2; // B
         } else {
-          // Remaining blue tones (15% - reduced from original)
-          colors[i] = 0.23 + Math.random() * 0.2;     // R
-          colors[i + 1] = 0.51 + Math.random() * 0.2; // G
-          colors[i + 2] = 0.98 + Math.random() * 0.02; // B
+          // Emerald green accents (15% - reduced but maintained)
+          colors[i] = 0.06 + Math.random() * 0.1;     // R
+          colors[i + 1] = 0.72 + Math.random() * 0.2; // G
+          colors[i + 2] = 0.50 + Math.random() * 0.3; // B
         }
 
         sizes[i / 3] = Math.random() * 0.5 + 0.1;
@@ -228,7 +228,7 @@ const ThreeBackground: React.FC = () => {
       scene.add(particleSystem);
       console.log('✅ Atmospheric particles created');
 
-      // Add floating geometric shapes with emerald integration
+      // Add floating geometric shapes - purple dominant with emerald accents
       console.log('🔷 Creating floating geometric shapes...');
       const geometries = [
         new THREE.TetrahedronGeometry(0.8),
@@ -240,33 +240,33 @@ const ThreeBackground: React.FC = () => {
 
       const shapeMaterials = [
         new THREE.MeshBasicMaterial({
-          color: 0x10B981, // Emerald green (primary)
+          color: 0x8B5CF6, // Aurora purple (primary)
           transparent: true,
           opacity: 0.6,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0x8B5CF6, // Aurora purple
-          transparent: true,
-          opacity: 0.5,
-          wireframe: true,
-        }),
-        new THREE.MeshBasicMaterial({
-          color: 0x34D399, // Light emerald
+          color: 0xA78BFA, // Mystic lavender
           transparent: true,
           opacity: 0.55,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0xA78BFA, // Mystic lavender
+          color: 0x4C1D95, // Deep purple
+          transparent: true,
+          opacity: 0.5,
+          wireframe: true,
+        }),
+        new THREE.MeshBasicMaterial({
+          color: 0x7C3AED, // Violet purple
           transparent: true,
           opacity: 0.45,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0x059669, // Deeper emerald
+          color: 0x10B981, // Emerald green (accent)
           transparent: true,
-          opacity: 0.5,
+          opacity: 0.4,
           wireframe: true,
         }),
       ];
