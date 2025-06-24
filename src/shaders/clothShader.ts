@@ -71,10 +71,11 @@ const noiseFunction = `
     float amplitude = 0.5;
     float frequency = 1.0;
     
-    for (int i = 0; i < 6; i++) {
+    // Reduced iterations for subtlety
+    for (int i = 0; i < 4; i++) {
       value += amplitude * snoise(p * frequency);
-      amplitude *= 0.5;
-      frequency *= 2.0;
+      amplitude *= 0.6; // Gentler falloff
+      frequency *= 1.8; // Less aggressive frequency increase
     }
     
     return value;
@@ -94,20 +95,20 @@ export const clothVertexShader = `
     vUv = uv;
     vec3 pos = position;
     
-    // Create flowing, organic displacement
-    float noise1 = fbm(vec3(uv * 2.0, uTime * 0.1));
-    float noise2 = fbm(vec3(uv * 4.0 + 100.0, uTime * 0.15));
-    float noise3 = fbm(vec3(uv * 1.0 + 200.0, uTime * 0.08));
+    // Create very subtle, slow flowing displacement
+    float noise1 = fbm(vec3(uv * 1.5, uTime * 0.08)); // Slower, larger scale
+    float noise2 = fbm(vec3(uv * 3.0 + 100.0, uTime * 0.12));
+    float noise3 = fbm(vec3(uv * 0.8 + 200.0, uTime * 0.05)); // Very slow
     
-    // Combine multiple noise layers for complex movement
-    float displacement = noise1 * 0.8 + noise2 * 0.3 + noise3 * 0.5;
+    // Much more subtle combination
+    float displacement = noise1 * 0.6 + noise2 * 0.2 + noise3 * 0.3;
     
-    // Apply displacement to create cloth-like waves
-    pos.z += displacement * uIntensity;
+    // Apply very gentle displacement
+    pos.z += displacement * uIntensity * 0.5; // Reduced overall intensity
     
-    // Add subtle xy displacement for more organic feel
-    pos.x += noise2 * 0.2;
-    pos.y += noise3 * 0.2;
+    // Minimal xy displacement for organic feel
+    pos.x += noise2 * 0.1;
+    pos.y += noise3 * 0.1;
     
     vPosition = pos;
     vNoise = displacement;
@@ -129,28 +130,32 @@ export const clothFragmentShader = `
   ${noiseFunction}
 
   void main() {
-    // Create flowing color gradients
-    float colorNoise = fbm(vec3(vUv * 3.0, uTime * 0.05));
+    // Very subtle color gradients
+    float colorNoise = fbm(vec3(vUv * 2.0, uTime * 0.03)) * 0.5; // Much slower and subtler
     
-    // Multi-layered color mixing
-    vec3 color1 = mix(uColor1, uColor2, vUv.y + colorNoise * 0.3);
-    vec3 color2 = mix(uColor2, uColor3, vUv.x + colorNoise * 0.2);
-    vec3 finalColor = mix(color1, color2, 0.5 + vNoise * 0.3);
+    // Darker, more muted color mixing
+    vec3 color1 = mix(uColor1, uColor2, vUv.y + colorNoise * 0.1); // Less noise influence
+    vec3 color2 = mix(uColor2, uColor3, vUv.x + colorNoise * 0.1);
+    vec3 finalColor = mix(color1, color2, 0.5 + vNoise * 0.1); // Much less noise influence
     
-    // Add subtle brightness variations
-    float brightness = 1.0 + fbm(vec3(vUv * 5.0, uTime * 0.1)) * 0.2;
+    // Very subtle brightness variations
+    float brightness = 1.0 + fbm(vec3(vUv * 3.0, uTime * 0.05)) * 0.05; // Much subtler
     finalColor *= brightness;
     
-    // Add ethereal glow effect
-    float glow = smoothstep(0.0, 1.0, abs(vNoise));
-    finalColor += glow * 0.1;
+    // Minimal glow effect
+    float glow = smoothstep(0.0, 1.0, abs(vNoise)) * 0.02; // Much less glow
+    finalColor += glow;
     
-    // Fade edges for seamless blending
-    float edgeFade = smoothstep(0.0, 0.1, vUv.x) * 
-                     smoothstep(1.0, 0.9, vUv.x) * 
-                     smoothstep(0.0, 0.1, vUv.y) * 
-                     smoothstep(1.0, 0.9, vUv.y);
+    // Stronger edge fade for seamless blending
+    float edgeFade = smoothstep(0.0, 0.2, vUv.x) * 
+                     smoothstep(1.0, 0.8, vUv.x) * 
+                     smoothstep(0.0, 0.2, vUv.y) * 
+                     smoothstep(1.0, 0.8, vUv.y);
     
-    gl_FragColor = vec4(finalColor, uOpacity * edgeFade);
+    // Additional center fade for more subtlety
+    float centerDistance = length(vUv - 0.5);
+    float centerFade = smoothstep(0.5, 0.3, centerDistance);
+    
+    gl_FragColor = vec4(finalColor, uOpacity * edgeFade * (0.3 + centerFade * 0.7));
   }
 `;
