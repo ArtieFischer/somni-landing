@@ -353,9 +353,7 @@ const ThreeBackground: React.FC = () => {
         composer.render();
       };
 
-      console.log('🎬 Starting vibrant cloth animation loop...');
       animate();
-      console.log('✅ Vibrant cloth animation loop started successfully!');
 
       // Handle resize
       const handleResize = () => {
