@@ -72,7 +72,7 @@ const Link = styled.a`
   backdrop-filter: blur(0px);
 
   &:hover {
-    color: rgba(16, 185, 129, 0.8); /* Ethereal teal - SECONDARY COLOR */
+    color: rgba(30, 64, 175, 0.8); /* Royal blue instead of purple */
     background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(40px) saturate(150%);
     transform: translateY(-1px);

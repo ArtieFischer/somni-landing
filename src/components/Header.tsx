@@ -119,7 +119,7 @@ const NavLink = styled.a`
   backdrop-filter: blur(0px);
 
   &:hover {
-    color: rgba(139, 92, 246, 0.9); /* Aurora purple - PRIMARY COLOR */
+    color: rgba(30, 64, 175, 0.9); /* Royal blue instead of purple */
     background: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(40px) saturate(150%);
     transform: translateY(-1px);
@@ -133,7 +133,7 @@ const NavLink = styled.a`
     transform: translateX(-50%);
     width: 0;
     height: 1px;
-    background: linear-gradient(90deg, rgba(139, 92, 246, 0.6), rgba(167, 139, 250, 0.6)); /* Purple gradient - PRIMARY */
+    background: linear-gradient(90deg, rgba(30, 64, 175, 0.6), rgba(37, 99, 235, 0.6)); /* Blue gradient */
     transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
