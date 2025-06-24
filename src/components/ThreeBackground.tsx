@@ -307,10 +307,6 @@ const ThreeBackground: React.FC = () => {
         scene.add(shape);
       }
 
-      console.log('✅ Floating geometric shapes created');
-
-      console.log(`🎯 Total scene objects: ${scene.children.length}`);
-
       // Animation loop - enhanced movement
       let frameCount = 0;
       const animate = () => {
@@ -352,11 +348,6 @@ const ThreeBackground: React.FC = () => {
           shape.position.x += Math.cos(elapsedTime * 1.2 + index) * 0.006;
           shape.position.z += Math.sin(elapsedTime * 0.9 + index) * 0.004;
         });
-
-        // Log every 120 frames
-        if (frameCount % 120 === 0) {
-          console.log(🎬 VIBRANT CLOTH ANIMATION! Frame: ${frameCount}, Time: ${elapsedTime.toFixed(2)});
-        }
 
         // Render with post-processing
         composer.render();
