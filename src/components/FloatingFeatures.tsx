@@ -76,9 +76,9 @@ const FeatureText = styled.div<{ $animation: string; $delay: number; $size?: 'la
     props.$size === 'large' ? '0.12em' : '0.08em'
   };
   text-shadow: 
-    0 0 30px rgba(139, 92, 246, 0.7), 
-    0 0 60px rgba(139, 92, 246, 0.4),
-    0 0 90px rgba(16, 185, 129, 0.3);
+    0 0 30px rgba(30, 64, 175, 0.6), /* Royal blue glow */
+    0 0 60px rgba(30, 64, 175, 0.3),
+    0 0 90px rgba(55, 65, 81, 0.3); /* Dark gray glow */
 
   @media (max-width: 768px) {
     font-size: ${props => 
