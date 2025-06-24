@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { darkTheme } from '../../theme';
 
 const float = keyframes`
@@ -45,7 +45,7 @@ const Card = styled.div<{
   
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   
-  ${props => props.$animated && `
+  ${props => props.$animated && css`
     animation: ${float} 8s ease-in-out infinite;
   `}
 
@@ -62,7 +62,7 @@ const Card = styled.div<{
       rgba(139, 92, 246, 0.05),
       transparent
     );
-    animation: ${liquidShimmer} 6s ease-in-out infinite;
+    animation: ${css`${liquidShimmer}`} 6s ease-in-out infinite;
   }
 
   &:hover {
