@@ -102,11 +102,11 @@ const ThreeBackground: React.FC = () => {
         uniforms: {
           uTime: { value: 0 },
           uIntensity: { value: 3.5 }, // Increased for more movement
-          uColor1: { value: new THREE.Color(0x0B1426) }, // Deep midnight (theme)
-          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
-          uColor3: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
-          uColor4: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
-          uColor5: { value: new THREE.Color(0x3b3ef6) }, // Dream blue (complementary)
+          uColor1: { value: new THREE.Color('#151B2E') }, // pogłębiony granat
+          uColor2: { value: new THREE.Color('#6E5BEF') }, // mistyczny violet (ton stonowany)
+          uColor3: { value: new THREE.Color('#0E7D6A') }, // muted teal
+          uColor4: { value: new THREE.Color('#A78BFA') }, // Twój Mystic lavender
+          uColor5: { value: new THREE.Color('#4F3E8C') }, // głęboki fiolet-akcent
           uOpacity: { value: 0.85 } // More visible
         },
         transparent: true,
@@ -129,11 +129,11 @@ const ThreeBackground: React.FC = () => {
         uniforms: {
           uTime: { value: 0 },
           uIntensity: { value: 2.0 },
-          uColor1: { value: new THREE.Color(0x1A2332) }, // Darker slate (theme)
-          uColor2: { value: new THREE.Color(0x4C1D95) }, // Deep purple (complementary)
-          uColor3: { value: new THREE.Color(0x065F46) }, // Deep teal (complementary)
-          uColor4: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
-          uColor5: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
+          uColor1: { value: new THREE.Color('#1F2437') }, // dark slate (podobne do #1A2332, lecz z fioletową domieszką)
+          uColor2: { value: new THREE.Color('#5945A6') }, // głęboki fiolet (skomplikowany ton)
+          uColor3: { value: new THREE.Color('#065F46') }, // dark teal (jak w apce)
+          uColor4: { value: new THREE.Color('#8A75E6') }, // pastelowy violet
+          uColor5: { value: new THREE.Color('#0E7D6A') }, // muted teal – powtórka, spójność
           uOpacity: { value: 0.6 }
         },
         transparent: true,
@@ -153,11 +153,11 @@ const ThreeBackground: React.FC = () => {
         uniforms: {
           uTime: { value: 0 },
           uIntensity: { value: 4.0 }, // More dramatic
-          uColor1: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
-          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
-          uColor3: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
-          uColor4: { value: new THREE.Color(0x06B6D4) }, // Cyan (complementary)
-          uColor5: { value: new THREE.Color(0xEC4899) }, // Pink (complementary)
+          uColor1: { value: new THREE.Color('#8A75E6') }, // pastelowy violet
+          uColor2: { value: new THREE.Color('#6E5BEF') }, // mistyczny violet
+          uColor3: { value: new THREE.Color('#0E7D6A') }, // muted teal
+          uColor4: { value: new THREE.Color('#0AA890') }, // stonowana zieleń-akcent (trochę ciemniejsza)
+          uColor5: { value: new THREE.Color('#E07894') }, // subtelna różowa mgiełka
           uOpacity: { value: 0.7 }
         },
         transparent: true,
