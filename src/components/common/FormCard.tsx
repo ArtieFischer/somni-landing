@@ -1,26 +1,8 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Mail, ArrowRight, Check, AlertCircle } from 'lucide-react';
-import { darkTheme } from '../theme';
-
-const float = keyframes`
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-2px); }
-`;
-
-const liquidShimmer = keyframes`
-  0% { 
-    background-position: -200% 0;
-    opacity: 0.3;
-  }
-  50% {
-    opacity: 0.8;
-  }
-  100% { 
-    background-position: 200% 0;
-    opacity: 0.3;
-  }
-`;
+import { darkTheme } from '../../theme';
+import GlassCard from './GlassCard';
 
 const fadeInUp = keyframes`
   from {
@@ -40,49 +22,38 @@ const FormContainer = styled.div`
   gap: ${darkTheme.spacing.lg}px;
   max-width: 500px;
   width: 100%;
-  padding: ${darkTheme.spacing.xxl}px ${darkTheme.spacing.xl}px;
-  
-  /* Enhanced glass morphism effect matching header buttons */
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 24px;
-  
-  /* Enhanced shadow for depth */
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    0 1px 0 rgba(255, 255, 255, 0.1) inset,
-    0 -1px 0 rgba(0, 0, 0, 0.2) inset;
-  
-  animation: ${float} 8s ease-in-out infinite, ${fadeInUp} 1s ease-out 0.6s both;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(139, 92, 246, 0.05),
-      transparent
-    );
-    animation: ${liquidShimmer} 6s ease-in-out infinite;
-  }
+  animation: ${fadeInUp} 1s ease-out 0.6s both;
 
   @media (max-width: 768px) {
     max-width: 400px;
-    padding: ${darkTheme.spacing.xl}px ${darkTheme.spacing.lg}px;
   }
 
   @media (max-width: 480px) {
     max-width: 340px;
-    padding: ${darkTheme.spacing.lg}px ${darkTheme.spacing.md}px;
   }
+`;
+
+const Header = styled.div`
+  text-align: center;
+  margin-bottom: ${darkTheme.spacing.lg}px;
+`;
+
+const Title = styled.h2`
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: ${darkTheme.colors.text.primary};
+  margin: 0 0 ${darkTheme.spacing.sm}px 0;
+  line-height: 1.3;
+`;
+
+const Description = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(248, 250, 252, 0.7);
+  margin: 0;
+  line-height: 1.5;
 `;
 
 const Form = styled.form`
@@ -103,7 +74,6 @@ const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
   width: 100%;
   padding: 20px 20px 20px 56px;
   
-  /* Enhanced glass input styling matching header buttons */
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px) saturate(150%);
   border: 1px solid ${props => 
@@ -114,19 +84,19 @@ const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
   border-radius: 16px;
   
   color: ${darkTheme.colors.text.primary};
+  font-family: 'Inter', sans-serif;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
   
-  /* Enhanced shadow matching header style */
   box-shadow: 
     0 1px 3px rgba(0, 0, 0, 0.2) inset,
     0 1px 0 rgba(255, 255, 255, 0.05);
 
   &::placeholder {
     color: rgba(248, 250, 252, 0.4);
-    font-weight: 300;
+    font-weight: 400;
   }
 
   &:focus {
@@ -164,7 +134,6 @@ const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
   gap: ${darkTheme.spacing.sm}px;
   padding: 20px ${darkTheme.spacing.xl}px;
   
-  /* Enhanced glass button styling matching header buttons */
   background: ${props => 
     props.$isSuccess ? 
     'linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.8) 100%)' :
@@ -175,6 +144,7 @@ const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
   border-radius: 16px;
   
   color: ${darkTheme.colors.text.primary};
+  font-family: 'Inter', sans-serif;
   font-size: 16px;
   font-weight: 500;
   cursor: ${props => props.$isLoading ? 'not-allowed' : 'pointer'};
@@ -183,7 +153,6 @@ const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
   transform: translateY(0);
   letter-spacing: 0.02em;
   
-  /* Enhanced shadow matching header style */
   box-shadow: 
     0 4px 16px rgba(139, 92, 246, 0.2),
     0 1px 0 rgba(255, 255, 255, 0.1) inset;
@@ -214,8 +183,9 @@ const Message = styled.div<{ $type: 'error' | 'success' }>`
   align-items: center;
   gap: ${darkTheme.spacing.sm}px;
   color: ${props => props.$type === 'error' ? 'rgba(248, 113, 113, 0.9)' : 'rgba(16, 185, 129, 0.9)'};
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
-  font-weight: 300;
+  font-weight: 400;
   padding: ${darkTheme.spacing.sm}px ${darkTheme.spacing.md}px;
   background: ${props => props.$type === 'error' ? 'rgba(248, 113, 113, 0.1)' : 'rgba(16, 185, 129, 0.1)'};
   border: 1px solid ${props => props.$type === 'error' ? 'rgba(248, 113, 113, 0.2)' : 'rgba(16, 185, 129, 0.2)'};
@@ -223,7 +193,23 @@ const Message = styled.div<{ $type: 'error' | 'success' }>`
   backdrop-filter: blur(10px);
 `;
 
-const WaitlistForm: React.FC = () => {
+interface FormCardProps {
+  title?: string;
+  description?: string;
+  placeholder?: string;
+  buttonText?: string;
+  successMessage?: string;
+  onSubmit?: (email: string) => Promise<void>;
+}
+
+const FormCard: React.FC<FormCardProps> = ({
+  title = "Join the Waitlist",
+  description = "Be the first to experience the future of dream enhancement.",
+  placeholder = "Enter your email address",
+  buttonText = "Join Waitlist",
+  successMessage = "Welcome to the dream collective.",
+  onSubmit
+}) => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -251,7 +237,11 @@ const WaitlistForm: React.FC = () => {
     setIsLoading(true);
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      if (onSubmit) {
+        await onSubmit(email);
+      } else {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
       setIsSuccess(true);
       setEmail('');
       
@@ -267,59 +257,66 @@ const WaitlistForm: React.FC = () => {
 
   return (
     <FormContainer>
-      <Form onSubmit={handleSubmit}>
-        <InputContainer>
-          <InputIcon>
-            <Mail size={20} />
-          </InputIcon>
-          <Input
-            type="email"
-            placeholder="Enter your email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            $hasError={!!error}
+      <GlassCard size="large" padding="large" animated>
+        <Header>
+          <Title>{title}</Title>
+          <Description>{description}</Description>
+        </Header>
+        
+        <Form onSubmit={handleSubmit}>
+          <InputContainer>
+            <InputIcon>
+              <Mail size={20} />
+            </InputIcon>
+            <Input
+              type="email"
+              placeholder={placeholder}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              $hasError={!!error}
+              $isSuccess={isSuccess}
+              disabled={isLoading || isSuccess}
+            />
+          </InputContainer>
+          
+          {error && (
+            <Message $type="error">
+              <AlertCircle size={16} />
+              {error}
+            </Message>
+          )}
+          
+          {isSuccess && (
+            <Message $type="success">
+              <Check size={16} />
+              {successMessage}
+            </Message>
+          )}
+          
+          <Button
+            type="submit"
+            $isLoading={isLoading}
             $isSuccess={isSuccess}
             disabled={isLoading || isSuccess}
-          />
-        </InputContainer>
-        
-        {error && (
-          <Message $type="error">
-            <AlertCircle size={16} />
-            {error}
-          </Message>
-        )}
-        
-        {isSuccess && (
-          <Message $type="success">
-            <Check size={16} />
-            Welcome to the dream collective.
-          </Message>
-        )}
-        
-        <Button
-          type="submit"
-          $isLoading={isLoading}
-          $isSuccess={isSuccess}
-          disabled={isLoading || isSuccess}
-        >
-          {isLoading ? (
-            'Joining...'
-          ) : isSuccess ? (
-            <>
-              <Check size={20} />
-              Joined
-            </>
-          ) : (
-            <>
-              Join Waitlist
-              <ArrowRight size={20} />
-            </>
-          )}
-        </Button>
-      </Form>
+          >
+            {isLoading ? (
+              'Joining...'
+            ) : isSuccess ? (
+              <>
+                <Check size={20} />
+                Joined
+              </>
+            ) : (
+              <>
+                {buttonText}
+                <ArrowRight size={20} />
+              </>
+            )}
+          </Button>
+        </Form>
+      </GlassCard>
     </FormContainer>
   );
 };
 
-export default WaitlistForm;
+export default FormCard;

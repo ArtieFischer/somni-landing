@@ -3,7 +3,10 @@ import styled from 'styled-components';
 import ThreeBackground from './components/ThreeBackground';
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
-import WaitlistForm from './components/WaitlistForm';
+import FormCard from './components/common/FormCard';
+import FeaturesSection from './components/sections/FeaturesSection';
+import AboutSection from './components/sections/AboutSection';
+import TestimonialsSection from './components/sections/TestimonialsSection';
 import Footer from './components/Footer';
 import FloatingFeatures from './components/FloatingFeatures';
 import { darkTheme } from './theme';
@@ -11,15 +14,15 @@ import { darkTheme } from './theme';
 const AppContainer = styled.div`
   min-height: 100vh;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
 `;
 
-const MainContent = styled.main`
+const HeroContainer = styled.section`
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
   padding: 0 ${darkTheme.spacing.lg}px;
   position: relative;
   z-index: 10;
@@ -27,6 +30,7 @@ const MainContent = styled.main`
 
   @media (max-width: 768px) {
     gap: ${darkTheme.spacing.xl}px;
+    padding: 0 ${darkTheme.spacing.md}px;
   }
 `;
 
@@ -38,6 +42,11 @@ const BlurOverlay = styled.div`
   pointer-events: none;
 `;
 
+const MainContent = styled.main`
+  position: relative;
+  z-index: 10;
+`;
+
 function App() {
   return (
     <AppContainer>
@@ -45,10 +54,24 @@ function App() {
       <BlurOverlay />
       <FloatingFeatures />
       <Header />
-      <MainContent>
+      
+      <HeroContainer>
         <HeroSection />
-        <WaitlistForm />
+        <FormCard 
+          title="Join the Dream Revolution"
+          description="Be among the first to experience the future of dream enhancement and unlock your subconscious potential."
+          placeholder="Enter your email address"
+          buttonText="Join Waitlist"
+          successMessage="Welcome to the dream collective. Check your email for next steps."
+        />
+      </HeroContainer>
+      
+      <MainContent>
+        <FeaturesSection />
+        <AboutSection />
+        <TestimonialsSection />
       </MainContent>
+      
       <Footer />
     </AppContainer>
   );
