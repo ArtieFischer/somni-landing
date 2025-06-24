@@ -129,11 +129,11 @@ const ThreeBackground: React.FC = () => {
         uniforms: {
           uTime: { value: 0 },
           uIntensity: { value: 2.0 },
-          uColor1: { value: new THREE.Color('#1F2437') }, // dark slate (podobne do #1A2332, lecz z fioletową domieszką)
-          uColor2: { value: new THREE.Color('#5945A6') }, // głęboki fiolet (skomplikowany ton)
-          uColor3: { value: new THREE.Color('#065F46') }, // dark teal (jak w apce)
-          uColor4: { value: new THREE.Color('#8A75E6') }, // pastelowy violet
-          uColor5: { value: new THREE.Color('#0E7D6A') }, // muted teal – powtórka, spójność
+          uColor1: { value: new THREE.Color('#141820') }, // prawie czarny granat
+  uColor2: { value: new THREE.Color('#4B3B90') }, // ciemny fiolet
+  uColor3: { value: new THREE.Color('#084D3A') }, // zgaszony teal
+  uColor4: { value: new THREE.Color('#7E6BE1') }, // stonowany lavender
+  uColor5: { value: new THREE.Color('#2E2254') }, // głęboki akcent purpury
           uOpacity: { value: 0.6 }
         },
         transparent: true,
