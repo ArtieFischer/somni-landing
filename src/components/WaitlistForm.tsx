@@ -283,9 +283,12 @@ const WaitlistForm: React.FC = () => {
 
   return (
     <FormContainer>
-      <Title>Enter Your Dreams</Title>
+      <Title>Enhance Your Dreams</Title>
       <Subtitle>
-        Join the exclusive community exploring consciousness and sleep enhancement.
+        What AI won't replace is your ability to dream. And only you can make it better.
+      </Subtitle>
+      <Subtitle>
+        Explore your dreams and dreams of the world-wide community, with your personalized guide. 
       </Subtitle>
       
       <Form onSubmit={handleSubmit}>
