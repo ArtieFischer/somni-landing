@@ -39,7 +39,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0B1426;
+  background: linear-gradient(
+    135deg,
+    #0B1426 0%,
+    #1A2332 25%,
+    #0F1B2E 50%,
+    #1A2332 75%,
+    #0B1426 100%
+  );
   color: #F8FAFC;
   overflow-x: hidden;
   
@@ -148,7 +155,14 @@ button, a, input, [role="button"] {
 /* Dark mode preference (already dark, but ensuring consistency) */
 @media (prefers-color-scheme: dark) {
   body {
-    background: #0B1426;
+    background: linear-gradient(
+      135deg,
+      #0B1426 0%,
+      #1A2332 25%,
+      #0F1B2E 50%,
+      #1A2332 75%,
+      #0B1426 100%
+    );
     color: #F8FAFC;
   }
 }
