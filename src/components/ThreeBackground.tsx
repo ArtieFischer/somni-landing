@@ -102,12 +102,12 @@ const ThreeBackground: React.FC = () => {
         uniforms: {
           uTime: { value: 0 },
           uIntensity: { value: 3.5 }, // Increased for more movement
-          uColor1: { value: new THREE.Color('#1A2032') }, // bardzo ciemny granat
-  uColor2: { value: new THREE.Color('#5C4DB1') }, // stonowany fiolet
-  uColor3: { value: new THREE.Color('#0B5943') }, // głęboki teal
-  uColor4: { value: new THREE.Color('#8C6CD9') }, // lekko przytłumiony lavender
-  uColor5: { value: new THREE.Color('#3D2E6A') }, // ciemny purpurowy akcent
-          uOpacity: { value: 0.85 } // More visible
+          uColor1: { value: new THREE.Color('#111623') }, // głęboki szarawy granat
+          uColor2: { value: new THREE.Color('#8B5CF6') }, // Aurora Purple – WYRAŹNIE
+          uColor3: { value: new THREE.Color('#10B981') }, // Ethereal Teal – AKCENT
+          uColor4: { value: new THREE.Color('#A78BFA') }, // Mystic Lavender (dodatkowy fiolet)
+          uColor5: { value: new THREE.Color('#1A2032') }, // bardzo ciemny navy
+          uOpacity: { value: 0.85 }
         },
         transparent: true,
         side: THREE.DoubleSide,
