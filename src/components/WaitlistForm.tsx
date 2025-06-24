@@ -11,14 +11,14 @@ const float = keyframes`
 const liquidShimmer = keyframes`
   0% { 
     background-position: -200% 0;
-    opacity: 0.2;
+    opacity: 0.3;
   }
   50% {
-    opacity: 0.6;
+    opacity: 0.8;
   }
   100% { 
     background-position: 200% 0;
-    opacity: 0.2;
+    opacity: 0.3;
   }
 `;
 
@@ -31,17 +31,17 @@ const FormContainer = styled.div`
   width: 100%;
   padding: ${darkTheme.spacing.xl}px ${darkTheme.spacing.lg}px;
   
-  /* Enhanced dark liquid glass effect */
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(80px) saturate(200%) contrast(120%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  /* Apple liquid glass effect */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(60px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
   
-  /* Enhanced shadow for depth */
+  /* Subtle shadow for depth */
   box-shadow: 
-    0 8px 40px rgba(0, 0, 0, 0.4),
-    0 1px 0 rgba(255, 255, 255, 0.05) inset,
-    0 -1px 0 rgba(0, 0, 0, 0.3) inset;
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.2) inset;
   
   animation: ${float} 8s ease-in-out infinite;
   position: relative;
@@ -57,10 +57,10 @@ const FormContainer = styled.div`
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(30, 64, 175, 0.03), /* Dark blue shimmer */
+      rgba(139, 92, 246, 0.05),
       transparent
     );
-    animation: ${liquidShimmer} 8s ease-in-out infinite;
+    animation: ${liquidShimmer} 6s ease-in-out infinite;
   }
 
   @media (max-width: 768px) {
@@ -77,7 +77,7 @@ const Title = styled.h1`
   margin: 0;
   line-height: 1.3;
   letter-spacing: 0.02em;
-  background: linear-gradient(135deg, rgba(248, 250, 252, 0.9) 0%, rgba(30, 64, 175, 0.8) 100%); /* Blue gradient */
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(139, 92, 246, 0.9) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -87,7 +87,7 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   font-size: 13px;
-  color: rgba(248, 250, 252, 0.6);
+  color: rgba(248, 250, 252, 0.65);
   text-align: center;
   margin: 0;
   line-height: 1.5;
@@ -116,10 +116,10 @@ const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
   width: 100%;
   padding: 16px 16px 16px 48px;
   
-  /* Enhanced dark liquid input styling */
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(60px) saturate(180%) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  /* Apple liquid input styling */
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   
   color: ${darkTheme.colors.text.primary};
@@ -128,30 +128,30 @@ const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
   
-  /* Enhanced inner shadow */
+  /* Subtle inner shadow */
   box-shadow: 
-    0 2px 6px rgba(0, 0, 0, 0.3) inset,
-    0 1px 0 rgba(255, 255, 255, 0.03);
+    0 1px 3px rgba(0, 0, 0, 0.2) inset,
+    0 1px 0 rgba(255, 255, 255, 0.05);
 
   &::placeholder {
-    color: rgba(248, 250, 252, 0.35);
+    color: rgba(248, 250, 252, 0.4);
     font-weight: 300;
   }
 
   &:focus {
     outline: none;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(30, 64, 175, 0.3); /* Blue focus */
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(139, 92, 246, 0.3);
     box-shadow: 
-      0 0 0 3px rgba(30, 64, 175, 0.08),
-      0 2px 6px rgba(0, 0, 0, 0.3) inset,
-      0 1px 0 rgba(255, 255, 255, 0.03);
+      0 0 0 3px rgba(139, 92, 246, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.2) inset,
+      0 1px 0 rgba(255, 255, 255, 0.05);
     transform: translateY(-1px);
   }
 
   &:hover:not(:focus) {
-    background: rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
   }
 `;
 
@@ -160,7 +160,7 @@ const InputIcon = styled.div`
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(248, 250, 252, 0.35);
+  color: rgba(248, 250, 252, 0.4);
   pointer-events: none;
   transition: color 0.3s ease;
 `;
@@ -172,14 +172,14 @@ const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
   gap: ${darkTheme.spacing.xs}px;
   padding: 16px ${darkTheme.spacing.lg}px;
   
-  /* Enhanced dark liquid button styling */
+  /* Apple liquid button styling */
   background: ${props => 
     props.$isSuccess ? 
-    'linear-gradient(135deg, rgba(55, 65, 81, 0.8) 0%, rgba(75, 85, 99, 0.8) 100%)' : /* Dark gray for success */
-    'linear-gradient(135deg, rgba(30, 64, 175, 0.7) 0%, rgba(37, 99, 235, 0.7) 100%)' /* Blue gradient */
+    'linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.8) 100%)' :
+    'linear-gradient(135deg, rgba(139, 92, 246, 0.8) 0%, rgba(167, 139, 250, 0.8) 100%)'
   };
-  backdrop-filter: blur(60px) saturate(200%) contrast(110%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
   
   color: ${darkTheme.colors.text.primary};
@@ -191,20 +191,20 @@ const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
   transform: translateY(0);
   letter-spacing: 0.02em;
   
-  /* Enhanced shadow for depth */
+  /* Subtle shadow for depth */
   box-shadow: 
-    0 4px 20px rgba(30, 64, 175, 0.15),
-    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+    0 4px 16px rgba(139, 92, 246, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 
-      0 8px 30px rgba(30, 64, 175, 0.2),
-      0 1px 0 rgba(255, 255, 255, 0.12) inset;
+      0 8px 25px rgba(139, 92, 246, 0.3),
+      0 1px 0 rgba(255, 255, 255, 0.15) inset;
     background: ${props => 
       props.$isSuccess ? 
-      'linear-gradient(135deg, rgba(55, 65, 81, 0.9) 0%, rgba(75, 85, 99, 0.9) 100%)' :
-      'linear-gradient(135deg, rgba(30, 64, 175, 0.8) 0%, rgba(37, 99, 235, 0.8) 100%)'
+      'linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%)' :
+      'linear-gradient(135deg, rgba(139, 92, 246, 0.9) 0%, rgba(167, 139, 250, 0.9) 100%)'
     };
   }
 
@@ -231,7 +231,7 @@ const SuccessMessage = styled.div`
   display: flex;
   align-items: center;
   gap: ${darkTheme.spacing.xs}px;
-  color: rgba(107, 114, 128, 0.9); /* Gray for success */
+  color: rgba(16, 185, 129, 0.9);
   font-size: 12px;
   font-weight: 300;
   margin-top: ${darkTheme.spacing.xs}px;

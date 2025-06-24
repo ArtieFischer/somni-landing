@@ -78,9 +78,9 @@ const ThreeBackground: React.FC = () => {
       // Enhanced bloom for beautiful glow
       const bloomPass = new UnrealBloomPass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        0.6,   // strength - reduced for subtler glow
-        0.8,   // radius - larger for softer glow
-        0.5    // threshold - higher for more selective bloom
+        0.8,   // strength - increased for glow
+        0.6,   // radius - larger for softer glow
+        0.4    // threshold - lower for more bloom
       );
       composer.addPass(bloomPass);
 
@@ -92,7 +92,7 @@ const ThreeBackground: React.FC = () => {
 
       console.log('✅ Post-processing setup complete');
 
-      // Create the main cloth/sky plane - using dark blue and gray colors
+      // Create the main cloth/sky plane - using theme colors
       console.log('🌊 Creating cloth shader plane...');
       const clothGeometry = new THREE.PlaneGeometry(40, 40, 256, 256);
       
@@ -101,13 +101,13 @@ const ThreeBackground: React.FC = () => {
         fragmentShader: clothFragmentShader,
         uniforms: {
           uTime: { value: 0 },
-          uIntensity: { value: 3.5 },
-          uColor1: { value: new THREE.Color(0x0B1426) }, // Deep midnight (unchanged)
-          uColor2: { value: new THREE.Color(0x1E3A8A) }, // Deep blue
-          uColor3: { value: new THREE.Color(0x374151) }, // Dark gray
-          uColor4: { value: new THREE.Color(0x475569) }, // Medium gray
-          uColor5: { value: new THREE.Color(0x1E40AF) }, // Royal blue
-          uOpacity: { value: 0.85 }
+          uIntensity: { value: 3.5 }, // Increased for more movement
+          uColor1: { value: new THREE.Color(0x0B1426) }, // Deep midnight (theme)
+          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
+          uColor3: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
+          uColor4: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
+          uColor5: { value: new THREE.Color(0x3b3ef6) }, // Dream blue (complementary)
+          uOpacity: { value: 0.85 } // More visible
         },
         transparent: true,
         side: THREE.DoubleSide,
@@ -118,10 +118,10 @@ const ThreeBackground: React.FC = () => {
       scene.add(clothMesh);
       console.log('✅ Cloth shader plane created');
 
-      // Create additional background layers for depth - with dark blue/gray colors
+      // Create additional background layers for depth - with theme colors
       console.log('🌌 Creating background layers...');
       
-      // Layer 1: Distant cloth - very dark blues and grays
+      // Layer 1: Distant cloth - deep purple/teal
       const distantClothGeometry = new THREE.PlaneGeometry(60, 60, 128, 128);
       const distantClothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
@@ -129,11 +129,11 @@ const ThreeBackground: React.FC = () => {
         uniforms: {
           uTime: { value: 0 },
           uIntensity: { value: 2.0 },
-          uColor1: { value: new THREE.Color(0x1A2332) }, // Darker slate (unchanged)
-          uColor2: { value: new THREE.Color(0x1E293B) }, // Very dark blue-gray
-          uColor3: { value: new THREE.Color(0x334155) }, // Slate gray
-          uColor4: { value: new THREE.Color(0x1E3A8A) }, // Deep blue
-          uColor5: { value: new THREE.Color(0x64748B) }, // Light gray
+          uColor1: { value: new THREE.Color(0x1A2332) }, // Darker slate (theme)
+          uColor2: { value: new THREE.Color(0x4C1D95) }, // Deep purple (complementary)
+          uColor3: { value: new THREE.Color(0x065F46) }, // Deep teal (complementary)
+          uColor4: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
+          uColor5: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
           uOpacity: { value: 0.6 }
         },
         transparent: true,
@@ -145,19 +145,19 @@ const ThreeBackground: React.FC = () => {
       distantClothMesh.rotation.z = Math.PI * 0.1;
       scene.add(distantClothMesh);
 
-      // Layer 2: Foreground cloth - brighter blues and grays
+      // Layer 2: Foreground cloth - bright theme colors
       const foregroundClothGeometry = new THREE.PlaneGeometry(30, 30, 192, 192);
       const foregroundClothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
         fragmentShader: clothFragmentShader,
         uniforms: {
           uTime: { value: 0 },
-          uIntensity: { value: 4.0 },
-          uColor1: { value: new THREE.Color(0x475569) }, // Medium gray
-          uColor2: { value: new THREE.Color(0x1E40AF) }, // Royal blue
-          uColor3: { value: new THREE.Color(0x374151) }, // Dark gray
-          uColor4: { value: new THREE.Color(0x2563EB) }, // Bright blue
-          uColor5: { value: new THREE.Color(0x6B7280) }, // Cool gray
+          uIntensity: { value: 4.0 }, // More dramatic
+          uColor1: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
+          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
+          uColor3: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
+          uColor4: { value: new THREE.Color(0x06B6D4) }, // Cyan (complementary)
+          uColor5: { value: new THREE.Color(0xEC4899) }, // Pink (complementary)
           uOpacity: { value: 0.7 }
         },
         transparent: true,
@@ -171,9 +171,9 @@ const ThreeBackground: React.FC = () => {
 
       console.log('✅ Background layers created');
 
-      // Add enhanced atmospheric particles with dark blue/gray colors
+      // Add enhanced atmospheric particles with theme colors
       console.log('✨ Creating atmospheric particles...');
-      const particleCount = 800;
+      const particleCount = 800; // Increased count
       const particles = new THREE.BufferGeometry();
       const positions = new Float32Array(particleCount * 3);
       const colors = new Float32Array(particleCount * 3);
@@ -184,31 +184,45 @@ const ThreeBackground: React.FC = () => {
         positions[i + 1] = (Math.random() - 0.5) * 100;
         positions[i + 2] = (Math.random() - 0.5) * 50;
 
-        // Dark blue and gray color variants
+        // Theme-based colors with more variety
         const colorChoice = Math.random();
         if (colorChoice < 0.3) {
-          // Deep blue variants
-          colors[i] = 0.12 + Math.random() * 0.1;     // R
-          colors[i + 1] = 0.23 + Math.random() * 0.15; // G  
-          colors[i + 2] = 0.54 + Math.random() * 0.2; // B
+          // Aurora purple variants
+          colors[i] = 0.54 + Math.random() * 0.2;     // R
+          colors[i + 1] = 0.36 + Math.random() * 0.2; // G  
+          colors[i + 2] = 0.96 + Math.random() * 0.04; // B
         } else if (colorChoice < 0.6) {
-          // Dark gray variants
-          colors[i] = 0.22 + Math.random() * 0.15;     // R
-          colors[i + 1] = 0.26 + Math.random() * 0.15; // G
-          colors[i + 2] = 0.32 + Math.random() * 0.15; // B
+          // Ethereal teal variants
+          colors[i] = 0.06 + Math.random() * 0.1;     // R
+          colors[i + 1] = 0.72 + Math.random() * 0.2; // G
+          colors[i + 2] = 0.50 + Math.random() * 0.3; // B
         } else if (colorChoice < 0.8) {
-          // Medium gray variants
-          colors[i] = 0.28 + Math.random() * 0.15;     // R
-          colors[i + 1] = 0.32 + Math.random() * 0.15; // G
-          colors[i + 2] = 0.34 + Math.random() * 0.15; // B
+          // Mystic lavender variants
+          colors[i] = 0.65 + Math.random() * 0.2;     // R
+          colors[i + 1] = 0.54 + Math.random() * 0.2; // G
+          colors[i + 2] = 0.98 + Math.random() * 0.02; // B
         } else {
-          // Royal blue variants
-          colors[i] = 0.15 + Math.random() * 0.1;     // R
-          colors[i + 1] = 0.25 + Math.random() * 0.15; // G
-          colors[i + 2] = 0.69 + Math.random() * 0.15; // B
+          // Complementary colors (cyan, pink, blue)
+          const subChoice = Math.random();
+          if (subChoice < 0.33) {
+            // Cyan
+            colors[i] = 0.02 + Math.random() * 0.1;     // R
+            colors[i + 1] = 0.71 + Math.random() * 0.2; // G
+            colors[i + 2] = 0.83 + Math.random() * 0.1; // B
+          } else if (subChoice < 0.66) {
+            // Pink
+            colors[i] = 0.92 + Math.random() * 0.08;    // R
+            colors[i + 1] = 0.28 + Math.random() * 0.2; // G
+            colors[i + 2] = 0.60 + Math.random() * 0.2; // B
+          } else {
+            // Dream blue
+            colors[i] = 0.23 + Math.random() * 0.2;     // R
+            colors[i + 1] = 0.51 + Math.random() * 0.2; // G
+            colors[i + 2] = 0.98 + Math.random() * 0.02; // B
+          }
         }
 
-        sizes[i / 3] = Math.random() * 0.5 + 0.1;
+        sizes[i / 3] = Math.random() * 0.5 + 0.1; // Larger particles
       }
 
       particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -216,10 +230,10 @@ const ThreeBackground: React.FC = () => {
       particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
       const particleMaterial = new THREE.PointsMaterial({
-        size: 0.4,
+        size: 0.4, // Larger
         vertexColors: true,
         transparent: true,
-        opacity: 0.7,
+        opacity: 0.7, // More visible
         blending: THREE.AdditiveBlending,
         sizeAttenuation: true,
       });
@@ -228,7 +242,7 @@ const ThreeBackground: React.FC = () => {
       scene.add(particleSystem);
       console.log('✅ Atmospheric particles created');
 
-      // Add floating geometric shapes with dark blue/gray colors
+      // Add floating geometric shapes with theme colors
       console.log('🔷 Creating floating geometric shapes...');
       const geometries = [
         new THREE.TetrahedronGeometry(0.8),
@@ -240,31 +254,31 @@ const ThreeBackground: React.FC = () => {
 
       const shapeMaterials = [
         new THREE.MeshBasicMaterial({
-          color: 0x1E40AF, // Royal blue
+          color: 0x8B5CF6, // Aurora purple
           transparent: true,
           opacity: 0.6,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0x374151, // Dark gray
+          color: 0x10B981, // Ethereal teal
           transparent: true,
           opacity: 0.5,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0x475569, // Medium gray
+          color: 0xA78BFA, // Mystic lavender
           transparent: true,
           opacity: 0.55,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0x2563EB, // Bright blue
+          color: 0x06B6D4, // Cyan
           transparent: true,
           opacity: 0.45,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0x6B7280, // Cool gray
+          color: 0xEC4899, // Pink
           transparent: true,
           opacity: 0.5,
           wireframe: true,
