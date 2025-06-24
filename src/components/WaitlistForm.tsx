@@ -8,28 +8,17 @@ const float = keyframes`
   50% { transform: translateY(-2px); }
 `;
 
-const liquidFlow = keyframes`
+const liquidShimmer = keyframes`
   0% { 
     background-position: -200% 0;
-    opacity: 0.2;
+    opacity: 0.3;
   }
   50% {
-    opacity: 0.4;
+    opacity: 0.8;
   }
   100% { 
     background-position: 200% 0;
-    opacity: 0.2;
-  }
-`;
-
-const ripple = keyframes`
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(4);
-    opacity: 0;
+    opacity: 0.3;
   }
 `;
 
@@ -42,17 +31,17 @@ const FormContainer = styled.div`
   width: 100%;
   padding: ${darkTheme.spacing.xl}px ${darkTheme.spacing.lg}px;
   
-  /* Reduced opacity liquid glass effect - 15% less opacity */
-  background: rgba(255, 255, 255, 0.025);
+  /* Apple liquid glass effect */
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(60px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
   
-  /* Enhanced shadow for depth */
+  /* Subtle shadow for depth */
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.25),
-    0 1px 0 rgba(255, 255, 255, 0.08) inset,
-    0 -1px 0 rgba(0, 0, 0, 0.15) inset;
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.2) inset;
   
   animation: ${float} 8s ease-in-out infinite;
   position: relative;
@@ -68,11 +57,10 @@ const FormContainer = styled.div`
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(16, 185, 129, 0.03),
-      rgba(139, 92, 246, 0.03),
+      rgba(139, 92, 246, 0.05),
       transparent
     );
-    animation: ${liquidFlow} 8s ease-in-out infinite;
+    animation: ${liquidShimmer} 6s ease-in-out infinite;
   }
 
   @media (max-width: 768px) {
@@ -89,7 +77,7 @@ const Title = styled.h1`
   margin: 0;
   line-height: 1.3;
   letter-spacing: 0.02em;
-  background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(16, 185, 129, 0.8) 50%, rgba(139, 92, 246, 0.9) 100%);
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(139, 92, 246, 0.9) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -122,53 +110,28 @@ const Form = styled.form`
 const InputContainer = styled.div`
   position: relative;
   width: 100%;
-  overflow: hidden;
-  border-radius: 16px;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.6s ease;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  &:hover::before {
-    width: 300px;
-    height: 300px;
-    animation: ${ripple} 0.6s ease-out;
-  }
 `;
 
 const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
   width: 100%;
   padding: 16px 16px 16px 48px;
-  position: relative;
-  z-index: 1;
   
-  /* Enhanced liquid input styling */
-  background: rgba(255, 255, 255, 0.035);
+  /* Apple liquid input styling */
+  background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(40px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   
   color: ${darkTheme.colors.text.primary};
   font-size: 15px;
   font-weight: 300;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
   
-  /* Enhanced inner shadow */
+  /* Subtle inner shadow */
   box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.15) inset,
-    0 1px 0 rgba(255, 255, 255, 0.04);
+    0 1px 3px rgba(0, 0, 0, 0.2) inset,
+    0 1px 0 rgba(255, 255, 255, 0.05);
 
   &::placeholder {
     color: rgba(248, 250, 252, 0.4);
@@ -177,19 +140,18 @@ const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
 
   &:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(139, 92, 246, 0.3);
     box-shadow: 
-      0 0 0 3px rgba(16, 185, 129, 0.08),
-      0 1px 3px rgba(0, 0, 0, 0.15) inset,
-      0 1px 0 rgba(255, 255, 255, 0.04);
+      0 0 0 3px rgba(139, 92, 246, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.2) inset,
+      0 1px 0 rgba(255, 255, 255, 0.05);
     transform: translateY(-1px);
   }
 
   &:hover:not(:focus) {
-    background: rgba(255, 255, 255, 0.045);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    transform: translateY(-0.5px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
   }
 `;
 
@@ -201,7 +163,6 @@ const InputIcon = styled.div`
   color: rgba(248, 250, 252, 0.4);
   pointer-events: none;
   transition: color 0.3s ease;
-  z-index: 2;
 `;
 
 const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
@@ -210,63 +171,41 @@ const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
   justify-content: center;
   gap: ${darkTheme.spacing.xs}px;
   padding: 16px ${darkTheme.spacing.lg}px;
-  position: relative;
-  overflow: hidden;
   
-  /* Enhanced liquid button styling with emerald accent */
+  /* Apple liquid button styling */
   background: ${props => 
     props.$isSuccess ? 
     'linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.8) 100%)' :
-    'linear-gradient(135deg, rgba(16, 185, 129, 0.7) 0%, rgba(139, 92, 246, 0.7) 50%, rgba(167, 139, 250, 0.7) 100%)'
+    'linear-gradient(135deg, rgba(139, 92, 246, 0.8) 0%, rgba(167, 139, 250, 0.8) 100%)'
   };
   backdrop-filter: blur(40px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
   
   color: ${darkTheme.colors.text.primary};
   font-size: 15px;
   font-weight: 400;
   cursor: ${props => props.$isLoading ? 'not-allowed' : 'pointer'};
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   opacity: ${props => props.$isLoading ? 0.7 : 1};
   transform: translateY(0);
   letter-spacing: 0.02em;
   
-  /* Enhanced shadow for depth */
+  /* Subtle shadow for depth */
   box-shadow: 
-    0 4px 16px rgba(16, 185, 129, 0.15),
+    0 4px 16px rgba(139, 92, 246, 0.2),
     0 1px 0 rgba(255, 255, 255, 0.1) inset;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.1),
-      transparent
-    );
-    transition: left 0.6s ease;
-  }
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 
-      0 8px 25px rgba(16, 185, 129, 0.25),
+      0 8px 25px rgba(139, 92, 246, 0.3),
       0 1px 0 rgba(255, 255, 255, 0.15) inset;
     background: ${props => 
       props.$isSuccess ? 
       'linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%)' :
-      'linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(139, 92, 246, 0.8) 50%, rgba(167, 139, 250, 0.8) 100%)'
+      'linear-gradient(135deg, rgba(139, 92, 246, 0.9) 0%, rgba(167, 139, 250, 0.9) 100%)'
     };
-
-    &::before {
-      left: 100%;
-    }
   }
 
   &:active {

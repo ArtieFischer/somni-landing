@@ -92,7 +92,7 @@ const ThreeBackground: React.FC = () => {
 
       console.log('✅ Post-processing setup complete');
 
-      // Create the main cloth/sky plane - enhanced with emerald green
+      // Create the main cloth/sky plane - using theme colors
       console.log('🌊 Creating cloth shader plane...');
       const clothGeometry = new THREE.PlaneGeometry(40, 40, 256, 256);
       
@@ -101,13 +101,13 @@ const ThreeBackground: React.FC = () => {
         fragmentShader: clothFragmentShader,
         uniforms: {
           uTime: { value: 0 },
-          uIntensity: { value: 3.5 },
+          uIntensity: { value: 3.5 }, // Increased for more movement
           uColor1: { value: new THREE.Color(0x0B1426) }, // Deep midnight (theme)
-          uColor2: { value: new THREE.Color(0x10B981) }, // Emerald green (primary)
-          uColor3: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
+          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
+          uColor3: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
           uColor4: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
-          uColor5: { value: new THREE.Color(0x059669) }, // Deeper emerald (complementary)
-          uOpacity: { value: 0.85 }
+          uColor5: { value: new THREE.Color(0x3b3ef6) }, // Dream blue (complementary)
+          uOpacity: { value: 0.85 } // More visible
         },
         transparent: true,
         side: THREE.DoubleSide,
@@ -118,10 +118,10 @@ const ThreeBackground: React.FC = () => {
       scene.add(clothMesh);
       console.log('✅ Cloth shader plane created');
 
-      // Create additional background layers for depth - with emerald integration
+      // Create additional background layers for depth - with theme colors
       console.log('🌌 Creating background layers...');
       
-      // Layer 1: Distant cloth - emerald and purple blend
+      // Layer 1: Distant cloth - deep purple/teal
       const distantClothGeometry = new THREE.PlaneGeometry(60, 60, 128, 128);
       const distantClothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
@@ -130,10 +130,10 @@ const ThreeBackground: React.FC = () => {
           uTime: { value: 0 },
           uIntensity: { value: 2.0 },
           uColor1: { value: new THREE.Color(0x1A2332) }, // Darker slate (theme)
-          uColor2: { value: new THREE.Color(0x065F46) }, // Deep emerald
-          uColor3: { value: new THREE.Color(0x10B981) }, // Emerald green (primary)
+          uColor2: { value: new THREE.Color(0x4C1D95) }, // Deep purple (complementary)
+          uColor3: { value: new THREE.Color(0x065F46) }, // Deep teal (complementary)
           uColor4: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
-          uColor5: { value: new THREE.Color(0x4C1D95) }, // Deep purple (complementary)
+          uColor5: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
           uOpacity: { value: 0.6 }
         },
         transparent: true,
@@ -145,19 +145,19 @@ const ThreeBackground: React.FC = () => {
       distantClothMesh.rotation.z = Math.PI * 0.1;
       scene.add(distantClothMesh);
 
-      // Layer 2: Foreground cloth - bright emerald and purple mix
+      // Layer 2: Foreground cloth - bright theme colors
       const foregroundClothGeometry = new THREE.PlaneGeometry(30, 30, 192, 192);
       const foregroundClothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
         fragmentShader: clothFragmentShader,
         uniforms: {
           uTime: { value: 0 },
-          uIntensity: { value: 4.0 },
-          uColor1: { value: new THREE.Color(0x10B981) }, // Emerald green (primary)
-          uColor2: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
-          uColor3: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
-          uColor4: { value: new THREE.Color(0x34D399) }, // Light emerald
-          uColor5: { value: new THREE.Color(0x059669) }, // Deeper emerald
+          uIntensity: { value: 4.0 }, // More dramatic
+          uColor1: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
+          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
+          uColor3: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
+          uColor4: { value: new THREE.Color(0x06B6D4) }, // Cyan (complementary)
+          uColor5: { value: new THREE.Color(0xEC4899) }, // Pink (complementary)
           uOpacity: { value: 0.7 }
         },
         transparent: true,
@@ -171,9 +171,9 @@ const ThreeBackground: React.FC = () => {
 
       console.log('✅ Background layers created');
 
-      // Add enhanced atmospheric particles with emerald integration
+      // Add enhanced atmospheric particles with theme colors
       console.log('✨ Creating atmospheric particles...');
-      const particleCount = 800;
+      const particleCount = 800; // Increased count
       const particles = new THREE.BufferGeometry();
       const positions = new Float32Array(particleCount * 3);
       const colors = new Float32Array(particleCount * 3);
@@ -184,31 +184,45 @@ const ThreeBackground: React.FC = () => {
         positions[i + 1] = (Math.random() - 0.5) * 100;
         positions[i + 2] = (Math.random() - 0.5) * 50;
 
-        // Enhanced color distribution with emerald green prominence
+        // Theme-based colors with more variety
         const colorChoice = Math.random();
-        if (colorChoice < 0.4) {
-          // Emerald green variants (40% - increased from blue)
-          colors[i] = 0.06 + Math.random() * 0.1;     // R
-          colors[i + 1] = 0.72 + Math.random() * 0.2; // G
-          colors[i + 2] = 0.50 + Math.random() * 0.3; // B
-        } else if (colorChoice < 0.7) {
-          // Aurora purple variants (30%)
+        if (colorChoice < 0.3) {
+          // Aurora purple variants
           colors[i] = 0.54 + Math.random() * 0.2;     // R
           colors[i + 1] = 0.36 + Math.random() * 0.2; // G  
           colors[i + 2] = 0.96 + Math.random() * 0.04; // B
-        } else if (colorChoice < 0.85) {
-          // Mystic lavender variants (15%)
+        } else if (colorChoice < 0.6) {
+          // Ethereal teal variants
+          colors[i] = 0.06 + Math.random() * 0.1;     // R
+          colors[i + 1] = 0.72 + Math.random() * 0.2; // G
+          colors[i + 2] = 0.50 + Math.random() * 0.3; // B
+        } else if (colorChoice < 0.8) {
+          // Mystic lavender variants
           colors[i] = 0.65 + Math.random() * 0.2;     // R
           colors[i + 1] = 0.54 + Math.random() * 0.2; // G
           colors[i + 2] = 0.98 + Math.random() * 0.02; // B
         } else {
-          // Remaining blue tones (15% - reduced from original)
-          colors[i] = 0.23 + Math.random() * 0.2;     // R
-          colors[i + 1] = 0.51 + Math.random() * 0.2; // G
-          colors[i + 2] = 0.98 + Math.random() * 0.02; // B
+          // Complementary colors (cyan, pink, blue)
+          const subChoice = Math.random();
+          if (subChoice < 0.33) {
+            // Cyan
+            colors[i] = 0.02 + Math.random() * 0.1;     // R
+            colors[i + 1] = 0.71 + Math.random() * 0.2; // G
+            colors[i + 2] = 0.83 + Math.random() * 0.1; // B
+          } else if (subChoice < 0.66) {
+            // Pink
+            colors[i] = 0.92 + Math.random() * 0.08;    // R
+            colors[i + 1] = 0.28 + Math.random() * 0.2; // G
+            colors[i + 2] = 0.60 + Math.random() * 0.2; // B
+          } else {
+            // Dream blue
+            colors[i] = 0.23 + Math.random() * 0.2;     // R
+            colors[i + 1] = 0.51 + Math.random() * 0.2; // G
+            colors[i + 2] = 0.98 + Math.random() * 0.02; // B
+          }
         }
 
-        sizes[i / 3] = Math.random() * 0.5 + 0.1;
+        sizes[i / 3] = Math.random() * 0.5 + 0.1; // Larger particles
       }
 
       particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -216,10 +230,10 @@ const ThreeBackground: React.FC = () => {
       particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
       const particleMaterial = new THREE.PointsMaterial({
-        size: 0.4,
+        size: 0.4, // Larger
         vertexColors: true,
         transparent: true,
-        opacity: 0.7,
+        opacity: 0.7, // More visible
         blending: THREE.AdditiveBlending,
         sizeAttenuation: true,
       });
@@ -228,7 +242,7 @@ const ThreeBackground: React.FC = () => {
       scene.add(particleSystem);
       console.log('✅ Atmospheric particles created');
 
-      // Add floating geometric shapes with emerald integration
+      // Add floating geometric shapes with theme colors
       console.log('🔷 Creating floating geometric shapes...');
       const geometries = [
         new THREE.TetrahedronGeometry(0.8),
@@ -240,31 +254,31 @@ const ThreeBackground: React.FC = () => {
 
       const shapeMaterials = [
         new THREE.MeshBasicMaterial({
-          color: 0x10B981, // Emerald green (primary)
+          color: 0x8B5CF6, // Aurora purple
           transparent: true,
           opacity: 0.6,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0x8B5CF6, // Aurora purple
+          color: 0x10B981, // Ethereal teal
           transparent: true,
           opacity: 0.5,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0x34D399, // Light emerald
+          color: 0xA78BFA, // Mystic lavender
           transparent: true,
           opacity: 0.55,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0xA78BFA, // Mystic lavender
+          color: 0x06B6D4, // Cyan
           transparent: true,
           opacity: 0.45,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0x059669, // Deeper emerald
+          color: 0xEC4899, // Pink
           transparent: true,
           opacity: 0.5,
           wireframe: true,
@@ -292,8 +306,6 @@ const ThreeBackground: React.FC = () => {
         shapes.push(shape);
         scene.add(shape);
       }
-
-      console.log('✅ Floating geometric shapes created');
 
       // Animation loop - enhanced movement
       let frameCount = 0;

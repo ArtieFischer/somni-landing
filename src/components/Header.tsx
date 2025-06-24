@@ -10,15 +10,13 @@ const HeaderContainer = styled.header`
   z-index: 100;
   padding: ${darkTheme.spacing.md}px ${darkTheme.spacing.xl}px;
   
-  /* Enhanced Apple liquid glass effect - 25% more opacity */
-  background: rgba(255, 255, 255, 0.06);
+  /* Apple liquid glass effect */
+  background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(60px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   
-  /* Enhanced shadow for better depth */
-  box-shadow: 
-    0 1px 20px rgba(0, 0, 0, 0.15),
-    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  /* Subtle shadow */
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
     padding: ${darkTheme.spacing.sm}px ${darkTheme.spacing.lg}px;
@@ -52,13 +50,14 @@ const Logo = styled.div`
 const LogoSignature = styled.img`
   height: 32px;
   width: auto;
-  filter: brightness(1.2) saturate(1.2);
-  opacity: 1;
+  filter: brightness(1.1) saturate(1.1);
+  opacity: 0.95;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   ${Logo}:hover & {
     transform: scale(1.05);
-    filter: brightness(1.3) saturate(1.3);
+    filter: brightness(1.2) saturate(1.2);
+    opacity: 1;
   }
 
   @media (max-width: 768px) {
@@ -73,13 +72,13 @@ const LogoSignature = styled.img`
 const LogoText = styled.img`
   height: 20px;
   width: auto;
-  filter: brightness(1.2) saturate(1.2);
-  opacity: 0.95;
+  filter: brightness(1.1) saturate(1.1);
+  opacity: 0.9;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   ${Logo}:hover & {
     transform: scale(1.05);
-    filter: brightness(1.3) saturate(1.3);
+    filter: brightness(1.2) saturate(1.2);
     opacity: 1;
   }
 
@@ -103,7 +102,7 @@ const NavLinks = styled.div`
 `;
 
 const NavLink = styled.a`
-  color: rgba(248, 250, 252, 0.85);
+  color: rgba(248, 250, 252, 0.7);
   text-decoration: none;
   font-size: 14px;
   font-weight: 300;
@@ -113,13 +112,13 @@ const NavLink = styled.a`
   padding: 8px 16px;
   border-radius: 12px;
   
-  /* Enhanced liquid background on hover */
+  /* Subtle liquid background on hover */
   background: transparent;
   backdrop-filter: blur(0px);
 
   &:hover {
-    color: rgba(16, 185, 129, 0.9);
-    background: rgba(255, 255, 255, 0.05);
+    color: rgba(139, 92, 246, 0.9);
+    background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);
     transform: translateY(-1px);
   }
@@ -132,7 +131,7 @@ const NavLink = styled.a`
     transform: translateX(-50%);
     width: 0;
     height: 1px;
-    background: linear-gradient(90deg, rgba(16, 185, 129, 0.6), rgba(139, 92, 246, 0.6));
+    background: linear-gradient(90deg, rgba(139, 92, 246, 0.6), rgba(167, 139, 250, 0.6));
     transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
