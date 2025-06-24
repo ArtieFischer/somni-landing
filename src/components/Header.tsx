@@ -10,13 +10,15 @@ const HeaderContainer = styled.header`
   z-index: 100;
   padding: ${darkTheme.spacing.md}px ${darkTheme.spacing.xl}px;
   
-  /* Apple liquid glass effect */
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(60px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  /* Darker liquid glass effect with color distortion */
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(80px) saturate(200%) hue-rotate(15deg) contrast(1.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   
-  /* Subtle shadow */
-  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.1);
+  /* Enhanced shadow for depth */
+  box-shadow: 
+    0 1px 30px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(139, 92, 246, 0.05) inset;
 
   @media (max-width: 768px) {
     padding: ${darkTheme.spacing.sm}px ${darkTheme.spacing.lg}px;
@@ -102,7 +104,7 @@ const NavLinks = styled.div`
 `;
 
 const NavLink = styled.a`
-  color: rgba(248, 250, 252, 0.7);
+  color: rgba(248, 250, 252, 0.6);
   text-decoration: none;
   font-size: 14px;
   font-weight: 300;
@@ -112,14 +114,14 @@ const NavLink = styled.a`
   padding: 8px 16px;
   border-radius: 12px;
   
-  /* Subtle liquid background on hover */
+  /* Darker liquid background on hover */
   background: transparent;
   backdrop-filter: blur(0px);
 
   &:hover {
     color: rgba(139, 92, 246, 0.9);
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(40px) saturate(150%) hue-rotate(10deg);
     transform: translateY(-1px);
   }
 
