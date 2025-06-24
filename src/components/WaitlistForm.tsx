@@ -57,7 +57,7 @@ const FormContainer = styled.div`
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(30, 64, 175, 0.03), /* Dark blue shimmer */
+      rgba(139, 92, 246, 0.03), /* Purple shimmer - PRIMARY COLOR */
       transparent
     );
     animation: ${liquidShimmer} 8s ease-in-out infinite;
@@ -77,7 +77,7 @@ const Title = styled.h1`
   margin: 0;
   line-height: 1.3;
   letter-spacing: 0.02em;
-  background: linear-gradient(135deg, rgba(248, 250, 252, 0.9) 0%, rgba(30, 64, 175, 0.8) 100%); /* Blue gradient */
+  background: linear-gradient(135deg, rgba(248, 250, 252, 0.9) 0%, rgba(139, 92, 246, 0.8) 100%); /* Purple gradient - PRIMARY */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -141,9 +141,9 @@ const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
   &:focus {
     outline: none;
     background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(30, 64, 175, 0.3); /* Blue focus */
+    border: 1px solid rgba(139, 92, 246, 0.3); /* Purple focus - PRIMARY COLOR */
     box-shadow: 
-      0 0 0 3px rgba(30, 64, 175, 0.08),
+      0 0 0 3px rgba(139, 92, 246, 0.08),
       0 2px 6px rgba(0, 0, 0, 0.3) inset,
       0 1px 0 rgba(255, 255, 255, 0.03);
     transform: translateY(-1px);
@@ -172,11 +172,11 @@ const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
   gap: ${darkTheme.spacing.xs}px;
   padding: 16px ${darkTheme.spacing.lg}px;
   
-  /* Enhanced dark liquid button styling */
+  /* Enhanced dark liquid button styling with PRIMARY COLORS */
   background: ${props => 
     props.$isSuccess ? 
-    'linear-gradient(135deg, rgba(55, 65, 81, 0.8) 0%, rgba(75, 85, 99, 0.8) 100%)' : /* Dark gray for success */
-    'linear-gradient(135deg, rgba(30, 64, 175, 0.7) 0%, rgba(37, 99, 235, 0.7) 100%)' /* Blue gradient */
+    'linear-gradient(135deg, rgba(16, 185, 129, 0.7) 0%, rgba(5, 150, 105, 0.7) 100%)' : /* Green for success - SECONDARY COLOR */
+    'linear-gradient(135deg, rgba(139, 92, 246, 0.7) 0%, rgba(167, 139, 250, 0.7) 100%)' /* Purple gradient - PRIMARY COLOR */
   };
   backdrop-filter: blur(60px) saturate(200%) contrast(110%);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -193,18 +193,18 @@ const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
   
   /* Enhanced shadow for depth */
   box-shadow: 
-    0 4px 20px rgba(30, 64, 175, 0.15),
+    0 4px 20px rgba(139, 92, 246, 0.15), /* Purple shadow - PRIMARY COLOR */
     0 1px 0 rgba(255, 255, 255, 0.08) inset;
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 
-      0 8px 30px rgba(30, 64, 175, 0.2),
+      0 8px 30px rgba(139, 92, 246, 0.2), /* Purple shadow - PRIMARY COLOR */
       0 1px 0 rgba(255, 255, 255, 0.12) inset;
     background: ${props => 
       props.$isSuccess ? 
-      'linear-gradient(135deg, rgba(55, 65, 81, 0.9) 0%, rgba(75, 85, 99, 0.9) 100%)' :
-      'linear-gradient(135deg, rgba(30, 64, 175, 0.8) 0%, rgba(37, 99, 235, 0.8) 100%)'
+      'linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.8) 100%)' : /* Green - SECONDARY COLOR */
+      'linear-gradient(135deg, rgba(139, 92, 246, 0.8) 0%, rgba(167, 139, 250, 0.8) 100%)' /* Purple - PRIMARY COLOR */
     };
   }
 
@@ -231,7 +231,7 @@ const SuccessMessage = styled.div`
   display: flex;
   align-items: center;
   gap: ${darkTheme.spacing.xs}px;
-  color: rgba(107, 114, 128, 0.9); /* Gray for success */
+  color: rgba(16, 185, 129, 0.9); /* Green for success - SECONDARY COLOR */
   font-size: 12px;
   font-weight: 300;
   margin-top: ${darkTheme.spacing.xs}px;

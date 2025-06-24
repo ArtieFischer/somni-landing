@@ -29,21 +29,21 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       
-      // Enhanced multi-layer glow effect with dark blue and gray colors
-      // Layer 1: Royal blue glow (largest)
-      ctx.shadowColor = 'rgba(30, 64, 175, 0.7)'; // Royal blue
+      // Enhanced multi-layer glow effect with PRIMARY COLORS
+      // Layer 1: Purple glow (largest) - PRIMARY COLOR
+      ctx.shadowColor = 'rgba(139, 92, 246, 0.8)'; // Aurora purple
       ctx.shadowBlur = 40;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 0;
       ctx.fillText(text.toUpperCase(), size / 2, size / 2);
       
-      // Layer 2: Dark gray accent glow (medium)
-      ctx.shadowColor = 'rgba(55, 65, 81, 0.6)'; // Dark gray
+      // Layer 2: Green accent glow (medium) - SECONDARY COLOR
+      ctx.shadowColor = 'rgba(16, 185, 129, 0.6)'; // Ethereal teal
       ctx.shadowBlur = 25;
       ctx.fillText(text.toUpperCase(), size / 2, size / 2);
       
-      // Layer 3: Medium gray highlight (smallest)
-      ctx.shadowColor = 'rgba(107, 114, 128, 0.4)'; // Medium gray
+      // Layer 3: Lavender highlight (smallest) - PRIMARY COLOR VARIANT
+      ctx.shadowColor = 'rgba(167, 139, 250, 0.4)'; // Mystic lavender
       ctx.shadowBlur = 15;
       ctx.fillText(text.toUpperCase(), size / 2, size / 2);
       
@@ -162,7 +162,7 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
     });
 
     animationTimelineRef.current = timeline;
-    console.log('✅ Sophisticated floating text meshes created with Playfair Display font');
+    console.log('✅ Sophisticated floating text meshes created with PRIMARY COLORS');
 
     return () => {
       console.log('🧹 Cleaning up sophisticated text meshes...');
