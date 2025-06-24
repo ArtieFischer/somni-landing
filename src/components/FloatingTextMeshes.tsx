@@ -23,20 +23,25 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
       // Clear canvas
       ctx.clearRect(0, 0, size, size);
       
-      // Set up text styling - much more subtle
-      ctx.font = `200 ${size * 0.1}px Inter, sans-serif`; // Lighter weight, smaller
-      ctx.fillStyle = 'rgba(248, 250, 252, 0.4)'; // Much more transparent
+      // Set up text styling - enhanced with theme colors
+      ctx.font = `300 ${size * 0.12}px Inter, sans-serif`;
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.8)'; // More visible
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.letterSpacing = '0.15em';
       
-      // Very subtle glow effect using theme colors
-      ctx.shadowColor = 'rgba(139, 92, 246, 0.2)'; // Much more subtle purple
-      ctx.shadowBlur = 15;
+      // Enhanced glow effect using theme colors
+      ctx.shadowColor = 'rgba(139, 92, 246, 0.6)'; // Aurora purple glow
+      ctx.shadowBlur = 25;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 0;
       
       // Draw text
+      ctx.fillText(text.toUpperCase(), size / 2, size / 2);
+      
+      // Add secondary glow with different color
+      ctx.shadowColor = 'rgba(16, 185, 129, 0.4)'; // Ethereal teal glow
+      ctx.shadowBlur = 35;
       ctx.fillText(text.toUpperCase(), size / 2, size / 2);
       
       // Create texture and sprite
@@ -53,29 +58,33 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
       return new THREE.Sprite(material);
     };
 
-    // Fewer, more meaningful words for subtlety
+    // Enhanced words with more mystical/consciousness themes
     const words = [
       'TRANSCEND',
       'LUCIDITY', 
       'CONSCIOUSNESS',
+      'ETHEREAL',
+      'AWAKENING',
+      'INFINITE',
       'SERENITY',
       'MINDFUL',
-      'INFINITE'
+      'ASTRAL',
+      'ENLIGHTEN'
     ];
 
     // Create text sprites
     const sprites = words.map((word, index) => {
       const sprite = createTextSprite(word);
       
-      // Position sprites in 3D space - more spread out
+      // Position sprites in 3D space - more dynamic positioning
       sprite.position.set(
-        (Math.random() - 0.5) * 80, // More spread
-        (Math.random() - 0.5) * 60,
-        (Math.random() - 0.5) * 40 + 15
+        (Math.random() - 0.5) * 100,
+        (Math.random() - 0.5) * 80,
+        (Math.random() - 0.5) * 60 + 20
       );
       
-      // Smaller, more subtle scale
-      const scale = 2 + Math.random() * 2; // Smaller range
+      // Enhanced scale variation
+      const scale = 3 + Math.random() * 4;
       sprite.scale.setScalar(scale);
       
       scene.add(sprite);
@@ -84,50 +93,57 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
 
     textSpritesRef.current = sprites;
 
-    // Create GSAP timeline for very subtle text animations
+    // Create enhanced GSAP timeline for dynamic text animations
     const timeline = gsap.timeline({ repeat: -1 });
     
     sprites.forEach((sprite, index) => {
-      const delay = index * 3; // Longer delays between appearances
-      const duration = 6 + Math.random() * 4; // Longer duration
+      const delay = index * 2.5;
+      const duration = 8 + Math.random() * 4;
       
-      // Very subtle fade in animation
+      // Enhanced fade in animation
       timeline.to(sprite.material, {
-        opacity: 0.3 + Math.random() * 0.2, // Much lower max opacity
-        duration: 2, // Slower fade in
+        opacity: 0.6 + Math.random() * 0.3, // Higher opacity
+        duration: 2.5,
         ease: "power2.out"
       }, delay);
       
-      // Very slow floating movement
+      // More dynamic floating movement
       timeline.to(sprite.position, {
-        x: sprite.position.x + (Math.random() - 0.5) * 10, // Smaller movement
-        y: sprite.position.y + (Math.random() - 0.5) * 8,
-        z: sprite.position.z + (Math.random() - 0.5) * 5,
+        x: sprite.position.x + (Math.random() - 0.5) * 20,
+        y: sprite.position.y + (Math.random() - 0.5) * 15,
+        z: sprite.position.z + (Math.random() - 0.5) * 10,
         duration: duration,
         ease: "power1.inOut"
       }, delay);
       
-      // Very subtle scale pulsing
+      // Enhanced scale pulsing
       timeline.to(sprite.scale, {
-        x: sprite.scale.x * (0.9 + Math.random() * 0.2), // Smaller scale variation
-        y: sprite.scale.y * (0.9 + Math.random() * 0.2),
-        z: sprite.scale.z * (0.9 + Math.random() * 0.2),
-        duration: duration * 0.7,
+        x: sprite.scale.x * (0.8 + Math.random() * 0.4),
+        y: sprite.scale.y * (0.8 + Math.random() * 0.4),
+        z: sprite.scale.z * (0.8 + Math.random() * 0.4),
+        duration: duration * 0.6,
         yoyo: true,
         repeat: 1,
         ease: "power2.inOut"
       }, delay + 1);
       
-      // Slow fade out animation
+      // Rotation animation for more dynamic effect
+      timeline.to(sprite.rotation, {
+        z: sprite.rotation.z + (Math.random() - 0.5) * Math.PI * 0.5,
+        duration: duration,
+        ease: "power1.inOut"
+      }, delay);
+      
+      // Enhanced fade out animation
       timeline.to(sprite.material, {
         opacity: 0,
-        duration: 2, // Slower fade out
+        duration: 2.5,
         ease: "power2.in"
-      }, delay + duration - 2);
+      }, delay + duration - 2.5);
     });
 
     animationTimelineRef.current = timeline;
-    console.log('✅ Subtle floating text meshes created and animated');
+    console.log('✅ Enhanced floating text meshes created and animated');
 
     return () => {
       console.log('🧹 Cleaning up floating text meshes...');
