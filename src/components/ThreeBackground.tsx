@@ -106,7 +106,7 @@ const ThreeBackground: React.FC = () => {
           uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
           uColor3: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
           uColor4: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
-          uColor5: { value: new THREE.Color(0x3B82F6) }, // Dream blue (complementary)
+          uColor5: { value: new THREE.Color(0x3b3ef6) }, // Dream blue (complementary)
           uOpacity: { value: 0.85 } // More visible
         },
         transparent: true,
