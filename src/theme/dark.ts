@@ -4,76 +4,76 @@ import { Theme } from './types';
 
 export const darkTheme: Theme = {
   colors: {
-    primary: '#8A4FFF', // Primary purple for buttons
-    secondary: '#00FF9D', // Hover green effect
-    accent: '#2A2A2A', // Base dark gray
+    primary: '#8B5CF6', // Aurora purple
+    secondary: '#10B981', // Ethereal teal  
+    accent: '#A78BFA', // Mystic lavender
     background: {
-      primary: '#2A2A2A', // Base dark gray
-      secondary: '#1A1A1A', // Darker variant
-      elevated: '#333333', // Elevated surface
-      overlay: 'rgba(42, 42, 42, 0.8)', // Frosted glass base
+      primary: '#0B1426', // Deep midnight
+      secondary: '#1A2332', // Darker slate
+      elevated: '#252B3A', // Elevated surface
+      overlay: 'rgba(11, 20, 38, 0.9)', // Deep overlay
     },
     text: {
-      primary: '#F5F5F5', // Light headers
-      secondary: '#CCCCCC', // Secondary text
-      inverse: '#2A2A2A', // Dark text on light backgrounds
-      disabled: '#666666', // Disabled text
+      primary: '#F8FAFC', // Starlight white
+      secondary: '#CBD5E1', // Soft silver
+      inverse: '#0B1426', // Deep midnight for inverse
+      disabled: '#64748B', // Muted slate
     },
     button: {
       primary: {
-        background: '#8A4FFF', // Solid purple
-        text: '#F5F5F5', // Light text
-        border: '#8A4FFF',
+        background: '#8B5CF6', // Aurora purple
+        text: '#F8FAFC', // Starlight white
+        border: '#8B5CF6',
       },
       secondary: {
-        background: 'rgba(42, 42, 42, 0.8)',
-        text: '#F5F5F5',
-        border: 'rgba(245, 245, 245, 0.2)',
+        background: 'transparent',
+        text: '#10B981', // Ethereal teal
+        border: '#10B981', // Ethereal teal
       },
       ghost: {
         background: 'transparent',
-        text: '#CCCCCC',
+        text: '#CBD5E1', // Soft silver (light text for link variant)
         border: 'transparent',
       },
     },
     status: {
-      error: '#FF6B6B',
-      warning: '#FFD93D',
-      success: '#00FF9D',
-      info: '#4DABF7',
-      recording: '#FF4757',
+      error: '#F87171', // Soft red
+      warning: '#FBBF24', // Warm amber
+      success: '#10B981', // Ethereal teal
+      info: '#60A5FA', // Dream blue
+      recording: '#DC2626', // Recording red
     },
     border: {
-      primary: 'rgba(245, 245, 245, 0.1)',
-      secondary: 'rgba(245, 245, 245, 0.2)',
-      focus: '#00FF9D',
+      primary: '#374151', // Soft border
+      secondary: '#4B5563', // Medium border
+      focus: '#8B5CF6', // Aurora purple focus
     },
   },
   spacing,
   typography,
   borderRadius: {
-    small: 8,
-    medium: 12,
-    large: 16,
+    small: 4,
+    medium: 8,
+    large: 12,
     round: 9999,
   },
   shadows: {
     small: {
-      shadowColor: '#000000',
+      shadowColor: '#8B5CF6', // Aurora purple shadow
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 4,
       elevation: 2,
     },
     medium: {
-      shadowColor: '#000000',
+      shadowColor: '#8B5CF6', // Aurora purple shadow
       shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.15,
       shadowRadius: 12,
       elevation: 4,
     },
     large: {
-      shadowColor: '#000000',
+      shadowColor: '#8B5CF6', // Aurora purple shadow
       shadowOffset: { width: 0, height: 8 },
       shadowOpacity: 0.2,
       shadowRadius: 24,
