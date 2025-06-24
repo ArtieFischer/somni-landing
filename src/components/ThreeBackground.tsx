@@ -18,7 +18,7 @@ const ThreeBackground: React.FC = () => {
 
   useEffect(() => {
     console.log('🚀 ThreeBackground useEffect starting...');
-    
+
     if (!mountRef.current) {
       console.log('❌ mountRef.current is null');
       return;
@@ -43,16 +43,16 @@ const ThreeBackground: React.FC = () => {
       console.log('✅ Camera created');
 
       // Renderer setup
-      const renderer = new THREE.WebGLRenderer({ 
-        alpha: true, 
+      const renderer = new THREE.WebGLRenderer({
+        alpha: true,
         antialias: true,
-        powerPreference: "high-performance"
+        powerPreference: 'high-performance',
       });
       rendererRef.current = renderer;
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setClearColor(0x000000, 0);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      
+
       // Canvas styling
       renderer.domElement.style.position = 'fixed';
       renderer.domElement.style.top = '0';
@@ -61,7 +61,7 @@ const ThreeBackground: React.FC = () => {
       renderer.domElement.style.height = '100%';
       renderer.domElement.style.zIndex = '1';
       renderer.domElement.style.pointerEvents = 'none';
-      
+
       console.log('✅ Renderer created, appending to DOM...');
       mountRef.current.appendChild(renderer.domElement);
       console.log('✅ Renderer appended to DOM');
@@ -78,9 +78,9 @@ const ThreeBackground: React.FC = () => {
       // Enhanced bloom for beautiful glow
       const bloomPass = new UnrealBloomPass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        0.8,   // strength - increased for glow
-        0.6,   // radius - larger for softer glow
-        0.4    // threshold - lower for more bloom
+        0.8, // strength
+        0.6, // radius
+        0.4 // threshold
       );
       composer.addPass(bloomPass);
 
@@ -92,22 +92,22 @@ const ThreeBackground: React.FC = () => {
 
       console.log('✅ Post-processing setup complete');
 
-      // Create the main cloth/sky plane - using theme colors
+      // Create the main cloth/sky plane - updated to emphasise purple (#8B5CF6) & green (#10B981)
       console.log('🌊 Creating cloth shader plane...');
       const clothGeometry = new THREE.PlaneGeometry(40, 40, 256, 256);
-      
+
       const clothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
         fragmentShader: clothFragmentShader,
         uniforms: {
           uTime: { value: 0 },
-          uIntensity: { value: 3.5 }, // Increased for more movement
-          uColor1: { value: new THREE.Color(0x0B1426) }, // Deep midnight (theme)
-          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
-          uColor3: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
-          uColor4: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
-          uColor5: { value: new THREE.Color(0x3b3ef6) }, // Dream blue (complementary)
-          uOpacity: { value: 0.85 } // More visible
+          uIntensity: { value: 3.5 },
+          uColor1: { value: new THREE.Color(0x0B1426) }, // Deep midnight
+          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Dominant purple
+          uColor3: { value: new THREE.Color(0x10B981) }, // Dominant green
+          uColor4: { value: new THREE.Color(0xA78BFA) }, // Lavender accent (purple family)
+          uColor5: { value: new THREE.Color(0x10B981) }, // Reinforce green (removed blue)
+          uOpacity: { value: 0.85 },
         },
         transparent: true,
         side: THREE.DoubleSide,
@@ -118,10 +118,10 @@ const ThreeBackground: React.FC = () => {
       scene.add(clothMesh);
       console.log('✅ Cloth shader plane created');
 
-      // Create additional background layers for depth - with theme colors
+      // Create additional background layers for depth
       console.log('🌌 Creating background layers...');
-      
-      // Layer 1: Distant cloth - deep purple/teal
+
+      // Layer 1: Distant cloth – deep tones anchored by purple & green
       const distantClothGeometry = new THREE.PlaneGeometry(60, 60, 128, 128);
       const distantClothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
@@ -129,51 +129,57 @@ const ThreeBackground: React.FC = () => {
         uniforms: {
           uTime: { value: 0 },
           uIntensity: { value: 2.0 },
-          uColor1: { value: new THREE.Color(0x1A2332) }, // Darker slate (theme)
-          uColor2: { value: new THREE.Color(0x4C1D95) }, // Deep purple (complementary)
-          uColor3: { value: new THREE.Color(0x065F46) }, // Deep teal (complementary)
-          uColor4: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
-          uColor5: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
-          uOpacity: { value: 0.6 }
+          uColor1: { value: new THREE.Color(0x1A2332) }, // Dark slate
+          uColor2: { value: new THREE.Color(0x4C1D95) }, // Deepened purple
+          uColor3: { value: new THREE.Color(0x10B981) }, // Green highlight
+          uColor4: { value: new THREE.Color(0x8B5CF6) }, // Purple highlight
+          uColor5: { value: new THREE.Color(0x10B981) }, // Green highlight
+          uOpacity: { value: 0.6 },
         },
         transparent: true,
         side: THREE.DoubleSide,
       });
-      
-      const distantClothMesh = new THREE.Mesh(distantClothGeometry, distantClothMaterial);
+
+      const distantClothMesh = new THREE.Mesh(
+        distantClothGeometry,
+        distantClothMaterial
+      );
       distantClothMesh.position.z = -15;
       distantClothMesh.rotation.z = Math.PI * 0.1;
       scene.add(distantClothMesh);
 
-      // Layer 2: Foreground cloth - bright theme colors
+      // Layer 2: Foreground cloth – brighter purple & green flourishes
       const foregroundClothGeometry = new THREE.PlaneGeometry(30, 30, 192, 192);
       const foregroundClothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
         fragmentShader: clothFragmentShader,
         uniforms: {
           uTime: { value: 0 },
-          uIntensity: { value: 4.0 }, // More dramatic
-          uColor1: { value: new THREE.Color(0xA78BFA) }, // Mystic lavender (theme)
-          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Aurora purple (theme)
-          uColor3: { value: new THREE.Color(0x10B981) }, // Ethereal teal (theme)
-          uColor4: { value: new THREE.Color(0x06B6D4) }, // Cyan (complementary)
-          uColor5: { value: new THREE.Color(0xEC4899) }, // Pink (complementary)
-          uOpacity: { value: 0.7 }
+          uIntensity: { value: 4.0 },
+          uColor1: { value: new THREE.Color(0xA78BFA) }, // Soft lavender
+          uColor2: { value: new THREE.Color(0x8B5CF6) }, // Purple
+          uColor3: { value: new THREE.Color(0x10B981) }, // Green
+          uColor4: { value: new THREE.Color(0x10B981) }, // Green accent (replaces cyan)
+          uColor5: { value: new THREE.Color(0x8B5CF6) }, // Purple accent (replaces pink)
+          uOpacity: { value: 0.7 },
         },
         transparent: true,
         side: THREE.DoubleSide,
       });
-      
-      const foregroundClothMesh = new THREE.Mesh(foregroundClothGeometry, foregroundClothMaterial);
+
+      const foregroundClothMesh = new THREE.Mesh(
+        foregroundClothGeometry,
+        foregroundClothMaterial
+      );
       foregroundClothMesh.position.z = 2;
       foregroundClothMesh.rotation.z = -Math.PI * 0.05;
       scene.add(foregroundClothMesh);
 
       console.log('✅ Background layers created');
 
-      // Add enhanced atmospheric particles with theme colors
+      // Atmospheric particles – limited to purple/green palette
       console.log('✨ Creating atmospheric particles...');
-      const particleCount = 800; // Increased count
+      const particleCount = 800;
       const particles = new THREE.BufferGeometry();
       const positions = new Float32Array(particleCount * 3);
       const colors = new Float32Array(particleCount * 3);
@@ -184,45 +190,21 @@ const ThreeBackground: React.FC = () => {
         positions[i + 1] = (Math.random() - 0.5) * 100;
         positions[i + 2] = (Math.random() - 0.5) * 50;
 
-        // Theme-based colors with more variety
-        const colorChoice = Math.random();
-        if (colorChoice < 0.3) {
-          // Aurora purple variants
-          colors[i] = 0.54 + Math.random() * 0.2;     // R
-          colors[i + 1] = 0.36 + Math.random() * 0.2; // G  
+        // Generate colours biased toward purple & green
+        const isPurple = Math.random() < 0.5;
+        if (isPurple) {
+          // Purple variant (#8B5CF6 → ~0.54,0.36,0.96)
+          colors[i] = 0.54 + Math.random() * 0.2; // R
+          colors[i + 1] = 0.36 + Math.random() * 0.2; // G
           colors[i + 2] = 0.96 + Math.random() * 0.04; // B
-        } else if (colorChoice < 0.6) {
-          // Ethereal teal variants
-          colors[i] = 0.06 + Math.random() * 0.1;     // R
+        } else {
+          // Green variant (#10B981 → ~0.06,0.72,0.50)
+          colors[i] = 0.06 + Math.random() * 0.1; // R
           colors[i + 1] = 0.72 + Math.random() * 0.2; // G
           colors[i + 2] = 0.50 + Math.random() * 0.3; // B
-        } else if (colorChoice < 0.8) {
-          // Mystic lavender variants
-          colors[i] = 0.65 + Math.random() * 0.2;     // R
-          colors[i + 1] = 0.54 + Math.random() * 0.2; // G
-          colors[i + 2] = 0.98 + Math.random() * 0.02; // B
-        } else {
-          // Complementary colors (cyan, pink, blue)
-          const subChoice = Math.random();
-          if (subChoice < 0.33) {
-            // Cyan
-            colors[i] = 0.02 + Math.random() * 0.1;     // R
-            colors[i + 1] = 0.71 + Math.random() * 0.2; // G
-            colors[i + 2] = 0.83 + Math.random() * 0.1; // B
-          } else if (subChoice < 0.66) {
-            // Pink
-            colors[i] = 0.92 + Math.random() * 0.08;    // R
-            colors[i + 1] = 0.28 + Math.random() * 0.2; // G
-            colors[i + 2] = 0.60 + Math.random() * 0.2; // B
-          } else {
-            // Dream blue
-            colors[i] = 0.23 + Math.random() * 0.2;     // R
-            colors[i + 1] = 0.51 + Math.random() * 0.2; // G
-            colors[i + 2] = 0.98 + Math.random() * 0.02; // B
-          }
         }
 
-        sizes[i / 3] = Math.random() * 0.5 + 0.1; // Larger particles
+        sizes[i / 3] = Math.random() * 0.5 + 0.1;
       }
 
       particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -230,10 +212,10 @@ const ThreeBackground: React.FC = () => {
       particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
       const particleMaterial = new THREE.PointsMaterial({
-        size: 0.4, // Larger
+        size: 0.4,
         vertexColors: true,
         transparent: true,
-        opacity: 0.7, // More visible
+        opacity: 0.7,
         blending: THREE.AdditiveBlending,
         sizeAttenuation: true,
       });
@@ -242,7 +224,7 @@ const ThreeBackground: React.FC = () => {
       scene.add(particleSystem);
       console.log('✅ Atmospheric particles created');
 
-      // Add floating geometric shapes with theme colors
+      // Floating geometric shapes – colour-limited to purple & green family
       console.log('🔷 Creating floating geometric shapes...');
       const geometries = [
         new THREE.TetrahedronGeometry(0.8),
@@ -254,31 +236,33 @@ const ThreeBackground: React.FC = () => {
 
       const shapeMaterials = [
         new THREE.MeshBasicMaterial({
-          color: 0x8B5CF6, // Aurora purple
+          color: 0x8B5CF6, // Purple
           transparent: true,
           opacity: 0.6,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0x10B981, // Ethereal teal
+          color: 0x10B981, // Green
           transparent: true,
           opacity: 0.5,
           wireframe: true,
         }),
         new THREE.MeshBasicMaterial({
-          color: 0xA78BFA, // Mystic lavender
+          color: 0xA78BFA, // Lavender (purple family)
           transparent: true,
           opacity: 0.55,
           wireframe: true,
         }),
+        // Replace cyan with green to stay on‑palette
         new THREE.MeshBasicMaterial({
-          color: 0x06B6D4, // Cyan
+          color: 0x10B981, // Green duplicate
           transparent: true,
           opacity: 0.45,
           wireframe: true,
         }),
+        // Replace pink with purple to stay on‑palette
         new THREE.MeshBasicMaterial({
-          color: 0xEC4899, // Pink
+          color: 0x8B5CF6, // Purple duplicate
           transparent: true,
           opacity: 0.5,
           wireframe: true,
@@ -288,26 +272,27 @@ const ThreeBackground: React.FC = () => {
       const shapes: THREE.Mesh[] = [];
       for (let i = 0; i < 25; i++) {
         const geometry = geometries[Math.floor(Math.random() * geometries.length)];
-        const material = shapeMaterials[Math.floor(Math.random() * shapeMaterials.length)];
+        const material =
+          shapeMaterials[Math.floor(Math.random() * shapeMaterials.length)];
         const shape = new THREE.Mesh(geometry, material);
-        
+
         shape.position.set(
           (Math.random() - 0.5) * 60,
           (Math.random() - 0.5) * 60,
           (Math.random() - 0.5) * 40
         );
-        
+
         shape.rotation.set(
           Math.random() * Math.PI * 2,
           Math.random() * Math.PI * 2,
           Math.random() * Math.PI * 2
         );
-        
+
         shapes.push(shape);
         scene.add(shape);
       }
 
-      // Animation loop - enhanced movement
+      // Animation loop
       let frameCount = 0;
       const animate = () => {
         animationIdRef.current = requestAnimationFrame(animate);
@@ -315,41 +300,44 @@ const ThreeBackground: React.FC = () => {
 
         const elapsedTime = clockRef.current.getElapsedTime();
 
-        // Update cloth shader uniforms - more dynamic
+        // Update cloth shader uniforms
         clothMaterial.uniforms.uTime.value = elapsedTime * 0.8;
         distantClothMaterial.uniforms.uTime.value = elapsedTime * 0.5;
         foregroundClothMaterial.uniforms.uTime.value = elapsedTime * 1.2;
 
-        // Enhanced rotation for the cloth layers
+        // Cloth rotations
         clothMesh.rotation.z = Math.sin(elapsedTime * 0.1) * 0.02;
-        distantClothMesh.rotation.z = Math.PI * 0.1 + Math.sin(elapsedTime * 0.07) * 0.015;
-        foregroundClothMesh.rotation.z = -Math.PI * 0.05 + Math.sin(elapsedTime * 0.13) * 0.025;
+        distantClothMesh.rotation.z =
+          Math.PI * 0.1 + Math.sin(elapsedTime * 0.07) * 0.015;
+        foregroundClothMesh.rotation.z =
+          -Math.PI * 0.05 + Math.sin(elapsedTime * 0.13) * 0.025;
 
-        // Animate particles - more dynamic
-        const positions = particleSystem.geometry.attributes.position.array as Float32Array;
-        for (let i = 0; i < positions.length; i += 3) {
-          positions[i + 1] += Math.sin(elapsedTime * 0.8 + i * 0.01) * 0.003;
-          positions[i] += Math.cos(elapsedTime * 0.6 + i * 0.008) * 0.002;
-          positions[i + 2] += Math.sin(elapsedTime * 0.4 + i * 0.012) * 0.001;
+        // Particle drift
+        const pPositions = particleSystem.geometry.attributes
+          .position.array as Float32Array;
+        for (let i = 0; i < pPositions.length; i += 3) {
+          pPositions[i + 1] += Math.sin(elapsedTime * 0.8 + i * 0.01) * 0.003;
+          pPositions[i] += Math.cos(elapsedTime * 0.6 + i * 0.008) * 0.002;
+          pPositions[i + 2] += Math.sin(elapsedTime * 0.4 + i * 0.012) * 0.001;
         }
         particleSystem.geometry.attributes.position.needsUpdate = true;
 
-        // Rotate particle system
+        // Particle system rotation
         particleSystem.rotation.y = elapsedTime * 0.02;
         particleSystem.rotation.x = Math.sin(elapsedTime * 0.05) * 0.01;
 
-        // Animate floating shapes
+        // Shape animations
         shapes.forEach((shape, index) => {
           shape.rotation.x += 0.01 + index * 0.0003;
           shape.rotation.y += 0.015 + index * 0.0004;
           shape.rotation.z += 0.008 + index * 0.0002;
-          
+
           shape.position.y += Math.sin(elapsedTime * 1.5 + index) * 0.008;
           shape.position.x += Math.cos(elapsedTime * 1.2 + index) * 0.006;
           shape.position.z += Math.sin(elapsedTime * 0.9 + index) * 0.004;
         });
 
-        // Render with post-processing
+        // Render
         composer.render();
       };
 
@@ -361,11 +349,10 @@ const ThreeBackground: React.FC = () => {
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
         composer.setSize(window.innerWidth, window.innerHeight);
-        
-        // Update FXAA resolution
+
         fxaaPass.material.uniforms['resolution'].value.x = 1 / window.innerWidth;
         fxaaPass.material.uniforms['resolution'].value.y = 1 / window.innerHeight;
-        
+
         console.log('📱 Window resized, renderer and composer updated');
       };
 
@@ -380,8 +367,8 @@ const ThreeBackground: React.FC = () => {
         if (mountRef.current && renderer.domElement) {
           mountRef.current.removeChild(renderer.domElement);
         }
-        
-        // Dispose of materials and geometries
+
+        // Dispose materials & geometries
         clothMaterial.dispose();
         clothGeometry.dispose();
         distantClothMaterial.dispose();
@@ -390,13 +377,12 @@ const ThreeBackground: React.FC = () => {
         foregroundClothGeometry.dispose();
         particleMaterial.dispose();
         particles.dispose();
-        
-        // Dispose shape materials and geometries
-        shapes.forEach(shape => {
-          shape.material.dispose();
+
+        shapes.forEach((shape) => {
+          (shape.material as THREE.Material).dispose();
           shape.geometry.dispose();
         });
-        
+
         renderer.dispose();
         composer.dispose();
         console.log('✅ Cloth background cleanup completed');
@@ -417,7 +403,8 @@ const ThreeBackground: React.FC = () => {
           width: '100%',
           height: '100%',
           zIndex: 1,
-          background: 'radial-gradient(ellipse at center, #0B1426 0%, #000000 100%)',
+          background:
+            'radial-gradient(ellipse at center, #0B1426 0%, #000000 100%)',
         }}
       />
       {sceneRef.current && <FloatingTextMeshes scene={sceneRef.current} />}
