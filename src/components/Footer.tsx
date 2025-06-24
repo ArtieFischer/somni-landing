@@ -8,20 +8,18 @@ const FooterContainer = styled.footer`
   left: 0;
   right: 0;
   z-index: 100;
-  padding: ${darkTheme.spacing.md}px ${darkTheme.spacing.xl}px;
+  padding: 24px;
   
-  /* Enhanced Apple liquid glass effect - 25% more opacity */
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(60px) saturate(180%);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  /* Frosted glass effect */
+  background: rgba(42, 42, 42, 0.8);
+  backdrop-filter: blur(8px);
+  border: none;
   
-  /* Enhanced shadow for better depth */
-  box-shadow: 
-    0 -1px 20px rgba(0, 0, 0, 0.15),
-    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  /* Clean shadow */
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    padding: ${darkTheme.spacing.sm}px ${darkTheme.spacing.lg}px;
+    padding: 16px 24px;
   }
 `;
 
@@ -29,52 +27,48 @@ const FooterContent = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
 
   @media (max-width: 768px) {
     flex-direction: column;
-    gap: ${darkTheme.spacing.sm}px;
+    gap: 16px;
     text-align: center;
   }
 `;
 
 const Copyright = styled.p`
-  color: rgba(248, 250, 252, 0.65);
+  color: ${darkTheme.colors.text.secondary};
   font-size: 12px;
-  font-weight: 300;
+  font-weight: 400;
   margin: 0;
-  letter-spacing: 0.03em;
 `;
 
 const Links = styled.div`
   display: flex;
-  gap: ${darkTheme.spacing.xl}px;
+  gap: 32px;
   align-items: center;
 
   @media (max-width: 768px) {
-    gap: ${darkTheme.spacing.lg}px;
+    gap: 24px;
   }
 `;
 
 const Link = styled.a`
-  color: rgba(248, 250, 252, 0.75);
+  color: ${darkTheme.colors.text.secondary};
   text-decoration: none;
   font-size: 12px;
-  font-weight: 300;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  letter-spacing: 0.03em;
+  font-weight: 400;
+  transition: all 0.3s ease;
   padding: 6px 12px;
-  border-radius: 10px;
+  border-radius: 8px;
   
-  /* Enhanced liquid background on hover */
   background: transparent;
-  backdrop-filter: blur(0px);
 
   &:hover {
-    color: rgba(16, 185, 129, 0.9);
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
+    color: ${darkTheme.colors.secondary};
+    background: rgba(42, 42, 42, 0.8);
+    backdrop-filter: blur(8px);
     transform: translateY(-1px);
   }
 `;

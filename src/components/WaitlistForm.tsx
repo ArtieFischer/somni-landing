@@ -5,190 +5,101 @@ import { darkTheme } from '../theme';
 
 const float = keyframes`
   0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-2px); }
-`;
-
-const liquidFlow = keyframes`
-  0% { 
-    background-position: -200% 0;
-    opacity: 0.2;
-  }
-  50% {
-    opacity: 0.4;
-  }
-  100% { 
-    background-position: 200% 0;
-    opacity: 0.2;
-  }
-`;
-
-const ripple = keyframes`
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(4);
-    opacity: 0;
-  }
+  50% { transform: translateY(-3px); }
 `;
 
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: ${darkTheme.spacing.lg}px;
-  max-width: 380px;
+  gap: 24px;
+  max-width: 400px;
   width: 100%;
-  padding: ${darkTheme.spacing.xl}px ${darkTheme.spacing.lg}px;
+  padding: 24px;
   
-  /* Reduced opacity liquid glass effect - 15% less opacity */
-  background: rgba(255, 255, 255, 0.025);
-  backdrop-filter: blur(60px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 24px;
+  /* Frosted glass effect */
+  background: rgba(42, 42, 42, 0.8);
+  backdrop-filter: blur(8px);
+  border: none;
+  border-radius: 16px;
   
-  /* Enhanced shadow for depth */
-  box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.25),
-    0 1px 0 rgba(255, 255, 255, 0.08) inset,
-    0 -1px 0 rgba(0, 0, 0, 0.15) inset;
+  /* Clean shadow */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   
-  animation: ${float} 8s ease-in-out infinite;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(16, 185, 129, 0.03),
-      rgba(139, 92, 246, 0.03),
-      transparent
-    );
-    animation: ${liquidFlow} 8s ease-in-out infinite;
-  }
+  animation: ${float} 6s ease-in-out infinite;
 
   @media (max-width: 768px) {
-    max-width: 340px;
-    padding: ${darkTheme.spacing.lg}px ${darkTheme.spacing.md}px;
+    max-width: 360px;
+    padding: 24px 20px;
   }
 `;
 
 const Title = styled.h1`
-  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
   font-weight: 300;
   color: ${darkTheme.colors.text.primary};
   text-align: center;
   margin: 0;
-  line-height: 1.3;
-  letter-spacing: 0.02em;
-  background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(16, 185, 129, 0.8) 50%, rgba(139, 92, 246, 0.9) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  position: relative;
-  z-index: 1;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 `;
 
 const Subtitle = styled.p`
-  font-size: 13px;
-  color: rgba(248, 250, 252, 0.65);
+  font-size: 14px;
+  color: ${darkTheme.colors.text.secondary};
   text-align: center;
   margin: 0;
   line-height: 1.5;
   max-width: 320px;
-  font-weight: 300;
-  letter-spacing: 0.01em;
-  position: relative;
-  z-index: 1;
+  font-weight: 400;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: ${darkTheme.spacing.md}px;
+  gap: 24px;
   width: 100%;
-  position: relative;
-  z-index: 1;
 `;
 
 const InputContainer = styled.div`
   position: relative;
   width: 100%;
-  overflow: hidden;
-  border-radius: 16px;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.6s ease;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  &:hover::before {
-    width: 300px;
-    height: 300px;
-    animation: ${ripple} 0.6s ease-out;
-  }
 `;
 
 const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
   width: 100%;
   padding: 16px 16px 16px 48px;
-  position: relative;
-  z-index: 1;
   
-  /* Enhanced liquid input styling */
-  background: rgba(255, 255, 255, 0.035);
-  backdrop-filter: blur(40px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
+  /* Frosted glass input */
+  background: rgba(42, 42, 42, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid ${props => 
+    props.$hasError ? darkTheme.colors.status.error :
+    props.$isSuccess ? darkTheme.colors.status.success :
+    darkTheme.colors.border.primary
+  };
+  border-radius: 12px;
   
   color: ${darkTheme.colors.text.primary};
   font-size: 15px;
-  font-weight: 300;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  font-weight: 400;
+  transition: all 0.3s ease;
   box-sizing: border-box;
-  
-  /* Enhanced inner shadow */
-  box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.15) inset,
-    0 1px 0 rgba(255, 255, 255, 0.04);
 
   &::placeholder {
-    color: rgba(248, 250, 252, 0.4);
-    font-weight: 300;
+    color: ${darkTheme.colors.text.disabled};
+    font-weight: 400;
   }
 
   &:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    box-shadow: 
-      0 0 0 3px rgba(16, 185, 129, 0.08),
-      0 1px 3px rgba(0, 0, 0, 0.15) inset,
-      0 1px 0 rgba(255, 255, 255, 0.04);
+    border-color: ${darkTheme.colors.border.focus};
+    box-shadow: 0 0 0 3px rgba(0, 255, 157, 0.1);
     transform: translateY(-1px);
   }
 
   &:hover:not(:focus) {
-    background: rgba(255, 255, 255, 0.045);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-color: ${darkTheme.colors.border.secondary};
     transform: translateY(-0.5px);
   }
 `;
@@ -198,75 +109,45 @@ const InputIcon = styled.div`
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(248, 250, 252, 0.4);
+  color: ${darkTheme.colors.text.disabled};
   pointer-events: none;
   transition: color 0.3s ease;
-  z-index: 2;
 `;
 
 const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: ${darkTheme.spacing.xs}px;
-  padding: 16px ${darkTheme.spacing.lg}px;
-  position: relative;
-  overflow: hidden;
+  gap: 8px;
+  padding: 16px 24px;
   
-  /* Enhanced liquid button styling with emerald accent */
+  /* Solid purple button */
   background: ${props => 
     props.$isSuccess ? 
-    'linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.8) 100%)' :
-    'linear-gradient(135deg, rgba(16, 185, 129, 0.7) 0%, rgba(139, 92, 246, 0.7) 50%, rgba(167, 139, 250, 0.7) 100%)'
+    darkTheme.colors.status.success :
+    darkTheme.colors.primary
   };
-  backdrop-filter: blur(40px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 16px;
+  border: none;
+  border-radius: 12px;
   
   color: ${darkTheme.colors.text.primary};
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
   cursor: ${props => props.$isLoading ? 'not-allowed' : 'pointer'};
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s ease;
   opacity: ${props => props.$isLoading ? 0.7 : 1};
-  transform: translateY(0);
-  letter-spacing: 0.02em;
   
-  /* Enhanced shadow for depth */
-  box-shadow: 
-    0 4px 16px rgba(16, 185, 129, 0.15),
-    0 1px 0 rgba(255, 255, 255, 0.1) inset;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.1),
-      transparent
-    );
-    transition: left 0.6s ease;
-  }
+  /* Clean shadow */
+  box-shadow: 0 4px 16px rgba(138, 79, 255, 0.2);
 
   &:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 
-      0 8px 25px rgba(16, 185, 129, 0.25),
-      0 1px 0 rgba(255, 255, 255, 0.15) inset;
     background: ${props => 
       props.$isSuccess ? 
-      'linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%)' :
-      'linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(139, 92, 246, 0.8) 50%, rgba(167, 139, 250, 0.8) 100%)'
+      darkTheme.colors.status.success :
+      darkTheme.colors.secondary
     };
-
-    &::before {
-      left: 100%;
-    }
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 157, 0.3);
   }
 
   &:active {
@@ -281,21 +162,21 @@ const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
 const ErrorMessage = styled.div`
   display: flex;
   align-items: center;
-  gap: ${darkTheme.spacing.xs}px;
-  color: rgba(248, 113, 113, 0.9);
+  gap: 8px;
+  color: ${darkTheme.colors.status.error};
   font-size: 12px;
-  font-weight: 300;
-  margin-top: ${darkTheme.spacing.xs}px;
+  font-weight: 400;
+  margin-top: 8px;
 `;
 
 const SuccessMessage = styled.div`
   display: flex;
   align-items: center;
-  gap: ${darkTheme.spacing.xs}px;
-  color: rgba(16, 185, 129, 0.9);
+  gap: 8px;
+  color: ${darkTheme.colors.status.success};
   font-size: 12px;
-  font-weight: 300;
-  margin-top: ${darkTheme.spacing.xs}px;
+  font-weight: 400;
+  margin-top: 8px;
 `;
 
 const WaitlistForm: React.FC = () => {

@@ -8,20 +8,18 @@ const HeaderContainer = styled.header`
   left: 0;
   right: 0;
   z-index: 100;
-  padding: ${darkTheme.spacing.md}px ${darkTheme.spacing.xl}px;
+  padding: 24px;
   
-  /* Enhanced Apple liquid glass effect - 25% more opacity */
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(60px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  /* Frosted glass effect */
+  background: rgba(42, 42, 42, 0.8);
+  backdrop-filter: blur(8px);
+  border: none;
   
-  /* Enhanced shadow for better depth */
-  box-shadow: 
-    0 1px 20px rgba(0, 0, 0, 0.15),
-    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+  /* Clean shadow */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
-    padding: ${darkTheme.spacing.sm}px ${darkTheme.spacing.lg}px;
+    padding: 16px 24px;
   }
 `;
 
@@ -29,36 +27,35 @@ const Nav = styled.nav`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
 `;
 
 const Logo = styled.div`
   display: flex;
   align-items: center;
-  gap: ${darkTheme.spacing.md}px;
+  gap: 16px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s ease;
 
   &:hover {
     transform: translateY(-1px);
   }
 
   @media (max-width: 480px) {
-    gap: ${darkTheme.spacing.sm}px;
+    gap: 12px;
   }
 `;
 
 const LogoSignature = styled.img`
   height: 32px;
   width: auto;
-  filter: brightness(1.2) saturate(1.2);
-  opacity: 1;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: brightness(1.1);
+  transition: all 0.3s ease;
 
   ${Logo}:hover & {
     transform: scale(1.05);
-    filter: brightness(1.3) saturate(1.3);
+    filter: brightness(1.2);
   }
 
   @media (max-width: 768px) {
@@ -73,14 +70,12 @@ const LogoSignature = styled.img`
 const LogoText = styled.img`
   height: 20px;
   width: auto;
-  filter: brightness(1.2) saturate(1.2);
-  opacity: 0.95;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: brightness(1.1);
+  transition: all 0.3s ease;
 
   ${Logo}:hover & {
     transform: scale(1.05);
-    filter: brightness(1.3) saturate(1.3);
-    opacity: 1;
+    filter: brightness(1.2);
   }
 
   @media (max-width: 768px) {
@@ -94,7 +89,7 @@ const LogoText = styled.img`
 
 const NavLinks = styled.div`
   display: flex;
-  gap: ${darkTheme.spacing.xl}px;
+  gap: 32px;
   align-items: center;
 
   @media (max-width: 768px) {
@@ -103,41 +98,21 @@ const NavLinks = styled.div`
 `;
 
 const NavLink = styled.a`
-  color: rgba(248, 250, 252, 0.85);
+  color: ${darkTheme.colors.text.primary};
   text-decoration: none;
   font-size: 14px;
-  font-weight: 300;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  letter-spacing: 0.05em;
+  font-weight: 400;
+  transition: all 0.3s ease;
   padding: 8px 16px;
-  border-radius: 12px;
+  border-radius: 8px;
   
-  /* Enhanced liquid background on hover */
   background: transparent;
-  backdrop-filter: blur(0px);
 
   &:hover {
-    color: rgba(16, 185, 129, 0.9);
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
+    color: ${darkTheme.colors.secondary};
+    background: rgba(42, 42, 42, 0.8);
+    backdrop-filter: blur(8px);
     transform: translateY(-1px);
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 1px;
-    background: linear-gradient(90deg, rgba(16, 185, 129, 0.6), rgba(139, 92, 246, 0.6));
-    transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  &:hover::after {
-    width: 60%;
   }
 `;
 
