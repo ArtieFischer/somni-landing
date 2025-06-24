@@ -34,17 +34,21 @@ const Nav = styled.nav`
 const Logo = styled.div`
   display: flex;
   align-items: center;
-  gap: ${darkTheme.spacing.sm}px;
+  gap: ${darkTheme.spacing.md}px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   &:hover {
     transform: translateY(-1px);
   }
+
+  @media (max-width: 480px) {
+    gap: ${darkTheme.spacing.sm}px;
+  }
 `;
 
-const LogoSvg = styled.img`
-  height: 28px;
+const LogoSignature = styled.img`
+  height: 32px;
   width: auto;
   filter: brightness(1.1) saturate(1.1);
   opacity: 0.95;
@@ -57,7 +61,33 @@ const LogoSvg = styled.img`
   }
 
   @media (max-width: 768px) {
+    height: 28px;
+  }
+
+  @media (max-width: 480px) {
     height: 24px;
+  }
+`;
+
+const LogoText = styled.img`
+  height: 20px;
+  width: auto;
+  filter: brightness(1.1) saturate(1.1);
+  opacity: 0.9;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  ${Logo}:hover & {
+    transform: scale(1.05);
+    filter: brightness(1.2) saturate(1.2);
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    height: 18px;
+  }
+
+  @media (max-width: 480px) {
+    height: 16px;
   }
 `;
 
@@ -115,7 +145,8 @@ const Header: React.FC = () => {
     <HeaderContainer>
       <Nav>
         <Logo>
-          <LogoSvg src="/src/assets/logo_somni_txt.svg" alt="Somni" />
+          <LogoSignature src="/src/assets/logo_somni_sig.svg" alt="Somni Symbol" />
+          <LogoText src="/src/assets/logo_somni_txt.svg" alt="Somni" />
         </Logo>
         <NavLinks>
           <NavLink href="#features">Features</NavLink>
