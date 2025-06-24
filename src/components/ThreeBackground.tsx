@@ -428,7 +428,7 @@ const ThreeBackground: React.FC = () => {
           width: '100%',
           height: '100%',
           zIndex: 1,
-          background: 'radial-gradient(ellipse at center, #0B1426 0%, #000000 100%)',
+          background: 'radial-gradient(ellipse at center, #151B2E 0%, #0B1426 100%)',
         }}
       />
       {sceneRef.current && <FloatingTextMeshes scene={sceneRef.current} />}
