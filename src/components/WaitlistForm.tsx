@@ -31,18 +31,17 @@ const FormContainer = styled.div`
   width: 100%;
   padding: ${darkTheme.spacing.xl}px ${darkTheme.spacing.lg}px;
   
-  /* Darker liquid glass effect with color distortion */
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(100px) saturate(250%) hue-rotate(5deg) contrast(1.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  /* Apple liquid glass effect */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(60px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px;
   
-  /* Enhanced shadow for depth */
+  /* Subtle shadow for depth */
   box-shadow: 
-    0 8px 40px rgba(0, 0, 0, 0.5),
-    0 1px 0 rgba(255, 255, 255, 0.05) inset,
-    0 -1px 0 rgba(0, 0, 0, 0.3) inset,
-    0 0 0 1px rgba(139, 92, 246, 0.03) inset;
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.2) inset;
   
   animation: ${float} 8s ease-in-out infinite;
   position: relative;
@@ -58,7 +57,7 @@ const FormContainer = styled.div`
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(139, 92, 246, 0.03),
+      rgba(139, 92, 246, 0.05),
       transparent
     );
     animation: ${liquidShimmer} 6s ease-in-out infinite;
@@ -88,7 +87,7 @@ const Title = styled.h1`
 
 const Subtitle = styled.p`
   font-size: 13px;
-  color: rgba(248, 250, 252, 0.55);
+  color: rgba(248, 250, 252, 0.65);
   text-align: center;
   margin: 0;
   line-height: 1.5;
@@ -117,10 +116,10 @@ const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
   width: 100%;
   padding: 16px 16px 16px 48px;
   
-  /* Darker liquid input styling */
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(60px) saturate(180%) hue-rotate(10deg);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  /* Apple liquid input styling */
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   
   color: ${darkTheme.colors.text.primary};
@@ -129,30 +128,30 @@ const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
   
-  /* Enhanced inner shadow */
+  /* Subtle inner shadow */
   box-shadow: 
-    0 2px 6px rgba(0, 0, 0, 0.4) inset,
-    0 1px 0 rgba(255, 255, 255, 0.03);
+    0 1px 3px rgba(0, 0, 0, 0.2) inset,
+    0 1px 0 rgba(255, 255, 255, 0.05);
 
   &::placeholder {
-    color: rgba(248, 250, 252, 0.3);
+    color: rgba(248, 250, 252, 0.4);
     font-weight: 300;
   }
 
   &:focus {
     outline: none;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(139, 92, 246, 0.3);
     box-shadow: 
-      0 0 0 3px rgba(139, 92, 246, 0.08),
-      0 2px 6px rgba(0, 0, 0, 0.4) inset,
-      0 1px 0 rgba(255, 255, 255, 0.03);
+      0 0 0 3px rgba(139, 92, 246, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.2) inset,
+      0 1px 0 rgba(255, 255, 255, 0.05);
     transform: translateY(-1px);
   }
 
   &:hover:not(:focus) {
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
   }
 `;
 
@@ -161,7 +160,7 @@ const InputIcon = styled.div`
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgba(248, 250, 252, 0.3);
+  color: rgba(248, 250, 252, 0.4);
   pointer-events: none;
   transition: color 0.3s ease;
 `;
@@ -173,14 +172,14 @@ const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
   gap: ${darkTheme.spacing.xs}px;
   padding: 16px ${darkTheme.spacing.lg}px;
   
-  /* Darker liquid button styling */
+  /* Apple liquid button styling */
   background: ${props => 
     props.$isSuccess ? 
-    'linear-gradient(135deg, rgba(16, 185, 129, 0.7) 0%, rgba(5, 150, 105, 0.7) 100%)' :
-    'linear-gradient(135deg, rgba(139, 92, 246, 0.7) 0%, rgba(167, 139, 250, 0.7) 100%)'
+    'linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.8) 100%)' :
+    'linear-gradient(135deg, rgba(139, 92, 246, 0.8) 0%, rgba(167, 139, 250, 0.8) 100%)'
   };
-  backdrop-filter: blur(60px) saturate(200%) hue-rotate(5deg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px;
   
   color: ${darkTheme.colors.text.primary};
@@ -192,22 +191,20 @@ const Button = styled.button<{ $isLoading?: boolean; $isSuccess?: boolean }>`
   transform: translateY(0);
   letter-spacing: 0.02em;
   
-  /* Enhanced shadow for depth */
+  /* Subtle shadow for depth */
   box-shadow: 
-    0 4px 20px rgba(139, 92, 246, 0.15),
-    0 1px 0 rgba(255, 255, 255, 0.08) inset,
-    0 0 0 1px rgba(0, 0, 0, 0.1) inset;
+    0 4px 16px rgba(139, 92, 246, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.1) inset;
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 
-      0 8px 30px rgba(139, 92, 246, 0.25),
-      0 1px 0 rgba(255, 255, 255, 0.12) inset,
-      0 0 0 1px rgba(0, 0, 0, 0.1) inset;
+      0 8px 25px rgba(139, 92, 246, 0.3),
+      0 1px 0 rgba(255, 255, 255, 0.15) inset;
     background: ${props => 
       props.$isSuccess ? 
-      'linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(5, 150, 105, 0.8) 100%)' :
-      'linear-gradient(135deg, rgba(139, 92, 246, 0.8) 0%, rgba(167, 139, 250, 0.8) 100%)'
+      'linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%)' :
+      'linear-gradient(135deg, rgba(139, 92, 246, 0.9) 0%, rgba(167, 139, 250, 0.9) 100%)'
     };
   }
 

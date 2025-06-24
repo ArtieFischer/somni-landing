@@ -10,15 +10,13 @@ const FooterContainer = styled.footer`
   z-index: 100;
   padding: ${darkTheme.spacing.md}px ${darkTheme.spacing.xl}px;
   
-  /* Darker liquid glass effect with color distortion */
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(80px) saturate(200%) hue-rotate(-15deg) contrast(1.1);
-  border-top: 1px solid rgba(255, 255, 255, 0.03);
+  /* Apple liquid glass effect */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(60px) saturate(180%);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   
-  /* Enhanced shadow for depth */
-  box-shadow: 
-    0 -1px 30px rgba(0, 0, 0, 0.4),
-    0 0 0 1px rgba(16, 185, 129, 0.05) inset;
+  /* Subtle shadow */
+  box-shadow: 0 -1px 20px rgba(0, 0, 0, 0.1);
 
   @media (max-width: 768px) {
     padding: ${darkTheme.spacing.sm}px ${darkTheme.spacing.lg}px;
@@ -40,7 +38,7 @@ const FooterContent = styled.div`
 `;
 
 const Copyright = styled.p`
-  color: rgba(248, 250, 252, 0.4);
+  color: rgba(248, 250, 252, 0.5);
   font-size: 12px;
   font-weight: 300;
   margin: 0;
@@ -58,7 +56,7 @@ const Links = styled.div`
 `;
 
 const Link = styled.a`
-  color: rgba(248, 250, 252, 0.5);
+  color: rgba(248, 250, 252, 0.6);
   text-decoration: none;
   font-size: 12px;
   font-weight: 300;
@@ -67,14 +65,14 @@ const Link = styled.a`
   padding: 6px 12px;
   border-radius: 10px;
   
-  /* Darker liquid background on hover */
+  /* Subtle liquid background on hover */
   background: transparent;
   backdrop-filter: blur(0px);
 
   &:hover {
-    color: rgba(16, 185, 129, 0.8);
-    background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(40px) saturate(150%) hue-rotate(-10deg);
+    color: rgba(139, 92, 246, 0.8);
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
     transform: translateY(-1px);
   }
 `;
