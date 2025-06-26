@@ -7,10 +7,10 @@ const Section = styled.section`
   padding: ${darkTheme.spacing.xxl * 2}px ${darkTheme.spacing.xl}px;
   margin: ${darkTheme.spacing.xl}px 0;
   
-  /* Liquid glass effect */
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Liquid glass effect matching header */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   box-shadow: 
     0 0 30px rgba(0, 0, 0, 0.3),
@@ -51,7 +51,7 @@ const LogoWrapper = styled.div`
   justify-content: center;
   padding: ${darkTheme.spacing.medium}px ${darkTheme.spacing.large}px;
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 12px;
   transition: all 0.3s ease;
   

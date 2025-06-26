@@ -8,10 +8,10 @@ const Section = styled.section<{ $variant?: 'default' | 'darker' }>`
   overflow: hidden;
   margin: ${darkTheme.spacing.xl}px 0;
   
-  /* Liquid glass effect matching FormCard */
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Liquid glass effect matching header */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   box-shadow: 
     0 0 30px rgba(0, 0, 0, 0.3),

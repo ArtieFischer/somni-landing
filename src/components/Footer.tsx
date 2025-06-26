@@ -8,10 +8,10 @@ const FooterContainer = styled.footer`
   padding: ${darkTheme.spacing.xl}px ${darkTheme.spacing.xl}px;
   margin-top: ${darkTheme.spacing.xxl}px;
   
-  /* Apple liquid glass effect */
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(60px) saturate(180%);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  /* Apple liquid glass effect matching header */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px) saturate(120%);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
   
   /* Subtle shadow */
   box-shadow: 

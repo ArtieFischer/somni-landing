@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { darkTheme } from '../../theme';
-import GlassSection from '../common/GlassSection';
-import { Monitor, Smartphone, Watch } from 'lucide-react';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { darkTheme } from "../../theme";
+import { Monitor, Smartphone, Watch } from "lucide-react";
+
+const Section = styled.section`
+  padding: ${darkTheme.spacing.xxl * 2}px ${darkTheme.spacing.xl}px;
+  margin: ${darkTheme.spacing.xl}px 0;
+`;
 
 const Container = styled.div`
   text-align: center;
+  max-width: 1400px;
+  margin: 0 auto;
 `;
 
 const SectionTitle = styled.h2`
-  font-family: 'Anton', sans-serif;
+  font-family: "Anton", sans-serif;
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 400;
   color: white;
@@ -19,7 +25,7 @@ const SectionTitle = styled.h2`
 `;
 
 const SectionSubtitle = styled.p`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(1.1rem, 2vw, 1.3rem);
   font-weight: 300;
   color: rgba(248, 250, 252, 0.7);
@@ -37,7 +43,7 @@ const PlatformsContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: ${darkTheme.spacing.xl}px;
-  
+
   @media (max-width: 968px) {
     grid-template-columns: 1fr;
     max-width: 600px;
@@ -47,22 +53,19 @@ const PlatformsContainer = styled.div`
 const PlatformCard = styled.div<{ $active: boolean; $position: number }>`
   position: relative;
   padding: ${darkTheme.spacing.xxl * 1.5}px;
-  background: ${props => props.$active 
-    ? 'rgba(139, 92, 246, 0.1)' 
-    : 'rgba(255, 255, 255, 0.03)'
-  };
-  border: 1px solid ${props => props.$active 
-    ? 'rgba(139, 92, 246, 0.3)' 
-    : 'rgba(255, 255, 255, 0.08)'
-  };
+  background: ${(props) =>
+    props.$active ? "rgba(139, 92, 246, 0.1)" : "rgba(255, 255, 255, 0.02)"};
+  border: 1px solid
+    ${(props) =>
+      props.$active ? "rgba(139, 92, 246, 0.3)" : "rgba(255, 255, 255, 0.05)"};
   border-radius: 24px;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px) saturate(120%);
   transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
   overflow: hidden;
-  
+
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -70,17 +73,18 @@ const PlatformCard = styled.div<{ $active: boolean; $position: number }>`
     bottom: 0;
     background: radial-gradient(
       circle at center,
-      ${props => props.$active ? 'rgba(139, 92, 246, 0.1)' : 'transparent'} 0%,
+      ${(props) => (props.$active ? "rgba(139, 92, 246, 0.1)" : "transparent")}
+        0%,
       transparent 70%
     );
     opacity: 0;
     transition: opacity 0.5s ease;
   }
-  
+
   &:hover::before {
     opacity: 1;
   }
-  
+
   &:hover {
     border-color: rgba(139, 92, 246, 0.4);
     background: rgba(139, 92, 246, 0.12);
@@ -89,33 +93,34 @@ const PlatformCard = styled.div<{ $active: boolean; $position: number }>`
 `;
 
 const PlatformIcon = styled.div<{ $active: boolean }>`
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   margin: 0 auto ${darkTheme.spacing.large}px auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${props => props.$active
-    ? 'linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(167, 139, 250, 0.3) 100%)'
-    : 'rgba(255, 255, 255, 0.05)'
-  };
-  border: 1px solid ${props => props.$active
-    ? 'rgba(139, 92, 246, 0.5)'
-    : 'rgba(255, 255, 255, 0.1)'
-  };
-  border-radius: 24px;
   transition: all 0.5s ease;
-  
+
   svg {
-    width: 50px;
-    height: 50px;
-    color: ${props => props.$active ? darkTheme.colors.primary.main : 'rgba(248, 250, 252, 0.7)'};
+    width: ${(props) => (props.$active ? "68px" : "60px")};
+    height: ${(props) => (props.$active ? "68px" : "60px")};
+    color: white;
+    filter: ${(props) =>
+      props.$active
+        ? "drop-shadow(0 0 16px rgba(139, 92, 246, 0.8)) drop-shadow(0 0 32px rgba(255, 255, 255, 0.4))"
+        : "drop-shadow(0 0 8px rgba(255, 255, 255, 0.3))"};
     transition: all 0.5s ease;
+  }
+
+  &:hover svg {
+    filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.9))
+      drop-shadow(0 0 40px rgba(255, 255, 255, 0.6));
+    transform: scale(1.1) rotate(2deg);
   }
 `;
 
 const PlatformTitle = styled.h3`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
@@ -123,7 +128,7 @@ const PlatformTitle = styled.h3`
 `;
 
 const PlatformSubtitle = styled.p`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.9rem;
   font-weight: 500;
   color: ${darkTheme.colors.primary.light};
@@ -133,7 +138,7 @@ const PlatformSubtitle = styled.p`
 `;
 
 const PlatformDescription = styled.p`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1rem;
   font-weight: 400;
   color: rgba(248, 250, 252, 0.7);
@@ -149,15 +154,15 @@ const PlatformFeatures = styled.ul`
 `;
 
 const Feature = styled.li`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.9rem;
   color: rgba(248, 250, 252, 0.6);
   margin: ${darkTheme.spacing.sm}px 0;
   padding-left: 20px;
   position: relative;
-  
+
   &::before {
-    content: '•';
+    content: "•";
     position: absolute;
     left: 0;
     color: ${darkTheme.colors.primary.main};
@@ -167,53 +172,50 @@ const Feature = styled.li`
 const platforms = [
   {
     icon: Monitor,
-    title: "Web Dashboard",
-    subtitle: "Command Center",
-    description: "Your complete dream analytics hub with real-time insights and controls.",
+    title: "Desktop Dashboard",
+    description: "Visualize long-term sleep and dream trends.",
     features: [
-      "Advanced sleep analytics",
-      "Dream journal & patterns",
-      "Personalized insights",
-      "Community features"
-    ]
+      "Full-scale sleep metrics",
+      "Trend & timeline charts",
+      "Searchable dream journal",
+      "Custom reports",
+    ],
   },
   {
     icon: Smartphone,
     title: "Mobile App",
-    subtitle: "Dream Companion",
-    description: "Track, enhance, and explore your dreams anywhere, anytime.",
+    description: "Capture dreams and stats on the go.",
     features: [
-      "Sleep tracking",
-      "Morning dream capture",
-      "Guided meditations",
-      "Push notifications"
-    ]
+      "One-tap voice recorder",
+      "Guide conversations",
+      "Daily insight cards",
+      "Smart reminders",
+    ],
   },
   {
     icon: Watch,
-    title: "Wearable App",
-    subtitle: "Sleep Guardian",
-    description: "Continuous monitoring and real-time interventions for optimal sleep.",
+    title: "Smartwatch",
+    description: "Track sleep live with phase-aware alarms.",
     features: [
-      "Heart rate monitoring",
-      "Sleep stage detection",
-      "Smart alarms",
-      "Haptic feedback"
-    ]
-  }
+      "Sleep-stage tracking",
+      "Vibrating smart alarm",
+      "Lucid cue pulses",
+      "Circadian rhythm guidance",
+    ],
+  },
 ];
 
 const PlatformsSection: React.FC = () => {
   const [activePlatform, setActivePlatform] = useState(1); // Mobile app active by default
 
   return (
-    <GlassSection variant="darker" maxWidth="large">
+    <Section>
       <Container>
-        <SectionTitle>3 Platforms</SectionTitle>
+        <SectionTitle>three Platforms</SectionTitle>
         <SectionSubtitle>
-          One unified dream enhancement ecosystem across all your devices
+          Unified dream ecosystem across all your devices.
         </SectionSubtitle>
-        
+
         <PlatformsContainer>
           {platforms.map((platform, index) => (
             <PlatformCard
@@ -237,7 +239,7 @@ const PlatformsSection: React.FC = () => {
           ))}
         </PlatformsContainer>
       </Container>
-    </GlassSection>
+    </Section>
   );
 };
 

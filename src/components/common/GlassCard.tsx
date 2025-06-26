@@ -28,10 +28,10 @@ const Card = styled.div<{
     props.$size === 'medium' ? '24px' : '20px'
   };
   
-  /* Subtle glass effect */
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px) saturate(130%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  /* Subtle glass effect matching header */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   
   /* Softer shadows */
   box-shadow: 
@@ -58,7 +58,7 @@ const Card = styled.div<{
   }
 
   &:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.04);
     border-color: rgba(139, 92, 246, 0.2);
     box-shadow: 
       0 4px 30px rgba(139, 92, 246, 0.15),

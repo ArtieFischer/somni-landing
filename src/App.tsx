@@ -5,8 +5,10 @@ import styled from 'styled-components';
 const ThreeBackground = lazy(() => import('./components/ThreeBackground'));
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
-import PoweredBySection from './components/sections/PoweredBySection';
+import OneAppSection from './components/sections/OneAppSection';
 import GuidesSection from './components/sections/GuidesSection';
+import WorldOfDreamersSection from './components/sections/WorldOfDreamersSection';
+import PoweredBySection from './components/sections/PoweredBySection';
 import PlatformsSection from './components/sections/PlatformsSection';
 import FormSection from './components/sections/FormSection';
 import Footer from './components/Footer';
@@ -60,11 +62,12 @@ function App() {
         
         <HeroContainer>
           <HeroSection />
+          <OneAppSection />
         </HeroContainer>
-        
-        <PoweredBySection />
-        <GuidesSection />
         <PlatformsSection />
+        <GuidesSection />
+        <WorldOfDreamersSection />
+        <PoweredBySection />
         <FormSection />
         <Footer />
       </div>

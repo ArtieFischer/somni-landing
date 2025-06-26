@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { darkTheme } from '../../theme';
-import freudImg from '../../assets/freud.png';
-import jungImg from '../../assets/jung.png';
-import lakshmiImg from '../../assets/lakshmi.png';
-import maryImg from '../../assets/mary.png';
+import React from "react";
+import styled from "styled-components";
+import { darkTheme } from "../../theme";
+import freudImg from "../../assets/freud.png";
+import jungImg from "../../assets/jung.png";
+import lakshmiImg from "../../assets/lakshmi.png";
+import maryImg from "../../assets/mary.png";
 
 const Container = styled.div`
   max-width: 1400px;
@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 const SectionTitle = styled.h2`
-  font-family: 'Anton', sans-serif;
+  font-family: "Anton", sans-serif;
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 400;
   color: white;
@@ -25,7 +25,7 @@ const SectionTitle = styled.h2`
 `;
 
 const SectionSubtitle = styled.p`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(1.1rem, 2vw, 1.3rem);
   font-weight: 300;
   color: rgba(248, 250, 252, 0.7);
@@ -41,12 +41,12 @@ const GuidesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: ${darkTheme.spacing.xl}px;
-  
+
   @media (max-width: 1200px) {
     grid-template-columns: repeat(2, 1fr);
     gap: ${darkTheme.spacing.large}px;
   }
-  
+
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     max-width: 400px;
@@ -55,14 +55,14 @@ const GuidesGrid = styled.div`
 `;
 
 const GuideCard = styled.div`
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   padding: ${darkTheme.spacing.xl * 1.5}px ${darkTheme.spacing.large}px;
   text-align: center;
   transition: all 0.3s ease;
-  
+
   &:hover {
     background: rgba(139, 92, 246, 0.08);
     border-color: rgba(139, 92, 246, 0.2);
@@ -75,20 +75,24 @@ const GuideImage = styled.div<{ $bgImage: string }>`
   height: 120px;
   margin: 0 auto ${darkTheme.spacing.large}px;
   border-radius: 50%;
-  background-image: url(${props => props.$bgImage});
+  background-image: url(${(props) => props.$bgImage});
   background-size: cover;
   background-position: center;
   border: 3px solid rgba(139, 92, 246, 0.3);
   position: relative;
   overflow: hidden;
-  
+
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle at center, transparent 30%, rgba(139, 92, 246, 0.1) 100%);
+    background: radial-gradient(
+      circle at center,
+      transparent 30%,
+      rgba(139, 92, 246, 0.1) 100%
+    );
   }
-  
+
   @media (max-width: 768px) {
     width: 100px;
     height: 100px;
@@ -96,7 +100,7 @@ const GuideImage = styled.div<{ $bgImage: string }>`
 `;
 
 const GuideName = styled.h3`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.3rem;
   font-weight: 700;
   color: white;
@@ -104,7 +108,7 @@ const GuideName = styled.h3`
 `;
 
 const GuideTitle = styled.p`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.85rem;
   font-weight: 500;
   color: ${darkTheme.colors.primary.light};
@@ -114,7 +118,7 @@ const GuideTitle = styled.p`
 `;
 
 const GuideDescription = styled.p`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.95rem;
   font-weight: 400;
   color: rgba(248, 250, 252, 0.8);
@@ -131,15 +135,15 @@ const FeatureList = styled.ul`
 `;
 
 const Feature = styled.li`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.85rem;
   color: rgba(248, 250, 252, 0.7);
   padding: ${darkTheme.spacing.xs}px 0;
   padding-left: 20px;
   position: relative;
-  
+
   &::before {
-    content: '✦';
+    content: "✦";
     position: absolute;
     left: 0;
     color: ${darkTheme.colors.primary.main};
@@ -151,57 +155,46 @@ const guides = [
   {
     image: freudImg,
     name: "Dr. Sigmund",
-    title: "The Analyst",
-    description: "Uncovers hidden meanings in your dreams through deep psychoanalytic techniques.",
-    features: [
-      "Symbol interpretation",
-      "Unconscious mapping",
-      "Pattern recognition"
-    ]
+    title: "Psychoanalyst",
+    description:
+      "Hunts wish-dreams and repressed urges—his (in)famous dirty mind at work.",
+    features: ["Wish detector", "Symbol index", "Repression radar"],
   },
   {
     image: jungImg,
-    name: "Dr. Jung",
-    title: "The Mystic",
-    description: "Connects your dreams to universal archetypes and collective consciousness.",
-    features: [
-      "Archetype analysis",
-      "Shadow work",
-      "Synchronicity tracking"
-    ]
+    name: "Dr. Carl",
+    title: "Depth Psychologist",
+    description:
+      "Links your symbols to timeless archetypes and the collective psyche.",
+    features: ["Archetype match", "Shadow hints", "Active imagination"],
   },
   {
     image: lakshmiImg,
     name: "Dr. Lakshmi",
-    title: "The Healer",
-    description: "Guides spiritual transformation through ancient wisdom and modern science.",
-    features: [
-      "Chakra alignment",
-      "Energy healing",
-      "Meditation guidance"
-    ]
+    title: "Transpersonal Scholar",
+    description:
+      "Frames dreams through karma, chakras, and expanding consciousness.",
+    features: ["Karmic threads", "Chakra map", "Meditation cue"],
   },
   {
     image: maryImg,
     name: "Dr. Mary",
-    title: "The Innovator",
-    description: "Applies cutting-edge neuroscience to enhance dream lucidity and recall.",
-    features: [
-      "Brainwave optimization",
-      "Lucidity training",
-      "Memory enhancement"
-    ]
-  }
+    title: "Cognitive Neuroscientist",
+    description:
+      "Shows how your sleeping brain files memories and tunes emotions.",
+    features: ["Memory snapshot", "Emotion circuitry", "Brainwave overlay"],
+  },
 ];
 
 const GuidesSection: React.FC = () => {
   return (
     <Container>
-      <SectionTitle>Your Dream Guides</SectionTitle>
+      <SectionTitle>Four Guides</SectionTitle>
       <SectionSubtitle>
-        Four AI personalities that learn your unique sleep story and guide you to deeper consciousness
+        Four personalities. Each with own knowledge and methods. Each with
+        memory of your previous dreams and reflections. Always ready to help you
+        understand your dreams, even through a voice chat.
       </SectionSubtitle>
-      
       <GuidesGrid>
         {guides.map((guide, index) => (
           <GuideCard key={index}>

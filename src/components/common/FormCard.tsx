@@ -74,12 +74,12 @@ const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
   width: 100%;
   padding: 20px 20px 20px 56px;
   
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(150%);
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px) saturate(120%);
   border: 1px solid ${props => 
     props.$hasError ? 'rgba(248, 113, 113, 0.5)' :
     props.$isSuccess ? 'rgba(16, 185, 129, 0.5)' :
-    'rgba(255, 255, 255, 0.1)'
+    'rgba(255, 255, 255, 0.05)'
   };
   border-radius: 16px;
   
@@ -101,7 +101,7 @@ const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
 
   &:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(139, 92, 246, 0.4);
     box-shadow: 
       0 0 0 3px rgba(139, 92, 246, 0.1),
@@ -111,8 +111,8 @@ const Input = styled.input<{ $hasError?: boolean; $isSuccess?: boolean }>`
   }
 
   &:hover:not(:focus) {
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     transform: translateY(-1px);
   }
 `;

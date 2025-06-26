@@ -1,8 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { darkTheme } from '../../theme';
-import GlassSection from '../common/GlassSection';
 import FormCard from '../common/FormCard';
+
+const Section = styled.section`
+  padding: ${darkTheme.spacing.xxl * 2}px ${darkTheme.spacing.xl}px;
+  margin: ${darkTheme.spacing.xl}px 0;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -10,7 +14,8 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 60vh;
-  padding: ${darkTheme.spacing.xxl}px 0;
+  max-width: 1200px;
+  margin: 0 auto;
 `;
 
 const FormWrapper = styled.div`
@@ -25,7 +30,7 @@ const FormWrapper = styled.div`
 
 const FormSection: React.FC = () => {
   return (
-    <GlassSection maxWidth="medium">
+    <Section>
       <Container id="waitlist-form">
         <FormWrapper>
           <FormCard 
@@ -37,7 +42,7 @@ const FormSection: React.FC = () => {
           />
         </FormWrapper>
       </Container>
-    </GlassSection>
+    </Section>
   );
 };
 
