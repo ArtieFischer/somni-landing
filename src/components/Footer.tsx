@@ -3,23 +3,23 @@ import styled from 'styled-components';
 import { darkTheme } from '../theme';
 
 const FooterContainer = styled.footer`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 100;
-  padding: ${darkTheme.spacing.md}px ${darkTheme.spacing.xl}px;
+  position: relative;
+  width: 100%;
+  padding: ${darkTheme.spacing.xl}px ${darkTheme.spacing.xl}px;
+  margin-top: ${darkTheme.spacing.xxl}px;
   
   /* Apple liquid glass effect */
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(60px) saturate(180%);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   
   /* Subtle shadow */
-  box-shadow: 0 -1px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 
+    0 -1px 20px rgba(0, 0, 0, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.05) inset;
 
   @media (max-width: 768px) {
-    padding: ${darkTheme.spacing.sm}px ${darkTheme.spacing.lg}px;
+    padding: ${darkTheme.spacing.large}px ${darkTheme.spacing.large}px;
   }
 `;
 
@@ -73,7 +73,6 @@ const Link = styled.a`
     color: rgba(139, 92, 246, 0.8);
     background: rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(20px);
-    transform: translateY(-1px);
   }
 `;
 

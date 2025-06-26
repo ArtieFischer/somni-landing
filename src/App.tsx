@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import styled from 'styled-components';
-import ThreeBackground from './components/ThreeBackground';
+
+// Lazy load Three.js background
+const ThreeBackground = lazy(() => import('./components/ThreeBackground'));
 import Header from './components/Header';
 import HeroSection from './components/HeroSection';
-import FormCard from './components/common/FormCard';
-import FeaturesSection from './components/sections/FeaturesSection';
-import AboutSection from './components/sections/AboutSection';
-import TestimonialsSection from './components/sections/TestimonialsSection';
+import PoweredBySection from './components/sections/PoweredBySection';
+import GuidesSection from './components/sections/GuidesSection';
+import PlatformsSection from './components/sections/PlatformsSection';
+import FormSection from './components/sections/FormSection';
 import Footer from './components/Footer';
 import FloatingFeatures from './components/FloatingFeatures';
 import { darkTheme } from './theme';
@@ -14,7 +16,7 @@ import { darkTheme } from './theme';
 const AppContainer = styled.div`
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden;
+  background: radial-gradient(ellipse at center, #0B1426 0%, #000000 100%);
 `;
 
 const HeroContainer = styled.section`
@@ -34,45 +36,38 @@ const HeroContainer = styled.section`
   }
 `;
 
+
 const BlurOverlay = styled.div`
   position: fixed;
   inset: 0;
   backdrop-filter: blur(0.5px);
   z-index: 2;
   pointer-events: none;
-`;
-
-const MainContent = styled.main`
-  position: relative;
-  z-index: 10;
+  display: none; /* Temporarily disable blur overlay */
 `;
 
 function App() {
   return (
     <AppContainer>
-      <ThreeBackground />
+      <Suspense fallback={null}>
+        <ThreeBackground />
+      </Suspense>
       <BlurOverlay />
       <FloatingFeatures />
-      <Header />
       
-      <HeroContainer>
-        <HeroSection />
-        <FormCard 
-          title="Join the Dream Revolution"
-          description="Be among the first to experience the future of dream enhancement and unlock your subconscious potential."
-          placeholder="Enter your email address"
-          buttonText="Join Waitlist"
-          successMessage="Welcome to the dream collective. Check your email for next steps."
-        />
-      </HeroContainer>
-      
-      <MainContent>
-        <FeaturesSection />
-        <AboutSection />
-        <TestimonialsSection />
-      </MainContent>
-      
-      <Footer />
+      <div style={{ position: 'relative', zIndex: 10 }}>
+        <Header />
+        
+        <HeroContainer>
+          <HeroSection />
+        </HeroContainer>
+        
+        <PoweredBySection />
+        <GuidesSection />
+        <PlatformsSection />
+        <FormSection />
+        <Footer />
+      </div>
     </AppContainer>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { gsap } from 'gsap';
+import { threeDWords } from '../config/floatingWords';
 
 interface FloatingTextMeshesProps {
   scene: THREE.Scene;
@@ -17,14 +18,14 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
 
     const createTextSprite = (text: string, size: number = 512) => {
       const canvas = document.createElement('canvas');
-      canvas.width = canvas.height = size;
+      canvas.width = canvas.height = size / 2; // Reduce texture size
       const ctx = canvas.getContext('2d')!;
       
       // Clear canvas
       ctx.clearRect(0, 0, size, size);
       
-      // Set up sophisticated text styling - using Playfair Display for elegance
-      ctx.font = `700 ${size * 0.11}px 'Playfair Display', serif`;
+      // Set up text styling - using Inter for consistency
+      ctx.font = `600 ${size * 0.055}px 'Inter', sans-serif`; // Adjust for smaller canvas
       ctx.fillStyle = 'rgba(248, 250, 252, 0.85)'; // Slightly more visible
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -67,43 +68,72 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
       return new THREE.Sprite(material);
     };
 
-    // More sophisticated, consciousness-focused vocabulary
-    const words = [
-      'TRANSCENDENCE',
-      'LUCIDITY', 
-      'CONSCIOUSNESS',
-      'ETHEREAL',
-      'AWAKENING',
-      'INFINITE',
-      'SERENITY',
-      'MINDFULNESS',
-      'ASTRAL',
-      'ENLIGHTENMENT',
-      'METAMORPHOSIS',
-      'SUBLIMINAL',
-      'NIRVANA',
-      'OMNISCIENCE'
-    ];
+    // Use words from configuration file
+    const words = threeDWords;
 
-    // Create text sprites with enhanced positioning
+    // Create text sprites with positioning around hero element
     const sprites = words.map((word, index) => {
       const sprite = createTextSprite(word);
       
-      // More strategic 3D positioning for better visual flow
-      const angle = (index / words.length) * Math.PI * 2;
-      const radius = 40 + Math.random() * 30;
-      const height = (Math.random() - 0.5) * 60;
+      // Position texts around the hero, avoiding the center
+      // Create left and right clusters with some in the middle edges
+      const isLeftSide = index % 2 === 0;
+      const groupIndex = Math.floor(index / 2);
+      const totalGroups = Math.ceil(words.length / 2);
       
-      sprite.position.set(
-        Math.cos(angle) * radius + (Math.random() - 0.5) * 20,
-        height,
-        Math.sin(angle) * radius + (Math.random() - 0.5) * 30 + 10
-      );
+      // Calculate position to avoid center (hero area)
+      let x, y, z;
       
-      // Enhanced scale variation based on word importance
-      const importantWords = ['TRANSCENDENCE', 'CONSCIOUSNESS', 'ENLIGHTENMENT', 'INFINITE'];
+      // Minimum distance from center to keep texts away from hero
+      const minDistanceFromCenter = 25;
+      const maxDistanceFromCenter = 50;
+      
+      if (isLeftSide) {
+        // Left side positioning
+        x = -(minDistanceFromCenter + Math.random() * (maxDistanceFromCenter - minDistanceFromCenter));
+        // Add some variation to prevent straight line
+        x += (Math.random() - 0.5) * 10;
+      } else {
+        // Right side positioning
+        x = minDistanceFromCenter + Math.random() * (maxDistanceFromCenter - minDistanceFromCenter);
+        // Add some variation to prevent straight line
+        x += (Math.random() - 0.5) * 10;
+      }
+      
+      // Vertical distribution - spread across the height
+      const verticalSpread = 40;
+      y = (groupIndex / totalGroups - 0.5) * verticalSpread + (Math.random() - 0.5) * 10;
+      
+      // Z positioning - create depth layers
+      const depthLayers = [0, 10, 20, -10, -20];
+      z = depthLayers[index % depthLayers.length] + (Math.random() - 0.5) * 5;
+      
+      sprite.position.set(x, y, z);
+      
+      // Varied sizes: small, medium, large - distributed randomly
+      const sizeCategories = [
+        { min: 1.5, max: 2.5 },  // Small
+        { min: 2.5, max: 3.5 },  // Medium
+        { min: 3.5, max: 5.0 }   // Large
+      ];
+      
+      // Important words are more likely to be large
+      const importantWords = ['TRANSCENDENCE', 'CONSCIOUSNESS', 'ENLIGHTENMENT', 'INFINITE', 'AWAKENING', 'LUCIDITY'];
       const isImportant = importantWords.includes(word);
-      const scale = isImportant ? 4 + Math.random() * 2 : 2.5 + Math.random() * 2;
+      
+      let sizeCategory;
+      if (isImportant) {
+        // 70% chance to be large, 30% medium
+        sizeCategory = Math.random() < 0.7 ? sizeCategories[2] : sizeCategories[1];
+      } else {
+        // Random distribution for other words
+        const rand = Math.random();
+        if (rand < 0.4) sizeCategory = sizeCategories[0]; // 40% small
+        else if (rand < 0.7) sizeCategory = sizeCategories[1]; // 30% medium
+        else sizeCategory = sizeCategories[2]; // 30% large
+      }
+      
+      const scale = sizeCategory.min + Math.random() * (sizeCategory.max - sizeCategory.min);
       sprite.scale.setScalar(scale);
       
       scene.add(sprite);
@@ -116,53 +146,88 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
     const timeline = gsap.timeline({ repeat: -1 });
     
     sprites.forEach((sprite, index) => {
-      const delay = index * 3; // Longer delays for more contemplative feel
-      const duration = 12 + Math.random() * 6; // Longer, more meditative durations
+      const delay = index * 3; // Stagger for progressive reveal
+      const duration = 20 + Math.random() * 10; // Slower for smoother performance
       
-      // Sophisticated fade in with easing
+      // Store initial position to maintain general area
+      const initialX = sprite.position.x;
+      const initialY = sprite.position.y;
+      const initialZ = sprite.position.z;
+      const isLeftSide = initialX < 0;
+      
+      // Sophisticated fade in with depth-based timing
+      const fadeInDuration = 2 + Math.abs(initialZ) * 0.05; // Farther objects fade in slower
       timeline.to(sprite.material, {
-        opacity: 0.7 + Math.random() * 0.2,
-        duration: 3.5, // Slower, more elegant fade
+        opacity: 0.4 + Math.random() * 0.3 + Math.abs(initialZ) * 0.01, // Farther objects slightly more transparent
+        duration: fadeInDuration,
         ease: "power3.out"
       }, delay);
       
-      // Gentle, flowing movement - more zen-like
+      // Movement that maintains positioning around hero
+      // Vertical floating movement
       timeline.to(sprite.position, {
-        x: sprite.position.x + (Math.random() - 0.5) * 15,
-        y: sprite.position.y + (Math.random() - 0.5) * 12,
-        z: sprite.position.z + (Math.random() - 0.5) * 8,
-        duration: duration,
-        ease: "power1.inOut"
+        y: initialY + (Math.random() - 0.5) * 8,
+        duration: duration * 0.4,
+        ease: "power1.inOut",
+        yoyo: true,
+        repeat: 1
       }, delay);
+      
+      // Horizontal drift - keeping texts on their respective sides
+      const horizontalDrift = isLeftSide 
+        ? initialX - Math.random() * 8 // Left side drifts more left
+        : initialX + Math.random() * 8; // Right side drifts more right
+        
+      timeline.to(sprite.position, {
+        x: horizontalDrift,
+        duration: duration * 0.6,
+        ease: "power2.inOut"
+      }, delay + 2);
+      
+      // Z-axis movement for depth perception
+      timeline.to(sprite.position, {
+        z: initialZ + (Math.random() - 0.5) * 15,
+        duration: duration * 0.5,
+        ease: "sine.inOut",
+        yoyo: true,
+        repeat: 1
+      }, delay + 1);
       
       // Subtle, breathing-like scale animation
       timeline.to(sprite.scale, {
-        x: sprite.scale.x * (0.85 + Math.random() * 0.3),
-        y: sprite.scale.y * (0.85 + Math.random() * 0.3),
-        z: sprite.scale.z * (0.85 + Math.random() * 0.3),
-        duration: duration * 0.7,
+        x: sprite.scale.x * (0.9 + Math.random() * 0.2),
+        y: sprite.scale.y * (0.9 + Math.random() * 0.2),
+        z: sprite.scale.z * (0.9 + Math.random() * 0.2),
+        duration: duration * 0.3,
         yoyo: true,
-        repeat: 1,
+        repeat: 3,
         ease: "power2.inOut"
       }, delay + 2);
       
       // Very subtle rotation for organic feel
       timeline.to(sprite.rotation, {
-        z: sprite.rotation.z + (Math.random() - 0.5) * Math.PI * 0.2,
-        duration: duration,
-        ease: "power1.inOut"
+        z: sprite.rotation.z + (Math.random() - 0.5) * Math.PI * 0.1,
+        duration: duration * 0.8,
+        ease: "sine.inOut"
       }, delay);
       
-      // Elegant fade out
+      // Elegant fade out with depth consideration
       timeline.to(sprite.material, {
         opacity: 0,
-        duration: 3.5,
+        duration: 3,
         ease: "power3.in"
-      }, delay + duration - 3.5);
+      }, delay + duration - 3);
+      
+      // Return to original position for seamless loop
+      timeline.set(sprite.position, {
+        x: initialX,
+        y: initialY,
+        z: initialZ
+      }, delay + duration);
     });
 
     animationTimelineRef.current = timeline;
-    console.log('✅ Sophisticated floating text meshes created with Playfair Display font');
+    console.log('✅ Sophisticated floating text meshes created with Inter font');
 
     return () => {
       console.log('🧹 Cleaning up sophisticated text meshes...');

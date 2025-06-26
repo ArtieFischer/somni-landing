@@ -2,10 +2,6 @@ import React from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { darkTheme } from '../../theme';
 
-const float = keyframes`
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-4px); }
-`;
 
 const liquidShimmer = keyframes`
   0% { 
@@ -32,22 +28,18 @@ const Card = styled.div<{
     props.$size === 'medium' ? '24px' : '20px'
   };
   
-  /* Glass-morphic effect */
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Subtle glass effect */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px) saturate(130%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   
-  /* Enhanced shadows for depth */
+  /* Softer shadows */
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.3),
-    0 1px 0 rgba(255, 255, 255, 0.1) inset,
-    0 -1px 0 rgba(0, 0, 0, 0.2) inset;
+    0 4px 20px rgba(0, 0, 0, 0.2),
+    0 1px 0 rgba(255, 255, 255, 0.05) inset;
   
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   
-  ${props => props.$animated && css`
-    animation: ${float} 8s ease-in-out infinite;
-  `}
 
   &::before {
     content: '';
@@ -66,21 +58,19 @@ const Card = styled.div<{
   }
 
   &:hover {
-    transform: translateY(-8px) scale(1.02);
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(25px) saturate(180%);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(139, 92, 246, 0.2);
     box-shadow: 
-      0 16px 64px rgba(139, 92, 246, 0.2),
-      0 1px 0 rgba(255, 255, 255, 0.2) inset;
+      0 4px 30px rgba(139, 92, 246, 0.15),
+      0 1px 0 rgba(255, 255, 255, 0.08) inset;
   }
 `;
 
 const CardContent = styled.div<{ $padding?: 'small' | 'medium' | 'large' }>`
   padding: ${props => 
-    props.$padding === 'large' ? `${darkTheme.spacing.xxl}px` :
-    props.$padding === 'medium' ? `${darkTheme.spacing.xl}px` :
-    `${darkTheme.spacing.lg}px`
+    props.$padding === 'large' ? `${darkTheme.spacing.xxl * 2}px` :
+    props.$padding === 'medium' ? `${darkTheme.spacing.xxl * 1.5}px` :
+    `${darkTheme.spacing.xl}px`
   };
   position: relative;
   z-index: 2;

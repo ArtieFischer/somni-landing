@@ -1,6 +1,8 @@
-import React from 'react';
-import styled, { keyframes } from 'styled-components';
-import { darkTheme } from '../theme';
+import React from "react";
+import styled, { keyframes } from "styled-components";
+import { darkTheme } from "../theme";
+import Button from "./common/Button";
+import { ArrowRight } from "lucide-react";
 
 const textGlow = keyframes`
   0%, 100% { 
@@ -34,65 +36,81 @@ const HeroContainer = styled.section`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: ${darkTheme.spacing.xl}px ${darkTheme.spacing.lg}px;
+  padding: ${darkTheme.spacing.xl}px ${darkTheme.spacing.large}px;
   text-align: center;
   position: relative;
   z-index: 10;
-  gap: ${darkTheme.spacing.xxl}px;
+  gap: ${darkTheme.spacing.xl}px;
 
   @media (max-width: 768px) {
-    padding: ${darkTheme.spacing.lg}px ${darkTheme.spacing.md}px;
+    padding: ${darkTheme.spacing.large}px ${darkTheme.spacing.medium}px;
     gap: ${darkTheme.spacing.xl}px;
   }
 `;
 
 const MainTitle = styled.h1`
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-family: "Anton", sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(3.5rem, 10vw, 7rem);
   font-weight: 300;
-  color: ${darkTheme.colors.text.primary};
+  color: #ffffff;
   margin: 0;
-  line-height: 1.1;
+  line-height: 1.07;
   letter-spacing: 0.02em;
-  
-  background: linear-gradient(
-    135deg, 
-    rgba(248, 250, 252, 0.95) 0%, 
-    rgba(139, 92, 246, 0.9) 50%,
-    rgba(16, 185, 129, 0.8) 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  
+
   animation: ${textGlow} 4s ease-in-out infinite, ${fadeInUp} 1s ease-out;
+
+  span {
+    display: block;
+    margin: -0.1em 0;
+  }
 `;
 
 const Subtitle = styled.p`
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.2rem, 3vw, 1.8rem);
-  font-weight: 400;
-  color: rgba(248, 250, 252, 0.8);
-  margin: 0;
-  line-height: 1.4;
-  letter-spacing: 0.01em;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(0.8rem, 2.5vw, 1.5rem);
+  font-weight: 300;
+  color: rgba(248, 250, 252, 0.85);
+  margin: ${darkTheme.spacing.large}px 0 0 0;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
   max-width: 600px;
-  
-  animation: ${fadeInUp} 1s ease-out 0.3s both;
-  
+
+  animation: ${fadeInUp} 1s ease-out 0.4s both;
+
   @media (max-width: 768px) {
     max-width: 400px;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
   }
+`;
+
+const ButtonWrapper = styled.div`
+  margin-top: ${darkTheme.spacing.large}px;
+  animation: ${fadeInUp} 1s ease-out 0.6s both;
 `;
 
 const HeroSection: React.FC = () => {
   return (
     <HeroContainer>
       <div>
-        <MainTitle>Enhance your dreams</MainTitle>
-        <Subtitle>
-          What AI will never replace is your ability to dream
-        </Subtitle>
+        <MainTitle>
+          <span>Enhance</span>
+          <span>Your</span>
+          <span>Dreams</span>
+        </MainTitle>
+        <Subtitle>AI will not dream for you</Subtitle>
+        <ButtonWrapper>
+          <Button
+            size="large"
+            onClick={() => {
+              const formSection = document.getElementById("waitlist-form");
+              formSection?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            Join the Waitlist
+            <ArrowRight size={24} />
+          </Button>
+        </ButtonWrapper>
       </div>
     </HeroContainer>
   );

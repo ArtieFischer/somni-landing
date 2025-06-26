@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -15,18 +15,21 @@ const ThreeBackground: React.FC = () => {
   const composerRef = useRef<EffectComposer>();
   const animationIdRef = useRef<number>();
   const clockRef = useRef<THREE.Clock>(new THREE.Clock());
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    console.log('🚀 ThreeBackground useEffect starting...');
-    
-    if (!mountRef.current) {
-      console.log('❌ mountRef.current is null');
-      return;
-    }
+    // Defer Three.js initialization for better LCP
+    const timer = setTimeout(() => {
+      console.log('🚀 ThreeBackground useEffect starting...');
+      
+      if (!mountRef.current) {
+        console.log('❌ mountRef.current is null');
+        return;
+      }
 
-    console.log('✅ mountRef.current exists, initializing Three.js...');
+      console.log('✅ mountRef.current exists, initializing Three.js...');
 
-    try {
+      try {
       // Scene setup
       const scene = new THREE.Scene();
       sceneRef.current = scene;
@@ -51,7 +54,8 @@ const ThreeBackground: React.FC = () => {
       rendererRef.current = renderer;
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setClearColor(0x000000, 0);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      // Limit pixel ratio for better performance
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       
       // Canvas styling
       renderer.domElement.style.position = 'fixed';
@@ -75,26 +79,28 @@ const ThreeBackground: React.FC = () => {
       const renderPass = new RenderPass(scene, camera);
       composer.addPass(renderPass);
 
-      // Enhanced bloom for beautiful glow
+      // Reduced bloom for better performance
       const bloomPass = new UnrealBloomPass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        0.8,   // strength - increased for glow
-        0.6,   // radius - larger for softer glow
-        0.4    // threshold - lower for more bloom
+        0.4,   // strength - reduced for performance
+        0.4,   // radius - reduced for performance
+        0.6    // threshold - higher to bloom only bright areas
       );
       composer.addPass(bloomPass);
 
-      // FXAA for anti-aliasing
-      const fxaaPass = new ShaderPass(FXAAShader);
-      fxaaPass.material.uniforms['resolution'].value.x = 1 / window.innerWidth;
-      fxaaPass.material.uniforms['resolution'].value.y = 1 / window.innerHeight;
-      composer.addPass(fxaaPass);
+      // Skip FXAA on mobile for better performance
+      if (window.innerWidth > 768) {
+        const fxaaPass = new ShaderPass(FXAAShader);
+        fxaaPass.material.uniforms['resolution'].value.x = 1 / window.innerWidth;
+        fxaaPass.material.uniforms['resolution'].value.y = 1 / window.innerHeight;
+        composer.addPass(fxaaPass);
+      }
 
       console.log('✅ Post-processing setup complete');
 
       // Create the main cloth/sky plane - using theme colors
       console.log('🌊 Creating cloth shader plane...');
-      const clothGeometry = new THREE.PlaneGeometry(40, 40, 256, 256);
+      const clothGeometry = new THREE.PlaneGeometry(40, 40, 64, 64);
       
       const clothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
@@ -122,7 +128,7 @@ const ThreeBackground: React.FC = () => {
       console.log('🌌 Creating background layers...');
       
       // Layer 1: Distant cloth - deep purple/teal
-      const distantClothGeometry = new THREE.PlaneGeometry(60, 60, 128, 128);
+      const distantClothGeometry = new THREE.PlaneGeometry(60, 60, 32, 32);
       const distantClothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
         fragmentShader: clothFragmentShader,
@@ -146,7 +152,7 @@ const ThreeBackground: React.FC = () => {
       scene.add(distantClothMesh);
 
       // Layer 2: Foreground cloth - bright theme colors
-      const foregroundClothGeometry = new THREE.PlaneGeometry(30, 30, 192, 192);
+      const foregroundClothGeometry = new THREE.PlaneGeometry(30, 30, 48, 48);
       const foregroundClothMaterial = new THREE.ShaderMaterial({
         vertexShader: clothVertexShader,
         fragmentShader: clothFragmentShader,
@@ -171,146 +177,20 @@ const ThreeBackground: React.FC = () => {
 
       console.log('✅ Background layers created');
 
-      // Add enhanced atmospheric particles with theme colors
-      console.log('✨ Creating atmospheric particles...');
-      const particleCount = 800; // Increased count
-      const particles = new THREE.BufferGeometry();
-      const positions = new Float32Array(particleCount * 3);
-      const colors = new Float32Array(particleCount * 3);
-      const sizes = new Float32Array(particleCount);
-
-      for (let i = 0; i < particleCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 100;
-        positions[i + 1] = (Math.random() - 0.5) * 100;
-        positions[i + 2] = (Math.random() - 0.5) * 50;
-
-        // Theme-based colors with more variety
-        const colorChoice = Math.random();
-        if (colorChoice < 0.3) {
-          // Aurora purple variants
-          colors[i] = 0.54 + Math.random() * 0.2;     // R
-          colors[i + 1] = 0.36 + Math.random() * 0.2; // G  
-          colors[i + 2] = 0.96 + Math.random() * 0.04; // B
-        } else if (colorChoice < 0.6) {
-          // Ethereal teal variants
-          colors[i] = 0.06 + Math.random() * 0.1;     // R
-          colors[i + 1] = 0.72 + Math.random() * 0.2; // G
-          colors[i + 2] = 0.50 + Math.random() * 0.3; // B
-        } else if (colorChoice < 0.8) {
-          // Mystic lavender variants
-          colors[i] = 0.65 + Math.random() * 0.2;     // R
-          colors[i + 1] = 0.54 + Math.random() * 0.2; // G
-          colors[i + 2] = 0.98 + Math.random() * 0.02; // B
-        } else {
-          // Complementary colors (cyan, pink, blue)
-          const subChoice = Math.random();
-          if (subChoice < 0.33) {
-            // Cyan
-            colors[i] = 0.02 + Math.random() * 0.1;     // R
-            colors[i + 1] = 0.71 + Math.random() * 0.2; // G
-            colors[i + 2] = 0.83 + Math.random() * 0.1; // B
-          } else if (subChoice < 0.66) {
-            // Pink
-            colors[i] = 0.92 + Math.random() * 0.08;    // R
-            colors[i + 1] = 0.28 + Math.random() * 0.2; // G
-            colors[i + 2] = 0.60 + Math.random() * 0.2; // B
-          } else {
-            // Dream blue
-            colors[i] = 0.23 + Math.random() * 0.2;     // R
-            colors[i + 1] = 0.51 + Math.random() * 0.2; // G
-            colors[i + 2] = 0.98 + Math.random() * 0.02; // B
-          }
-        }
-
-        sizes[i / 3] = Math.random() * 0.5 + 0.1; // Larger particles
-      }
-
-      particles.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      particles.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-      particles.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
-      const particleMaterial = new THREE.PointsMaterial({
-        size: 0.4, // Larger
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.7, // More visible
-        blending: THREE.AdditiveBlending,
-        sizeAttenuation: true,
-      });
-
-      const particleSystem = new THREE.Points(particles, particleMaterial);
-      scene.add(particleSystem);
-      console.log('✅ Atmospheric particles created');
-
-      // Add floating geometric shapes with theme colors
-      console.log('🔷 Creating floating geometric shapes...');
-      const geometries = [
-        new THREE.TetrahedronGeometry(0.8),
-        new THREE.OctahedronGeometry(0.7),
-        new THREE.IcosahedronGeometry(0.6),
-        new THREE.TorusGeometry(0.6, 0.2, 8, 16),
-        new THREE.RingGeometry(0.4, 0.8, 8),
-      ];
-
-      const shapeMaterials = [
-        new THREE.MeshBasicMaterial({
-          color: 0x8B5CF6, // Aurora purple
-          transparent: true,
-          opacity: 0.6,
-          wireframe: true,
-        }),
-        new THREE.MeshBasicMaterial({
-          color: 0x10B981, // Ethereal teal
-          transparent: true,
-          opacity: 0.5,
-          wireframe: true,
-        }),
-        new THREE.MeshBasicMaterial({
-          color: 0xA78BFA, // Mystic lavender
-          transparent: true,
-          opacity: 0.55,
-          wireframe: true,
-        }),
-        new THREE.MeshBasicMaterial({
-          color: 0x06B6D4, // Cyan
-          transparent: true,
-          opacity: 0.45,
-          wireframe: true,
-        }),
-        new THREE.MeshBasicMaterial({
-          color: 0xEC4899, // Pink
-          transparent: true,
-          opacity: 0.5,
-          wireframe: true,
-        }),
-      ];
-
-      const shapes: THREE.Mesh[] = [];
-      for (let i = 0; i < 25; i++) {
-        const geometry = geometries[Math.floor(Math.random() * geometries.length)];
-        const material = shapeMaterials[Math.floor(Math.random() * shapeMaterials.length)];
-        const shape = new THREE.Mesh(geometry, material);
-        
-        shape.position.set(
-          (Math.random() - 0.5) * 60,
-          (Math.random() - 0.5) * 60,
-          (Math.random() - 0.5) * 40
-        );
-        
-        shape.rotation.set(
-          Math.random() * Math.PI * 2,
-          Math.random() * Math.PI * 2,
-          Math.random() * Math.PI * 2
-        );
-        
-        shapes.push(shape);
-        scene.add(shape);
-      }
-
-      // Animation loop - enhanced movement
+      // Animation loop - optimized
       let frameCount = 0;
-      const animate = () => {
+      let lastTime = 0;
+      const targetFPS = 30; // Limit to 30fps for better performance
+      const frameInterval = 1000 / targetFPS;
+      
+      const animate = (currentTime: number) => {
         animationIdRef.current = requestAnimationFrame(animate);
+        
+        // Throttle animation to target FPS
+        const deltaTime = currentTime - lastTime;
+        if (deltaTime < frameInterval) return;
+        
+        lastTime = currentTime - (deltaTime % frameInterval);
         frameCount++;
 
         const elapsedTime = clockRef.current.getElapsedTime();
@@ -325,35 +205,14 @@ const ThreeBackground: React.FC = () => {
         distantClothMesh.rotation.z = Math.PI * 0.1 + Math.sin(elapsedTime * 0.07) * 0.015;
         foregroundClothMesh.rotation.z = -Math.PI * 0.05 + Math.sin(elapsedTime * 0.13) * 0.025;
 
-        // Animate particles - more dynamic
-        const positions = particleSystem.geometry.attributes.position.array as Float32Array;
-        for (let i = 0; i < positions.length; i += 3) {
-          positions[i + 1] += Math.sin(elapsedTime * 0.8 + i * 0.01) * 0.003;
-          positions[i] += Math.cos(elapsedTime * 0.6 + i * 0.008) * 0.002;
-          positions[i + 2] += Math.sin(elapsedTime * 0.4 + i * 0.012) * 0.001;
-        }
-        particleSystem.geometry.attributes.position.needsUpdate = true;
-
-        // Rotate particle system
-        particleSystem.rotation.y = elapsedTime * 0.02;
-        particleSystem.rotation.x = Math.sin(elapsedTime * 0.05) * 0.01;
-
-        // Animate floating shapes
-        shapes.forEach((shape, index) => {
-          shape.rotation.x += 0.01 + index * 0.0003;
-          shape.rotation.y += 0.015 + index * 0.0004;
-          shape.rotation.z += 0.008 + index * 0.0002;
-          
-          shape.position.y += Math.sin(elapsedTime * 1.5 + index) * 0.008;
-          shape.position.x += Math.cos(elapsedTime * 1.2 + index) * 0.006;
-          shape.position.z += Math.sin(elapsedTime * 0.9 + index) * 0.004;
-        });
 
         // Render with post-processing
         composer.render();
       };
 
-      animate();
+      // Start animation immediately after setup
+      setIsLoaded(true);
+      animate(0);
 
       // Handle resize
       const handleResize = () => {
@@ -362,9 +221,16 @@ const ThreeBackground: React.FC = () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         composer.setSize(window.innerWidth, window.innerHeight);
         
-        // Update FXAA resolution
-        fxaaPass.material.uniforms['resolution'].value.x = 1 / window.innerWidth;
-        fxaaPass.material.uniforms['resolution'].value.y = 1 / window.innerHeight;
+        // Update FXAA resolution if it exists
+        if (window.innerWidth > 768) {
+          // FXAA pass would be the last pass if it exists
+          const passes = composer.passes;
+          const fxaaPass = passes[passes.length - 1];
+          if (fxaaPass && fxaaPass.material && fxaaPass.material.uniforms['resolution']) {
+            fxaaPass.material.uniforms['resolution'].value.x = 1 / window.innerWidth;
+            fxaaPass.material.uniforms['resolution'].value.y = 1 / window.innerHeight;
+          }
+        }
         
         console.log('📱 Window resized, renderer and composer updated');
       };
@@ -388,14 +254,6 @@ const ThreeBackground: React.FC = () => {
         distantClothGeometry.dispose();
         foregroundClothMaterial.dispose();
         foregroundClothGeometry.dispose();
-        particleMaterial.dispose();
-        particles.dispose();
-        
-        // Dispose shape materials and geometries
-        shapes.forEach(shape => {
-          shape.material.dispose();
-          shape.geometry.dispose();
-        });
         
         renderer.dispose();
         composer.dispose();
@@ -404,6 +262,9 @@ const ThreeBackground: React.FC = () => {
     } catch (error) {
       console.error('❌ Error initializing Three.js cloth background:', error);
     }
+    }, 500); // Delay Three.js init by 500ms to let hero content render first
+    
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -418,6 +279,8 @@ const ThreeBackground: React.FC = () => {
           height: '100%',
           zIndex: 1,
           background: 'radial-gradient(ellipse at center, #0B1426 0%, #000000 100%)',
+          transition: 'opacity 0.5s ease-in-out',
+          opacity: isLoaded ? 1 : 0.3,
         }}
       />
       {sceneRef.current && <FloatingTextMeshes scene={sceneRef.current} />}
