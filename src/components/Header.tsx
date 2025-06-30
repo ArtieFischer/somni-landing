@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { darkTheme } from '../theme';
+import logoSig from '../assets/logo_somni_sig.svg';
+import logoText from '../assets/logo_somni_txt.svg';
+import boltBadge from '../assets/bolt_badge.svg';
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -132,11 +135,11 @@ const Header: React.FC = () => {
     <HeaderContainer>
       <Nav>
         <Logo>
-          <LogoSignature src="/src/assets/logo_somni_sig.svg" alt="Somni Symbol" />
-          <LogoText src="/src/assets/logo_somni_txt.svg" alt="Somni" />
+          <LogoSignature src={logoSig} alt="Somni Symbol" />
+          <LogoText src={logoText} alt="Somni" />
         </Logo>
         <BoltBadgeLink href="https://bolt.new/" target="_blank" rel="noopener noreferrer">
-          <BoltBadge src="/src/assets/bolt_badge.svg" alt="Bolt Badge" />
+          <BoltBadge src={boltBadge} alt="Bolt Badge" />
         </BoltBadgeLink>
       </Nav>
     </HeaderContainer>
