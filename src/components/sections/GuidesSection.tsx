@@ -154,7 +154,7 @@ const Feature = styled.li`
 const guides = [
   {
     image: freudImg,
-    name: "Dr. Sigmund",
+    name: "Sigmund",
     title: "Psychoanalyst",
     description:
       "Hunts wish-dreams and repressed urges—his (in)famous dirty mind at work.",
@@ -162,7 +162,7 @@ const guides = [
   },
   {
     image: jungImg,
-    name: "Dr. Carl",
+    name: "Carl",
     title: "Depth Psychologist",
     description:
       "Links your symbols to timeless archetypes and the collective psyche.",
@@ -170,7 +170,7 @@ const guides = [
   },
   {
     image: lakshmiImg,
-    name: "Dr. Lakshmi",
+    name: "Lakshmi",
     title: "Transpersonal Scholar",
     description:
       "Frames dreams through karma, chakras, and expanding consciousness.",
@@ -178,7 +178,7 @@ const guides = [
   },
   {
     image: maryImg,
-    name: "Dr. Mary",
+    name: "Mary",
     title: "Cognitive Neuroscientist",
     description:
       "Shows how your sleeping brain files memories and tunes emotions.",
@@ -202,11 +202,11 @@ const GuidesSection: React.FC = () => {
             <GuideName>{guide.name}</GuideName>
             <GuideTitle>{guide.title}</GuideTitle>
             <GuideDescription>{guide.description}</GuideDescription>
-            <FeatureList>
+            {/* <FeatureList>
               {guide.features.map((feature, idx) => (
                 <Feature key={idx}>{feature}</Feature>
               ))}
-            </FeatureList>
+            </FeatureList> */}
           </GuideCard>
         ))}
       </GuidesGrid>

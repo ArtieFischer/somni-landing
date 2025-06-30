@@ -38,6 +38,8 @@ const ButtonBase = styled.button<{
   letter-spacing: 0.02em;
   text-transform: uppercase;
   width: ${props => props.$fullWidth ? '100%' : 'auto'};
+  text-decoration: none;
+  border: none;
   
   /* Primary variant - gradient with glass effect */
   ${props => props.$variant === 'primary' && css`
@@ -136,6 +138,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean;
   isLoading?: boolean;
   children: React.ReactNode;
+  as?: any;
+  href?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -144,10 +148,12 @@ const Button: React.FC<ButtonProps> = ({
   fullWidth = false,
   isLoading = false,
   children,
+  as,
   ...props
 }) => {
   return (
     <ButtonBase
+      as={as}
       $variant={variant}
       $size={size}
       $fullWidth={fullWidth}

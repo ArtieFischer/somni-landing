@@ -8,7 +8,6 @@ import HeroSection from './components/HeroSection';
 import OneAppSection from './components/sections/OneAppSection';
 import GuidesSection from './components/sections/GuidesSection';
 import WorldOfDreamersSection from './components/sections/WorldOfDreamersSection';
-import PoweredBySection from './components/sections/PoweredBySection';
 import PlatformsSection from './components/sections/PlatformsSection';
 import FormSection from './components/sections/FormSection';
 import Footer from './components/Footer';
@@ -67,7 +66,6 @@ function App() {
         <PlatformsSection />
         <GuidesSection />
         <WorldOfDreamersSection />
-        <PoweredBySection />
         <FormSection />
         <Footer />
       </div>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
-import { darkTheme } from '../../theme';
-import GlassCard from '../common/GlassCard';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import { darkTheme } from "../../theme";
+import GlassCard from "../common/GlassCard";
 
 const SectionContainer = styled.section`
   min-height: 100vh;
@@ -25,16 +25,16 @@ const ContentWrapper = styled.div`
 `;
 
 const SectionTitle = styled.h2`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 600;
   color: ${darkTheme.colors.text.primary};
   margin-bottom: ${darkTheme.spacing.lg}px;
   text-align: center;
-  
+
   background: linear-gradient(
-    135deg, 
-    rgba(248, 250, 252, 0.95) 0%, 
+    135deg,
+    rgba(248, 250, 252, 0.95) 0%,
     rgba(167, 139, 250, 0.9) 100%
   );
   -webkit-background-clip: text;
@@ -43,7 +43,7 @@ const SectionTitle = styled.h2`
 `;
 
 const SectionDescription = styled.p`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.1rem;
   font-weight: 400;
   color: rgba(248, 250, 252, 0.7);
@@ -63,7 +63,7 @@ const CarouselContainer = styled.div`
 const CarouselTrack = styled.div<{ $currentIndex: number }>`
   display: flex;
   transition: transform 0.5s ease-in-out;
-  transform: translateX(-${props => props.$currentIndex * 100}%);
+  transform: translateX(-${(props) => props.$currentIndex * 100}%);
 `;
 
 const TestimonialCard = styled(GlassCard)`
@@ -77,15 +77,15 @@ const Stars = styled.div`
   justify-content: center;
   gap: 4px;
   margin-bottom: ${darkTheme.spacing.lg}px;
-  
+
   svg {
-    color: #FFD700;
-    fill: #FFD700;
+    color: #ffd700;
+    fill: #ffd700;
   }
 `;
 
 const Quote = styled.blockquote`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.1rem;
   font-weight: 400;
   color: rgba(248, 250, 252, 0.9);
@@ -102,14 +102,14 @@ const Author = styled.div`
 `;
 
 const AuthorName = styled.span`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 1rem;
   font-weight: 600;
   color: ${darkTheme.colors.text.primary};
 `;
 
 const AuthorTitle = styled.span`
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 0.9rem;
   font-weight: 400;
   color: rgba(248, 250, 252, 0.6);
@@ -136,13 +136,13 @@ const CarouselButton = styled.button`
   color: ${darkTheme.colors.text.primary};
   cursor: pointer;
   transition: all 0.3s ease;
-  
+
   &:hover {
     background: rgba(139, 92, 246, 0.2);
     border: 1px solid rgba(139, 92, 246, 0.3);
     transform: scale(1.1);
   }
-  
+
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -160,36 +160,42 @@ const Indicator = styled.button<{ $active: boolean }>`
   height: 12px;
   border-radius: 50%;
   border: none;
-  background: ${props => props.$active ? 'rgba(139, 92, 246, 0.8)' : 'rgba(255, 255, 255, 0.3)'};
+  background: ${(props) =>
+    props.$active ? "rgba(139, 92, 246, 0.8)" : "rgba(255, 255, 255, 0.3)"};
   cursor: pointer;
   transition: all 0.3s ease;
-  
+
   &:hover {
-    background: ${props => props.$active ? 'rgba(139, 92, 246, 1)' : 'rgba(255, 255, 255, 0.5)'};
+    background: ${(props) =>
+      props.$active ? "rgba(139, 92, 246, 1)" : "rgba(255, 255, 255, 0.5)"};
   }
 `;
 
 const testimonials = [
   {
-    quote: "Somni completely transformed my relationship with sleep. I went from barely remembering my dreams to having lucid dreams almost every night. The AI analysis helped me understand patterns I never noticed before.",
+    quote:
+      "Somni completely transformed my relationship with sleep. I went from barely remembering my dreams to having lucid dreams almost every night. The AI analysis helped me understand patterns I never noticed before.",
     author: "Sarah Chen",
-    title: "Meditation Teacher"
+    title: "Meditation Teacher",
   },
   {
-    quote: "As a neuroscientist, I was skeptical at first. But the depth of analysis and the accuracy of the insights genuinely impressed me. This is the future of sleep optimization.",
+    quote:
+      "As a neuroscientist, I was skeptical at first. But the depth of analysis and the accuracy of the insights genuinely impressed me. This is the future of sleep optimization.",
     author: "Dr. Michael Rodriguez",
-    title: "Sleep Researcher"
+    title: "Sleep Researcher",
   },
   {
-    quote: "The dream journaling features are incredible. Being able to track my emotional patterns through my dreams has been life-changing for my mental health journey.",
+    quote:
+      "The dream journaling features are incredible. Being able to track my emotional patterns through my dreams has been life-changing for my mental health journey.",
     author: "Emma Thompson",
-    title: "Artist & Writer"
+    title: "Artist & Writer",
   },
   {
-    quote: "I've been practicing lucid dreaming for years, but Somni's techniques and real-time monitoring took my practice to a completely new level. Absolutely revolutionary.",
+    quote:
+      "I've been practicing lucid dreaming for years, but Somni's techniques and real-time monitoring took my practice to a completely new level. Absolutely revolutionary.",
     author: "James Park",
-    title: "Lucid Dreaming Enthusiast"
-  }
+    title: "Lucid Dreaming Enthusiast",
+  },
 ];
 
 const TestimonialsSection: React.FC = () => {
@@ -200,7 +206,9 @@ const TestimonialsSection: React.FC = () => {
   };
 
   const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + testimonials.length) % testimonials.length
+    );
   };
 
   const goToTestimonial = (index: number) => {
@@ -215,11 +223,11 @@ const TestimonialsSection: React.FC = () => {
   return (
     <SectionContainer id="testimonials">
       <ContentWrapper>
-        <SectionTitle>What Dreamers Say</SectionTitle>
+        <SectionTitle>Join the Waitlist</SectionTitle>
         <SectionDescription>
-          Join thousands of people who have transformed their sleep and unlocked the power of their dreams.
+          Be among the first to experience Somni.
         </SectionDescription>
-        
+
         <CarouselContainer>
           <CarouselTrack $currentIndex={currentIndex}>
             {testimonials.map((testimonial, index) => (
@@ -229,9 +237,9 @@ const TestimonialsSection: React.FC = () => {
                     <Star key={i} size={20} />
                   ))}
                 </Stars>
-                
+
                 <Quote>"{testimonial.quote}"</Quote>
-                
+
                 <Author>
                   <AuthorName>{testimonial.author}</AuthorName>
                   <AuthorTitle>{testimonial.title}</AuthorTitle>
@@ -240,12 +248,12 @@ const TestimonialsSection: React.FC = () => {
             ))}
           </CarouselTrack>
         </CarouselContainer>
-        
+
         <CarouselControls>
           <CarouselButton onClick={prevTestimonial}>
             <ChevronLeft size={24} />
           </CarouselButton>
-          
+
           <Indicators>
             {testimonials.map((_, index) => (
               <Indicator
@@ -255,7 +263,7 @@ const TestimonialsSection: React.FC = () => {
               />
             ))}
           </Indicators>
-          
+
           <CarouselButton onClick={nextTestimonial}>
             <ChevronRight size={24} />
           </CarouselButton>

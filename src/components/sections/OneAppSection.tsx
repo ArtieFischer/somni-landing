@@ -117,24 +117,25 @@ const features = [
     icon: Moon,
     title: "Circadian Rhythm Control",
     description:
-      "Optimize your sleep-wake cycle with smart light and sound cues",
+      "Optimize your sleep-wake cycle with REM-phase-aware smart alarm, sleep tracking, and reward system",
   },
   {
     icon: Brain,
     title: "Dream Recall Enhancement",
     description:
-      "Scientifically and empirically proven methods to remember dreams",
+      "Scientifically and empirically proven methods to remember dreams better",
   },
   {
     icon: Radio,
     title: "Voice-First Dream Journaling",
-    description: "Capture dreams instantly with natural voice recording",
+    description:
+      "Capture dreams instantly with natural voice recording, access them on multiple devices, and share with friends",
   },
   {
     icon: ScrollText,
-    title: "Flexible Dream Interpretation",
+    title: "Flexible Dream Analysis",
     description:
-      "Choose from multiple interpretation methods that resonate with you",
+      "Psychology? Neuroscience? Transcendency? Choose from multiple analytical methods resonates with you",
   },
   {
     icon: Eye,

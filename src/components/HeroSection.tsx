@@ -102,10 +102,8 @@ const HeroSection: React.FC = () => {
         <ButtonWrapper>
           <Button
             size="large"
-            onClick={() => {
-              const formSection = document.getElementById("waitlist-form");
-              formSection?.scrollIntoView({ behavior: "smooth" });
-            }}
+            as="a"
+            href="mailto:waitforsomnidreams@proton.me?subject=Waitlist Sign-up&body=Hi, I want early access!"
           >
             Join the Waitlist
             <ArrowRight size={24} />

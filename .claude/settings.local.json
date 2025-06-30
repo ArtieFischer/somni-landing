@@ -5,7 +5,9 @@
       "mcp__context7__get-library-docs",
       "Bash(npm run dev:*)",
       "Bash(find:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(npm run lint)",
+      "Bash(npx tsc:*)"
     ],
     "deny": []
   }

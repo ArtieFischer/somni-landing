@@ -95,57 +95,37 @@ const LogoText = styled.img`
   }
 `;
 
-const NavLinks = styled.div`
-  display: flex;
-  gap: ${darkTheme.spacing.sm}px;
+const BoltBadgeLink = styled.a`
+  display: inline-flex;
   align-items: center;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const NavLink = styled.a`
-  color: rgba(248, 250, 252, 0.7);
   text-decoration: none;
-  font-size: 14px;
-  font-weight: 300;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative;
-  letter-spacing: 0.05em;
-  padding: ${darkTheme.spacing.sm}px ${darkTheme.spacing.md}px;
-  border-radius: 12px;
-  
-  /* Floating glass effect */
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(20px) saturate(120%);
-  border: 1px solid rgba(255, 255, 255, 0.03);
 
   &:hover {
-    color: rgba(139, 92, 246, 0.9);
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(30px) saturate(150%);
-    border: 1px solid rgba(139, 92, 246, 0.2);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15);
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 1px;
-    background: linear-gradient(90deg, rgba(139, 92, 246, 0.6), rgba(167, 139, 250, 0.6));
-    transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-
-  &:hover::after {
-    width: 60%;
+    transform: translateY(-3px) scale(1.05);
   }
 `;
+
+const BoltBadge = styled.img`
+  height: 84px;
+  width: auto;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.3));
+  cursor: pointer;
+
+  ${BoltBadgeLink}:hover & {
+    filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.5));
+  }
+
+  @media (max-width: 768px) {
+    height: 76px;
+  }
+
+  @media (max-width: 480px) {
+    height: 67px;
+  }
+`;
+
 
 const Header: React.FC = () => {
   return (
@@ -155,11 +135,9 @@ const Header: React.FC = () => {
           <LogoSignature src="/src/assets/logo_somni_sig.svg" alt="Somni Symbol" />
           <LogoText src="/src/assets/logo_somni_txt.svg" alt="Somni" />
         </Logo>
-        <NavLinks>
-          <NavLink href="#features">Features</NavLink>
-          <NavLink href="#about">About</NavLink>
-          <NavLink href="#contact">Contact</NavLink>
-        </NavLinks>
+        <BoltBadgeLink href="https://bolt.new/" target="_blank" rel="noopener noreferrer">
+          <BoltBadge src="/src/assets/bolt_badge.svg" alt="Bolt Badge" />
+        </BoltBadgeLink>
       </Nav>
     </HeaderContainer>
   );

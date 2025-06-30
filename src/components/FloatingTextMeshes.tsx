@@ -18,14 +18,14 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
 
     const createTextSprite = (text: string, size: number = 512) => {
       const canvas = document.createElement('canvas');
-      canvas.width = canvas.height = size / 2; // Reduce texture size
+      canvas.width = canvas.height = size; // Full resolution for clarity
       const ctx = canvas.getContext('2d')!;
       
       // Clear canvas
       ctx.clearRect(0, 0, size, size);
       
       // Set up text styling - using Inter for consistency
-      ctx.font = `600 ${size * 0.055}px 'Inter', sans-serif`; // Adjust for smaller canvas
+      ctx.font = `600 ${size * 0.12}px 'Inter', sans-serif`; // Larger, more readable text
       ctx.fillStyle = 'rgba(248, 250, 252, 0.85)'; // Slightly more visible
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
@@ -81,28 +81,51 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
       const groupIndex = Math.floor(index / 2);
       const totalGroups = Math.ceil(words.length / 2);
       
-      // Calculate position to avoid center (hero area)
+      // Calculate position to avoid center (hero area) with better balance
       let x, y, z;
       
       // Minimum distance from center to keep texts away from hero
-      const minDistanceFromCenter = 25;
-      const maxDistanceFromCenter = 50;
+      const minDistanceFromCenter = 20;
+      const maxDistanceFromCenter = 45;
       
-      if (isLeftSide) {
-        // Left side positioning
-        x = -(minDistanceFromCenter + Math.random() * (maxDistanceFromCenter - minDistanceFromCenter));
-        // Add some variation to prevent straight line
-        x += (Math.random() - 0.5) * 10;
-      } else {
-        // Right side positioning
-        x = minDistanceFromCenter + Math.random() * (maxDistanceFromCenter - minDistanceFromCenter);
-        // Add some variation to prevent straight line
-        x += (Math.random() - 0.5) * 10;
+      // Better distribution algorithm
+      const positionIndex = index % 8; // Create 8 position zones
+      const radiusVariation = minDistanceFromCenter + Math.random() * (maxDistanceFromCenter - minDistanceFromCenter);
+      
+      switch (positionIndex) {
+        case 0: // Far left
+          x = -radiusVariation * 1.2;
+          break;
+        case 1: // Left-top diagonal
+          x = -radiusVariation * 0.8;
+          break;
+        case 2: // Left-bottom diagonal
+          x = -radiusVariation * 0.7;
+          break;
+        case 3: // Near left
+          x = -radiusVariation * 0.5;
+          break;
+        case 4: // Near right
+          x = radiusVariation * 0.5;
+          break;
+        case 5: // Right-bottom diagonal
+          x = radiusVariation * 0.7;
+          break;
+        case 6: // Right-top diagonal
+          x = radiusVariation * 0.8;
+          break;
+        case 7: // Far right
+          x = radiusVariation * 1.2;
+          break;
       }
       
-      // Vertical distribution - spread across the height
-      const verticalSpread = 40;
-      y = (groupIndex / totalGroups - 0.5) * verticalSpread + (Math.random() - 0.5) * 10;
+      // Add organic variation
+      x += (Math.random() - 0.5) * 4;
+      
+      // Vertical distribution - more dynamic spread
+      const verticalSpread = 35;
+      const heightZones = [-0.7, -0.4, -0.1, 0.1, 0.4, 0.7];
+      y = heightZones[index % heightZones.length] * verticalSpread + (Math.random() - 0.5) * 12;
       
       // Z positioning - create depth layers
       const depthLayers = [0, 10, 20, -10, -20];
@@ -112,12 +135,12 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
       
       // Varied sizes: small, medium, large - distributed randomly
       const sizeCategories = [
-        { min: 1.5, max: 2.5 },  // Small
-        { min: 2.5, max: 3.5 },  // Medium
-        { min: 3.5, max: 5.0 }   // Large
+        { min: 4.0, max: 6.0 },   // Small
+        { min: 6.0, max: 8.0 },   // Medium
+        { min: 8.0, max: 12.0 }   // Large
       ];
       
-      // Important words are more likely to be large
+      // Important words are more likely to be large and appear early
       const importantWords = ['TRANSCENDENCE', 'CONSCIOUSNESS', 'ENLIGHTENMENT', 'INFINITE', 'AWAKENING', 'LUCIDITY'];
       const isImportant = importantWords.includes(word);
       
@@ -146,8 +169,19 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
     const timeline = gsap.timeline({ repeat: -1 });
     
     sprites.forEach((sprite, index) => {
-      const delay = index * 3; // Stagger for progressive reveal
-      const duration = 20 + Math.random() * 10; // Slower for smoother performance
+      // Much faster staggering - multiple texts appear quickly
+      const delayGroups = [
+        0,      // First 2 texts appear immediately
+        0.5,
+        1.2,    // Next 2 appear very quickly
+        1.8,
+        3,      // Next group slightly delayed
+        3.5,
+        5,      // Final group for smooth continuation
+        6
+      ];
+      const delay = delayGroups[index % delayGroups.length] + (Math.random() * 0.5);
+      const duration = 25 + Math.random() * 15; // Slightly longer for smoother movement
       
       // Store initial position to maintain general area
       const initialX = sprite.position.x;
@@ -155,18 +189,18 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
       const initialZ = sprite.position.z;
       const isLeftSide = initialX < 0;
       
-      // Sophisticated fade in with depth-based timing
-      const fadeInDuration = 2 + Math.abs(initialZ) * 0.05; // Farther objects fade in slower
+      // Faster fade in for immediate visibility
+      const fadeInDuration = 1.5 + Math.random() * 0.5; // Much faster fade in
       timeline.to(sprite.material, {
-        opacity: 0.4 + Math.random() * 0.3 + Math.abs(initialZ) * 0.01, // Farther objects slightly more transparent
+        opacity: 0.6 + Math.random() * 0.3, // More visible overall
         duration: fadeInDuration,
-        ease: "power3.out"
+        ease: "power2.out"
       }, delay);
       
       // Movement that maintains positioning around hero
       // Vertical floating movement
       timeline.to(sprite.position, {
-        y: initialY + (Math.random() - 0.5) * 8,
+        y: initialY + (Math.random() - 0.5) * 4,
         duration: duration * 0.4,
         ease: "power1.inOut",
         yoyo: true,
@@ -175,8 +209,8 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
       
       // Horizontal drift - keeping texts on their respective sides
       const horizontalDrift = isLeftSide 
-        ? initialX - Math.random() * 8 // Left side drifts more left
-        : initialX + Math.random() * 8; // Right side drifts more right
+        ? initialX - Math.random() * 4 // Left side drifts more left
+        : initialX + Math.random() * 4; // Right side drifts more right
         
       timeline.to(sprite.position, {
         x: horizontalDrift,
@@ -186,7 +220,7 @@ const FloatingTextMeshes: React.FC<FloatingTextMeshesProps> = ({ scene }) => {
       
       // Z-axis movement for depth perception
       timeline.to(sprite.position, {
-        z: initialZ + (Math.random() - 0.5) * 15,
+        z: initialZ + (Math.random() - 0.5) * 8,
         duration: duration * 0.5,
         ease: "sine.inOut",
         yoyo: true,

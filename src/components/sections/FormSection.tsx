@@ -1,7 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { darkTheme } from '../../theme';
-import FormCard from '../common/FormCard';
+import React from "react";
+import styled from "styled-components";
+import { darkTheme } from "../../theme";
+import Button from "../common/Button";
+import { ArrowRight } from "lucide-react";
 
 const Section = styled.section`
   padding: ${darkTheme.spacing.xxl * 2}px ${darkTheme.spacing.xl}px;
@@ -18,13 +19,38 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const FormWrapper = styled.div`
-  width: 100%;
-  max-width: 700px;
-  
-  /* Override FormCard's max-width */
-  & > div {
-    max-width: 100%;
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: ${darkTheme.spacing.xl}px;
+  text-align: center;
+`;
+
+const Title = styled.h2`
+  font-family: 'Inter', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: ${darkTheme.colors.text.primary};
+  margin: 0;
+  line-height: 1.3;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+`;
+
+const Description = styled.p`
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: rgba(248, 250, 252, 0.7);
+  margin: 0;
+  line-height: 1.5;
+  max-width: 600px;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
   }
 `;
 
@@ -32,15 +58,18 @@ const FormSection: React.FC = () => {
   return (
     <Section>
       <Container id="waitlist-form">
-        <FormWrapper>
-          <FormCard 
-            title="Ready to Transform Your Dreams?"
-            description="Join thousands who are already exploring the depths of their consciousness. Be among the first to experience the future of dream enhancement."
-            placeholder="Enter your email to secure your spot"
-            buttonText="Claim Your Access"
-            successMessage="Welcome to the dream collective. We'll be in touch soon with your exclusive access."
-          />
-        </FormWrapper>
+        <ContentWrapper>
+          <Title>Join the Waitlist</Title>
+          <Description>Be among the first to experience the dream enhancement.</Description>
+          <Button
+            size="large"
+            as="a"
+            href="mailto:waitforsomnidreams@proton.me?subject=Waitlist Sign-up&body=Hi, I want early access!"
+          >
+            Join the Waitlist
+            <ArrowRight size={24} />
+          </Button>
+        </ContentWrapper>
       </Container>
     </Section>
   );
